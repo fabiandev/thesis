@@ -1,0 +1,69 @@
+% !TeX encoding = utf8
+% !TeX program = pdflatex 
+% !TeX spellcheck = en_US
+% !BIB program = biber
+
+\documentclass[master,english]{hgbthesis}
+
+\RequirePackage[utf8]{inputenc}
+
+\graphicspath{{images/}}
+\logofile{logo}
+\bibliography{references}
+
+
+\title{Generating runtime type checks for JavaScript from TypeScript}
+\author{Fabian Pirklbauer}
+\programname{Interactive Media}
+\placeofstudy{Hagenberg}
+\dateofsubmission{2017}{09}{15}
+
+% \semester{Fall Semester 2017} 	% Fall/Spring Semester YYYY
+% \coursetitle{Introduction to Trivial Problems 1} 
+% \advisor{Roger K.~Putnik, M.Sc.}
+
+%%% Restricted publication license instead of CC:
+% \strictlicense
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+%%%----------------------------------------------------------
+\frontmatter
+%%%----------------------------------------------------------
+
+\maketitle
+\tableofcontents
+
+\include{contents/front/preface} % optional
+\include{contents/front/abstract}
+\include{contents/front/kurzfassung}			
+
+%%%----------------------------------------------------------
+\mainmatter
+%%%----------------------------------------------------------
+
+\include{contents/chapters/introduction}
+\include{contents/chapters/state_of_the_art}
+\include{contents/chapters/concept}
+\include{contents/chapters/technical_implementation}
+\include{contents/chapters/evaluation}
+\include{contents/chapters/summary_and_outlook}
+
+%%%----------------------------------------------------------
+\appendix 
+%%%----------------------------------------------------------
+
+% \include{thesis/back/appendix_a}
+
+%%%----------------------------------------------------------
+\MakeBibliography
+%%%----------------------------------------------------------
+
+%%% special page for checking print size --------------------
+\include{contents/back/printbox}
+
+%%%----------------------------------------------------------
+\end{document}
+%%%----------------------------------------------------------
