@@ -2,6 +2,9 @@
 *.bbl
 *.bcf
 *.blg
+*.fdb
+*.fdb_latexmk
+*.fls
 *.log
 *.out
 *.run.xml
