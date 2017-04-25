@@ -1,0 +1,452 @@
+\chapter{Technical Foundation}
+\label{cha:technical-foundation}
+
+This chapter will give an overview of the technical knowledge required for this thesis. It will give an exposure to the different type systems, the programming language JavaScript and JavaScript supersets. Also the terminology used throughout this paper will be specified, since standard terminology differs across sources~\cite[p.~1]{TypeSystems:Cardelli:2004}.
+
+\section{Type Systems}
+\label{sec:type-systems}
+
+There are different kinds of programming languages with different characteristics and specifications. An essential part of a language is its type system, which has a great impact on the behavior of a program and may influence the syntax the program is written in.
+In general a programming language can be categorized as typed or untyped, where untyped languages do not have a type system at all, or have a single type that can hold any value~\cite[p.~2]{TypeSystems:Cardelli:2004}. More precisely a language is considered typed independently of types being part of the syntax, but simply by the existence of a (static) type system~\cite[p.~2]{TypeSystems:Cardelli:2004}.
+According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research\footnote{https://www.microsoft.com/research/}} a type system is
+\begin{quote}
+  a collection of type rules for a typed programming language~\cite[p.~1]{TypeSystems:Cardelli:2004}
+\end{quote}
+with the purpose to
+\begin{quote}
+  prevent the occurrence of execution errors during the running of a program~\cite[p.~1]{TypeSystems:Cardelli:2004}.
+\end{quote}
+He further equates \emph{type system} with \emph{static type system} and also \citeauthor{TypesAndProgrammingLanguages:Pierce:2002} defines type systems as being static~\cite[p.~2]{TypesAndProgrammingLanguages:Pierce:2002}, which categorizes languages as untyped, that may distinguish between types in run time, but do not have knowledge about types during compile time or interpretation, such as JavaScript (see section~\ref{sec:language-introduction}). This notion is further supported by \citeauthor{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}, stating that
+\begin{quote}
+  languages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}.
+\end{quote}
+
+% While a type system may help in preventing execution errors, a programming language is not required to have a type system to ensure against specific errors, as there are mechanisms for untyped languages to make them safe. % runtime type checks (see ..!)
+
+\subsection{Explicitly and Implicitly Typed}
+\label{sec:explicitly-implicitly-typed}
+
+If types are part of the syntax of a language (e.g.\ Java) it is explicitly typed, whereas in implicitly typed languages, type annotations are assigned automatically by the type system~\cite[pp.~2,~3]{TypeSystems:Cardelli:2004}. Some languages, however, make use of a mixture, allowing developers to omit type annotations in various scenarios, where the type can be inferred by the compiler~\cite[p.~10]{TypesAndProgrammingLanguages:Pierce:2002} as shown in the C\texttt{\#} code below:
+\begin{CsCode}[numbers=none]
+var implicitNum = 10; // implicitly typed as integer
+int explicitNum = 10; // explicitly typed as integer
+\end{CsCode}
+While a type system---explicit, implicit or a combination of both---may detect possible execution errors already during compile time, it is not required to guard against specific errors. There are mechanisms for untyped languages to make them safe~\cite[p.~3]{TypeSystems:Cardelli:2004}, as outlined in section~\ref{sec:type-checking}.
+
+\subsection{Execution Errors}
+\label{sec:execution-errors}
+% runtime
+Errors can occur in various situations and in order to classify a language, it is important to understand the different types of errors. \citeauthor{TypeSystems:Cardelli:2004} distinguished between three error categories: Trapped errors, untrapped errors and forbidden errors~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+
+\subsubsection{Trapped Errors}
+
+A trapped error causes a program to stop immediately~\cite[p.~3]{TypeSystems:Cardelli:2004} or to raise an exception, which may be handled in the program~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}. An example for such an error could be division by zero~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+
+\subsubsection{Untrapped Errors}
+
+Errors where a program does not crash or raise an exception immediately are called untrapped errors~\cite[p.~37]{TypeSystems:Cardelli:2004}. They may remain unnoticed---at least for a while---and can lead to unexpected behavior~\cite[p.~3]{TypeSystems:Cardelli:2004}. For example accessing data from an array that is out of bounds is perfectly legal in the programming language C~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}, but can lead to errors or arbitrary behavior later in the program~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+
+\subsubsection{Forbidden Errors}
+
+Following the definition of \citeauthor{TypeSystems:Cardelli:2004}, forbidden errors should include ``all of the untrapped errors, plus a subset of the trapped errors~\cite[p.~3]{TypeSystems:Cardelli:2004}''. They are not generally defined, but vary between programming languages and may even not include all untrapped errors, which leads to a language being  considered as unsafe~\cite[p.~4]{TypeSystems:Cardelli:2004}.
+
+% sound
+\subsection{Safety and Good Behavior}
+\label{sec:safety-good-behavior}
+
+A programming language can be considered as safe if no untrapped errors can appear, and is well behaved (i.e., good behaved), if no forbidden errors can occur~\cite[p.~3]{TypeSystems:Cardelli:2004}, consequently good behavior implies safety. Not all major languages are safe, and therefore not well behaved, such as C or C\texttt{++}~\cite[p.~6]{TypesAndProgrammingLanguages:Pierce:2002}, as guaranteeing safety usually results in increased execution time. An example for a safe language, with decreased development and maintenance time compared to an unsafe language, is Java~\cite[p.~5]{TypeSystems:Cardelli:2004}.
+
+\subsection{Type Checking}
+\label{sec:type-checking}
+
+To ensure that a program follows the specified rules of its type system and to guarantee safety and good behavior (i.e., ensuring the absence of forbidden errors~\cite[p.~37]{TypeSystems:Cardelli:2004}), as described in section~\ref{sec:safety-good-behavior}, type checking may be performed. Again, \citeauthor{TypeSystems:Cardelli:2004} treats \emph{type checking} and \emph{static type checking} as equivalent and calls languages that employ such a technique \emph{statically checked}~\cite[p.~3]{TypeSystems:Cardelli:2004}. Dynamically checked programming languages, on the other hand, may also ensure good behavior by applying sufficient checks at run time. Anyway, statically checked languages may also perform checks during the execution of a program to guarantee safety, if not all untrapped errors can be discovered statically during compilation~\cite[p.~4]{TypeSystems:Cardelli:2004}. Following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}.
+
+%\subsubsection{Static Checking}
+%
+%\subsubsection{Dynamic Checking}
+
+% How safety is accomplished can differ,
+
+%\begin{itemize}
+%\item Trapped Error
+%\item Untrapped Error
+%\item Forbidden Error
+%\end{itemize}
+
+% Strongly Checked, Weakly Chechecked
+
+% Terminology; Soundness and Safety; Strongly and Weekly Checked, Well Typed and Well Behaved
+
+%\subsection{Explicit and Implicit Typing}
+%\label{sec:explicit-implicit-typing}
+
+%Explicitly typed languages require a programmer to define types manually in a program as shown below.
+%\begin{JavaCode}[numbers=none]%int i = 10;
+%boolean b = true;%\end{JavaCode}
+%Languages that are typed implicitly may look like the following:
+%\begin{JsCode}[numbers=none]%let i = 10;
+%let b = true;%\end{JsCode}
+
+%\subsection{Static and Dynamic Typing}
+%\label{sec:static-dynamic-typing}
+%
+%\subsection{Strong and Weak Typing}
+%\label{sec:strong-weak-typing}
+
+% In strongly typed languages it is guaranteed that there will be no forbidden errors at run time, where in weakly typed languages such errors may occur~\cite[p.~97-38]{ComputerScienceHandbook}. 
+
+\section{JavaScript}
+\label{sec:javascript}
+
+JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.}} submitted the language to Ecma International\footnote{https://www.ecma-international.org}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'' and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub\footnote{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.}} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see \ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Request by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
+
+While JavaScript is known for programming inside browsers and adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js\footnote{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}, also used in the popular \emph{Chrome\footnote{https://www.google.com/chrome/}} browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
+
+The following sections try to give an ample exposure to the language JavaScript, outlining its most important and interesting concepts. Please note, that not all cases---especially the numerous exceptions---are described, as this would go beyond the scope of this thesis.
+
+\subsection{Loose Typing}
+\label{sec:untyped-loosely-typed}
+
+Like in other programming languages, variables can be declared and values may be assigned to them. An essential concept of JavaScript is its loose typing, meaning that any value may be assigned or reassigned at any time to any variable:
+\begin{JsCode}[numbers=none]
+let foo = 10;
+foo = "I've been a number, now I'm a string";
+\end{JsCode}
+The term \emph{loose typing} may be misleading to infer that JavaScript has a type system. However, when following standard terminology and keeping in mind that type system is equal to \emph{static} type system, it is made clear, that JavaScript is considered untyped. It does employ mechanisms to reject code from running, that has semantic errors, but evaluation is performed during execution, and errors are determined and reported during run time~\cite[p.~291]{ES2015Spec:Ecma:2015}. Therefore JavaScript can be deemed a \emph{dynamically checked} language (see section~\ref{sec:type-checking}).
+
+\subsection{Value Types}
+\label{sec:value-types}
+
+JavaScript is an untyped and dynamically checked---but safe---scripting language, as defined in section~\ref{sec:type-systems}. Most untyped programming languages are necessarily safe, as it would be exceedingly difficult to maintain the code if untrapped errors would remain unnoticed~\cite[p.~4]{TypeSystems:Cardelli:2004}. Even though considered as untyped, the EcmaScript language specification defines seven value types~\cite[p.~16]{ES2015Spec:Ecma:2015}:
+\begin{itemize}
+  \item Undefined
+  \item Null
+  \item Boolean
+  \item String
+  \item Symbol
+  \item Number
+  \item Object
+\end{itemize}
+A major difference to a (statically) typed language is, that in JavaScript only values are typed, variables are not. When requesting the type of a variable with the \texttt{typeof} operator during run time, the assigned value's type is determined and returned as a string~\cite[p.~30]{YDKJSUpAndGoing:Simpson:2015}:
+\begin{JsCode}[numbers=none]
+let num = 10;
+typeof num; // "number"
+\end{JsCode}
+The returned string by \texttt{typeof} does not reflect the specified value types entirely. As shown in table~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature \texttt{"function"} will be returned and \texttt{"object"} otherwise. Strangely, for a value of type \emph{Null}, the result will be \texttt{"object"}. A proposal to change the specification and to fix this bug---erroneously indicating that null is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
+
+\begin{table}\caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES2015Spec:Ecma:2015}.}\label{tab:typeof}\centering  \setlength{\tabcolsep}{5mm} % separator between columns
+  \def\arraystretch{1.25} % vertical stretch factor
+  \begin{tabular}{|c|c|}    \hline    \emph{Type of Value} & \emph{Result} \\    \hline \hline    Undefined & "undefined" \\    \hline
+    Null & "object" \\    \hline
+    Number & "number" \\    \hline
+    String & "string" \\    \hline
+    Symbol & "symbol" \\    \hline
+    Object (not callable) & "object" \\    \hline
+    Object (callable) & "function" \\    \hline  \end{tabular}\end{table}
+
+\subsection{Type Conversion}
+\label{sec:type-conversion}
+
+In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value, it simply performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see section~\ref{sec:value-conversion}). Because of that it is important to know, which values are considered true, and which conversion will result in being false, depending on their type, as shown in table~\ref{tab:truthy-falsy}.
+\begin{table}\caption{Values evaluated as false or true when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}\centering
+  \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
+  \setlength{\tabcolsep}{1ex}
+  \def\arraystretch{1.20}
+  \setlength{\tabcolsep}{1ex}
+  \begin{tabular}{|c||l|}    \hline    \emph{Falsy} & \texttt{undefined}, \texttt{null}, \texttt{0}, \texttt{-0}, \texttt{NaN} and \texttt{""}~(empty string). \\    \hline
+    \emph{Truthy} & {\rr Any other value, including \texttt{[]}~(empty array) and \texttt{\{\}}~(empty object). } \\    \hline  \end{tabular}\end{table}
+There are various situation where a conversion is desired, which happens implicitly in JavaScript. For example if a string should be added to a number, and vice versa, the number is converted to a string and the result is a concatenation of both values:
+\begin{JsCode}[numbers=none]
+"2" + 3 // "23"
+"Hello" + 2 + 3 // "Hello23"
+\end{JsCode}
+The outcome of such an operation will most likely complete without errors, as the interpreter does its best to come up with a sufficient result. Anyway, it has a major influence on the result, how such an expression is written. In the example above, the string was seen first by JavaScript, therefore the subsequent numbers were converted to a string. If, on the other hand, the numbers came first, the result would have been completely different:
+\begin{JsCode}[numbers=none]
+2 + 3 + "Hello" // "5Hello"
+\end{JsCode}
+Again, even a slight change to the code means an entirely different outcome:
+\begin{JsCode}[numbers=none]
+"2" + 3 + "Hello" // "23Hello"
+\end{JsCode}
+A more comprehensive overview of possible type conversions, summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with Symbol type conversions as of the latest ECMAScript 2015 specification, can be found in table~\ref{tab:conversions}, which also highlights situations, where type conversions are not possible or lead to an error.
+
+% Although conversion between types is performed by JavaScript, it is possible to explicitly perform a cast. (Explicit conversion)
+
+\begin{table}\caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36-44]{ES2015Spec:Ecma:2015}.}\label{tab:conversions}\centering
+  \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}  \setlength{\tabcolsep}{1ex}
+  \def\arraystretch{1.20}
+  \setlength{\tabcolsep}{1ex}
+  \small
+  \begin{threeparttable}
+  \begin{tabular}{|l||c|c|c|c|c|} % p{0.25\textwidth}    \hline      \multicolumn{1}{|c}{\emph{Initial Value}} &
+      \multicolumn{1}{|c}{\emph{String}} &
+      \multicolumn{1}{|c}{\emph{Number}} &
+      \multicolumn{1}{|c|}{\emph{Boolean}} &
+      \multicolumn{1}{|c|}{\emph{Object}} \\    \hline\hline      \texttt{undefined} &
+      \texttt{"undefined"} &
+      \texttt{NaN} &
+      \texttt{false} &
+      \emph{TypeError} \\    \hline
+      \texttt{null} &
+      \texttt{"null"} &
+      \texttt{0} &
+      \texttt{false} &
+      \emph{TypeError} \\    \hline\hline
+      \texttt{true} &
+      \texttt{"true"} &
+      \texttt{1} & &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{false} &
+      \texttt{"false"} &
+      \texttt{0} &
+      &
+      \footnotesize(\romannum{1}) \\    \hline\hline
+      \texttt{""} (empty string) &
+      &
+      \texttt{0} &
+      \texttt{false} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{"1.2"} (non-empty, numeric) &
+      &
+      \texttt{1.2} &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{"one"} (non-empty, non-numeric) &
+      &
+      \texttt{NaN} &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline\hline
+      \texttt{0} &
+      \texttt{"0"} &
+      &
+      \texttt{false} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{-0} &
+      \texttt{"0"} &
+      &
+      \texttt{false} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{NaN} &
+      \texttt{"NaN"} &
+      &
+      \texttt{false} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{Infinity} & 
+      \texttt{"Infinity"} &
+      &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{-Infinity} &
+      \texttt{"-Infinity"} &
+      &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline
+      \texttt{1} (finite, non-zero) &
+      \texttt{"1"} &
+      &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline\hline
+      \texttt{\{\}} (any object) &
+      \footnotesize(\romannum{2}) &
+      \footnotesize(\romannum{3}) &
+      \texttt{true} &
+      \\
+    \hline
+      \texttt{[]} (empty array) &
+      \texttt{""} &
+      \texttt{0} &
+      \texttt{true} &
+      \\
+    \hline
+      \texttt{[9]} (single numeric array) &
+      \texttt{"9"} &
+      \texttt{9} &
+      \texttt{true} &
+      \\
+    \hline
+      \texttt{["a"]} (any other array) &
+      \footnotesize(\romannum{4}) &
+      \texttt{NaN} &
+      \texttt{true} &
+      \\
+    \hline
+      \texttt{() => \{\}} (any function) &
+      \footnotesize(\romannum{2}) &
+      \texttt{NaN} &
+      \texttt{true} &
+      \\
+    \hline
+      \texttt{Symbol("sym")} (any symbol) &
+      \emph{TypeError} &
+      \emph{TypeError} &
+      \texttt{true} &
+      \footnotesize(\romannum{1}) \\
+    \hline  \end{tabular}
+  \begin{tablenotes}
+    \footnotesize
+    \item (\romannum{1}) For situations, where converting a value to an object does not throw a TypeError, a new object of the value's type is returned. E.g.\ for the value \texttt{"Hello world!"}, \texttt{new String("Hello world!")} is returned~\cite[p.~44]{ES2015Spec:Ecma:2015}.
+    \item \footnotesize(\romannum{2}) When converting an object to a string, JavaScript tries to call the \texttt{toString} or \texttt{valueOf} method on the object and converts the returned value to a string. If no primitive value can be obtained from either of these methods, a TypeError is thrown~\cite[p.~50]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.
+    \item \footnotesize(\romannum{3}) The same steps as in \footnotesize(\romannum{2}) are performed with the difference, that \texttt{valueOf} will be preferred over \texttt{toString}.
+    \item \footnotesize(\romannum{4}) The toString method of the Array object joins the array separated by a comma, which would result in \texttt{["a","b","c"]} being converted to \texttt{"a,b,c"}~\cite{ArrayPrototypeToString:MDN:2017}.
+  \end{tablenotes}
+\end{threeparttable}\end{table}
+
+%When taking a look at table~\ref{tab:truthy-falsy}, the following examples are considered equal and evaluate to true:
+%\begin{JsCode}
+%"" == false
+%
+%\end{JsCode}
+%whereas the expressions below will be false:
+%\begin{JsCode}
+%"" == true
+%null == -1
+%1 == NaN
+%!1
+%{} == ""
+%\end{JsCode}
+%In order to check if a value \emph{and} type of compared values actually equals, without performing a conversion, the strict equality operator may be used as such:
+%\begin{JsCode}
+%"1" === "1" // true
+%"1" === 1 // false
+%\end{JsCode}
+
+\subsection{Value Comparison}
+\label{sec:value-conversion}
+
+In section~\ref{sec:value-conversion}, the flexibility of JavaScript has already been outlined. Types are converted (i.e., casted) to another type if required and possible.  The same is true when comparing values. JavaScript tries to implicitly convert a value to another type if it cannot perform a comparison at first. Comparing a string---holding a numerical value---with an actual number, will give the same result as comparing two values of type Number, as the interpreter implicitly casts the string to a number:
+\begin{JsCode}[numbers=none]
+"5" > 2 // true
+"2" == 2 // true
+\end{JsCode}
+When comparing with the \emph{equality operator} \texttt{==} there are a few rules to keep in mind~\cite[~p.~72]{JavaScriptTheDefinitiveGuide:Flanagan:2011}:
+\begin{itemize}
+  \item The values \texttt{null} and \texttt{undefined} are considered equal.
+  \item If a number and a string are compared, the string is converted to a number.
+  \item the values \texttt{true} and \texttt{false} are converted to \texttt{1} and \texttt{0} respectively.
+  \item Objects are compared by reference\footnote{TODO: Explain by reference/by value}, whereas one value being a number and the other one being a string, JavaScript tries to convert it to a primitive value, either by using the object's toString or valueOf method.
+  \item All other comparisons are not equal.
+\end{itemize}
+If a more strict comparison is required and an automatic conversion of values is not desired, the \emph{strict equality operator} \texttt{===} may be used. Only if type and value matches, the expression evaluates to true:
+\begin{JsCode}[numbers=none]
+"2" === 2 // false
+2 === 2   // true
+\end{JsCode}
+Following the rules above it is interesting to look at comparing an object to the string \texttt{[object Object]}:
+\begin{JsCode}[numbers=none]
+{} == "[object Object]"  // true
+{} === "[object Object]" // false
+\end{JsCode}
+Using the equality operator, the object is converted using the default toString method, returning \texttt{[object Object]}, resulting in the compared values being equal. When making use of the \emph{strict} equality operator, no conversion is performed and the expression is false.
+
+% {} == "[object Object]" // true
+% {} === "[object Object]" // false
+
+% NaN never true
+
+%At this point it is important to keep the values considered as truthy or falsy from table~\ref{tab:truthy-falsy} in mind. 
+%Checking for equality on two truthy or falsy values evaluates to true:
+%\begin{JsCode}[numbers=none]
+%0 == "" // true
+%\end{JsCode}
+%Besides JavaScript converting values if necessary, it does not perform a cast, if the types of the values match. E.g.\ comparing \texttt{NaN} to \texttt{0}, will evaluate to \texttt{false}. Both values are of type Number. 
+%In order to check if a value's type actually equals a type, the strict equality operator may be used as such:
+%\begin{JsCode}
+%"1" === 1   // false
+%"1" === "1" // true
+%\end{JsCode}
+
+
+
+% The flexibility of JavaScript 
+
+% NaN
+
+\subsection{Objects and Prototypal Inheritance}
+\label{sec:objects-prototypal-inheritance}
+
+Every value that is not a primitive value (i.e., Undefined, Null, Boolean, Number, Symbol, or String~\cite[p.~5]{ES2015Spec:Ecma:2015})---including functions and arrays---is an object, hence making JavaScript a highly flexible language.
+
+\subsection{Latest Improvements}
+\label{sec:latest-improvements}
+
+\subsubsection{Declaration Keywords}
+% var, let const
+
+\subsubsection{Arrow Functions}
+
+\subsubsection{Classes}
+
+% var, let, const
+% classes
+% arrow functions
+
+\subsection{Field of Application}
+\label{sec:field-of-application}
+
+%\begin{JsCode}
+%var num = 10;
+%typeof num; // "number"
+%\end{JsCode}
+%If a variable does not have a value assigned, \texttt{"undefined"} is returned.
+%\begin{JsCode}
+%var foo;
+%typeof foo; // "undefined"
+%\end{JsCode}
+%Because of values having a type, \texttt{typeof} may be performed directly on them:
+%\begin{JsCode}
+%typeof "I am a string!"; // "string"
+%\end{JsCode}
+%As mentioned before, the type of a value (or the type of a variable's value) is returned as a string, so the operation below is possible in JavaScript:
+%\begin{JsCode}
+%typeof typeof foo; // "string"
+%\end{JsCode}
+
+%\subsection{Objects}
+%\label{sec:objects}
+%
+%\subsection{Classes}
+%\label{sec:classes}
+%
+%\subsection{Value Comparison}
+%\label{sec:value-comparison}
+%
+%\subsection{Prototypal Inheritance}
+%\label{sec:prototypal-inheritance}
+%
+%\subsection{Scope and Global Variables}
+%\label{sec:scope-global-variables}
+%
+%\subsection{Prototypal Inheritance}
+%\label{sec:prototypal-inheritance}
+%
+%\subsection{Strict Mode}
+%\label{sec:strict-mode}
+
+% Weak typing
+% no type checks
+% undefined (is not a function)
+
+%\subsection{Specifications}
+%\label{sec:specifications}
+
+\section{JavaScript Supersets}
+\label{sec:supersets}
+
+\subsection{TypeScript}
+\label{sec:typescript}
+
+\subsection{Flow}
+\label{sec:flow}
+
+\subsection{Other}
+\label{sec:other-supersets}

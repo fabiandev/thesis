@@ -6,6 +6,9 @@
 \documentclass[master,english]{hgbthesis}
 
 \RequirePackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage{threeparttable}
+\usepackage{romannum}
 
 \graphicspath{{images/}}
 \logofile{logo}
@@ -36,7 +39,7 @@
 \maketitle
 \tableofcontents
 
-\include{contents/front/preface} % optional
+% \include{contents/front/preface} % optional
 \include{contents/front/abstract}
 \include{contents/front/kurzfassung}			
 
@@ -45,9 +48,10 @@
 %%%----------------------------------------------------------
 
 \include{contents/chapters/introduction}
+\include{contents/chapters/technical_foundation}
 \include{contents/chapters/state_of_the_art}
 \include{contents/chapters/concept}
-\include{contents/chapters/technical_implementation}
+\include{contents/chapters/implementation}
 \include{contents/chapters/evaluation}
 \include{contents/chapters/summary_and_outlook}
 
