@@ -2,5 +2,258 @@
 \chapter{State of the Art}
 \label{cha:state-of-the-art}
 
-\section{Existing Projects}
+The following chapter will provide an overview of available technologies and techniques to introduce a static type system---as defined in section~\ref{sec:type-systems}---to JavaScript. The main focus will be on TypeScript, but also other supersets will be explored. In conclusion, existing projects, to enable runtime type checks for these supersets, will be highlighted. \citeauthor{Term:Superset} defines a \emph{superset} as 
+\begin{quote}
+   [a] set containing all elements of a smaller set. If $B$ is a subset of $A$, then $A$ is a superset of $B$ [...]~\cite{Term:Superset}.
+\end{quote}
+This means that every program that is valid in JavaScript is also legal in a JavaScript superset, where the purpose of such a superset is to add features to the original language. As the source written in the supersets syntax will be compiled to JavaScript, any additional functionality needs to be representable as JavaScript code.
+
+\section{TypeScript}
+\label{sec:typescript}
+
+TypeScript was created by Anders Hejlsberg---the designer of C\texttt{\#}---at Microsoft~\cite[p.~10]{MasteringTypeScript:Rozentals:2017} and was released in 2012 under the Apache 2.0 open source license~\cite[p.~xix]{ProTypeScript:Fenton:2014}. The most important aspect of TypeScript is, that it includes a compilation step, where static type checking is performed~\cite[p.~11]{MasteringTypeScript:Rozentals:2017}. Type annotations are optional and the compiler will infer type information where possible~\cite[p.~10]{TypeScriptBook:Syed:2017}. TypeScript also introduces concepts known from other programming languages, such as interfaces and enumerations (i.e., enums). Not only it is possible to develop a program in the TypeScript syntax, but also to add type annotations to existing JavaScript projects~\cite[p.~13]{MasteringTypeScript:Rozentals:2017}. The most significant particularities and features will be explored in this section.
+
+% implicit/type inference, explicit, structural/type compatibility, ambient, generics, union types
+
+\subsection{Basic Types}
+\label{sec:ts-basic-types}
+
+Like many major languages, TypeScript defines some basic types, that overlap with JavaScript's types, listed in section~\ref{sec:value-types}, while also introducing new ones~\cite{TypeScriptHandbook:BasicTypes}:
+\begin{itemize}
+  \item \emph{Tuple} is a special kind of an array, only allowing a fixed number of elements.
+  \item \emph{Enum} may already be known from other programming languages, like Java, and is useful to define a set of numeric values.
+  \item \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available. It also allows e.g. access to any property on an object, whether it does exist or not.
+  \item \emph{Void} is the counterpart to Any. Again, it is used in other languages, for example to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} will be accepted as value.
+  \item \emph{Never} for instance is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back~\cite{TypeScriptHandbook:BasicTypes}.
+\end{itemize}
+While other types, such as \emph{Function} or more advanced structures are also available, the ones listed in combination with those already defined in JavaScript (i.e., Undefined, Null, Boolean, String, Symbol, Number, and Object) are the most important ones to get started.
+
+%The \emph{Tuple} type is a special kind of an array, only allowing a fixed number of elements. \emph{Enum} may be already known from other programming languages, like Java, which is useful to define a set of numeric values. The \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available. It also allows e.g. to access any property on an object, whether it does exist or not. The counterpart to Any is the \emph{Void} type. Again, it is used in other languages, for example to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} will be accepted as value. The \emph{Never} is, for instance, useful for functions that always throw an error or result in an infinite loop, as a value won't ever come back~\cite{TypeScriptHandbook:BasicTypes}.
+
+\subsection{Type Inference}
+\label{sec:ts-type-inference}
+
+As already mentioned, TypeScript infers the type if possible. The snippet below shows a simple variable declaration in JavaScript (or TypeScript), where the TypeScript compiler can automatically infer the type Number from the declaration.
+\begin{JsCode}[numbers=none]
+let num = 1;
+\end{JsCode}
+Therefore it won't allow any subsequent assignment to \texttt{num} not being a number. For example the reassignment \texttt{num = "foo"} would result in the following compiler diagnostic:
+\begin{JsCode}[numbers=none]
+Type '"foo"' is not assignable to type 'number'.
+\end{JsCode}
+The term \emph{diagnostic} over \emph{error} is used here, because by default the compiler won't stop in such cases and will do its best to emit the final JavaScript code~\cite[p.~12]{TypeScriptBook:Syed:2017}:
+\begin{JsCode}[numbers=none]
+let num = 1;
+num = 'foo';
+\end{JsCode}
+The code above shows the resulting JavaScript program, even though the compiler detected a type error.
+
+\subsection{Type Annotations}
+\label{sec:ts-type-annotations}
+
+While type inference can be useful in some situations, others require types to be set explicitly, as shown below:
+\begin{JsCode}[numbers=none]
+let num: number;
+num = 1;
+\end{JsCode}
+The variable \texttt{num} was declared, but not initialized, requiring  a type annotation, in order to be treated as a number by TypeScript. Omitting the explicit type information, the compiler would infer the Any type, allowing arbitrary assignments to the variable.
+
+%\begin{program}
+%\caption{This program shows the basic usage of an interface in TypeScript. After compilation, only the class will remain in the JavaScript code. The interface, as well as the \texttt{implements} clause, are compiled away.}
+%\label{prog:ts-ambient-interface}
+%\begin{JsCode}
+%type StringOrNumber = string | number;
+%
+%interface CanSpeak {
+%  speak();
+%}
+%
+%class Person implements CanSpeak {
+%  speak() {
+%    return `Hi, my name is \${name}`;
+%  }
+%}
+%\end{JsCode}
+%\end{program}
+
+\subsection{Type Assertions}
+\label{sec:ts-type-assertions}
+
+Type assertions are a way to provide TypeScript with type information, which is not available to the compiler. They are 
+\begin{quote}
+  [...] like [...] type [casts] in other languages, but [perform] no special checking or restructuring of data~\cite{TypeScriptHandbook:BasicTypes}.
+\end{quote}
+It is the developer that has to take care of performing sufficient checks when using a type assertion. Because of the possibility to use any existing JavaScript library with TypeScript, situations where the compiler does not have any type information of the external package available may occur. Type assertion can be a solution to prevent compile time type errors in such cases:
+\begin{JsCode}[numbers=none]
+import RandomName from 'random-name';
+let name: string = (RandomName as any).getName();
+\end{JsCode}
+In the sample from above, the default export from the library \texttt{random-name} was imported as \texttt{RandomName}. This package is neither written in TypeScript nor does it have type definitions available. However, the library has a callable \texttt{getName} property, returning a string. As the compiler is not aware of the package's properties and their return types, it is necessary to tell it which type to assert. \texttt{RandomName} was casted to \texttt{any}, allowing property access independently of their existence. Again, because of type assertions (or type casts) not performing any special checking, the solution from above may lead to errors if the author of the package decides to change its API\footnote{TODO: Explain API}. Therefore manually checking for if \texttt{RandomName} has a callable \texttt{getName} property and is actually returning a string may be recommended here.
+As an alternative to the type casting syntax with the \texttt{as} keyword, the following may be used:
+\begin{JsCode}[numbers=none]
+let name: string = (<any>RandomName).getName();
+\end{JsCode}
+However, this \emph{angle-bracket} syntax is not supported when using TypeScript with \emph{JSX\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
+
+\subsection{Ambient Type Declarations}
+\label{sec:ts-ambient-type-declarations}
+% TODO: Refactor
+In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g.\ classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, that was not written in TypeScript and there are no type definitions for it available. In the previous section type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g.\ a variable, class, namespace or enum with the \texttt{declare} keyword, makes them ambient and will be treated by the compiler as if they were part of the code:
+\begin{JsCode}[numbers=none]
+declare const RandomName: any;
+\end{JsCode}
+This results in TypeScript always treating the variable \texttt{RandomName} as having type \texttt{any}. Alternatively the imported package may be described in more detail:
+\begin{JsCode}[numbers=none]
+declare const RandomName: {
+  getName: () => string;
+};
+\end{JsCode}
+From now on, TypeScript will know, that the import has a callable property \texttt{getName} that returns a string.
+
+% pick up later with hasOwnProperty typeof === function and return typeof string
+
+\subsection{Structural Types}
+\label{sec:ts-structural-types}
+
+Types in TypeScript are structural~\cite[p.~11]{TypeScriptBook:Syed:2017}, meaning that the type checker looks at members of an object, to ensure type compatibility, while other major languages, such as C\texttt{\#} or Java, use nominal type systems~\cite{TypeScriptHandbook:TypeCompatibility}. Program~\ref{prog:structural-typing} gives an example that would fail in a nominally typed language, but is possible in TypeScript.
+
+\begin{program}
+\caption{An instance of \texttt{Person} can be assigned to a variable with type \texttt{Named} on line 10, because of TypeScript's structural type system. In languages with a nominal type system the class \texttt{Person} would need to implement the interface \texttt{Named} in their corresponding syntax, for this example to be valid~\cite{TypeScriptHandbook:TypeCompatibility}.}
+\label{prog:structural-typing}
+\begin{JsCode}
+interface Named {
+    name: string;
+}
+
+class Person {
+    name: string;
+}
+
+let p: Named;
+p = new Person();
+\end{JsCode}
+\end{program}
+
+\subsection{Classes}
+\label{sec:ts-classes}
+% TODO: Refactor
+% TODO: Add info about abstract classes 
+
+TypeScript not only enables static type checking for JavaScript applications, but also includes additional language features. While EcmaScript 2015 introduced classes, with TypeScript it is possible to also add visibility modifiers and interface implementation to them as shown below.
+\begin{JsCode}[numbers=none]
+class Person implements Human {
+  public name: string;
+  private age: number;
+}
+\end{JsCode}
+The keywords \texttt{public}, \texttt{protected} and \texttt{private} may be used for class members and methods.
+Also it is possible to define members and provide default values outside of the constructor, as well as to mark properties as \texttt{readonly}, preventing any reassignment.
+\begin{JsCode}[numbers=none]
+class Person implements Human {
+  public readonly id = uid();
+}
+\end{JsCode}
+Anyway, it is important to note, that the modifiers described, as well as implemented interfaces, are only relevant during compile time. After the final JavaScript code has been emitted, this information is stripped out and cannot be used in the running program, as shown in the compiled class, using plain JavaScript syntax, below.
+\begin{JsCode}[numbers=none]
+class Person {
+  constructor() {
+    this.id = uid();
+  }
+}
+\end{JsCode}
+This means that it is technically possible, to assign any arbitrary value to \texttt{id} of a \texttt{Person} instance during runtime.
+
+\subsection{Enums}
+\label{sec:ts-enums}
+
+As already mentioned earlier, an enumeration is beneficial for defining a set of numeric values. The TypeScript compiler will take any enum declaration and transform it into runnable JavaScript code. The following enum in TypeScript syntax
+\begin{JsCode}[numbers=none]
+enum HairColor {
+  Black, Blond, Brown, Red, Other
+}
+\end{JsCode}
+results in the JavaScript code below, which creates an object containing the values defined in the enumeration.
+\begin{JsCode}[numbers=none]
+var HairColor;
+(function (HairColor) {
+    HairColor[HairColor["Black"] = 0] = "Black";
+    HairColor[HairColor["Blond"] = 1] = "Blond";
+    // ...
+})(HairColor || (HairColor = {}));
+\end{JsCode}
+The enum can now be accessed during runtime to obtain the corresponding numeric value. Also it is possible, to reveal the name of a numeric value from the enumeration:
+\begin{JsCode}[numbers=none]
+HairColor.Black // 0
+HairColor[0] // "Black"
+\end{JsCode}
+However, if the enumeration is declared as constant, the compiler will look up the numeric value and will insert it directly into the source code, before entirely removing its definition~\cite{TypeScriptHandbook:Enums}.
+
+\subsection{Namespaces}
+\label{sec:ts-namespaces}
+
+In TypeScript, namespaces provide a possibility to encapsulate code. They were previously referred to as \emph{internal modules}, but have since been renamed to avoid confusion with native \emph{modules} of the EcmaScript standard, previously denoted as \emph{external modules} in TypeScript~\cite{TypeScriptHandbook:Namespaces}. Code within a namespace only expose explicitly exported parts.
+\begin{JsCode}[numbers=none]
+namespace Capsule {
+  let foo = "Hello from Capsule!";
+  
+  export function bar() {
+    return foo;
+  }
+}
+\end{JsCode}
+Accessing \texttt{foo} of the namespace \texttt{Capsule} would result in \texttt{undefined}, whereas calling \texttt{bar} would return the value of \texttt{foo}. If taking a look at the JavaScript code, generated from the namespace above, this behavior is made clear.
+\begin{JsCode}[numbers=none]
+var Capsule;
+(function (Capsule) {
+    var foo = "Hello from Capsule!";
+    function bar() {
+        return foo;
+    }
+    Capsule.bar = bar;
+})(Capsule || (Capsule = {}));
+\end{JsCode}
+A variable with the name of the namespace will be declared and an empty object will be assigned to it. Only the namespace's exported parts will be added to this object to be exposed, while all other values 
+remain exclusively accessible from within the self executing function itself.
+
+\subsection{Parameter Default Values}
+\label{sec:ts-parameter-default-values}
+
+Another useful feature is the possibility to define default values for parameters in TypeScript. This gives developers the ability to avoid parameters being \texttt{undefined} if not passed, and can be useful in various other scenarios.
+\begin{JsCode}[numbers=none]
+function log(message: string, logger = console) {
+  logger.log(message);
+}
+\end{JsCode}
+The example above shows a simple log function which writes a string to the console, when omitting the second parameter. If another log mechanism is desired, it is possible to pass a different logger to this method, which also implements the Console interface, or at least shares its properties.
+The same result can be achieved with plain JavaScript as well, as shown in the compiled code below:
+\begin{JsCode}[numbers=none]
+function log(message, logger) {
+    if (logger === void 0) { logger = console; }
+    logger.log(message);
+}
+\end{JsCode}
+If the parameter \texttt{logger} equals \texttt{void 0}, which is identical to \texttt{undefined}\footnote{TODO: explain void 0}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
+
+% enums, namespaces, decorators, (abstract) class (visibility/inheritance/implements), default value for parameter, readonly
+
+\subsection{Future JavaScript}
+\label{sec:ts-future-javascript}
+
+ 
+ % future javascript => now
+
+
+ 
+\section{Flow}
+\label{sec:flow}
+
+\emph{Flow\footnote{https://flow.org}} is another open source static type checker for JavaScript, developed by \emph{Facebook\footnote{https://code.facebook.com/projects/}}.
+
+\section{Other Supersets}
+\label{sec:other-supersets}
+
+\section{Comparison}
+\label{sec:comparison}
+
+\section{Existing Runtime Projects}
 \label{sec:existing-projects}
