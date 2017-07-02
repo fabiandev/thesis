@@ -1,0 +1,53 @@
+
+\chapter{Theoretical Approach}
+\label{cha:theoretical-approach}
+
+After defining the terminology for this thesis, as well as giving an exposure to available technologies and projects, the theoretical approach for generating runtime type checks from TypeScript type annotations for runnable JavaScript code will be described in this chapter.
+
+\section{Undetectable Errors}
+\label{sec:undetectable-errors}
+
+There are various situations the static type analysis of TypeScript cannot detect errors that may occur during runtime. Either a project is written in TypeScript, so the compiler can infer type information needed, or type definition files may be provided for untyped JavaScript libraries. In both cases it is possible to introduce errors, which may cause the type checker to make wrong assumptions about type compatibility. Also particular programming techniques can result in errors not being trapped already during compilation.
+
+\subsection{Compiler Analysis Circumvention}
+\label{sec:compiler-analysis-circumvention}
+
+In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in section~\ref{sec:ts-type-assertions}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g.\ \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If a variable is annotated or asserted with the \emph{any} type, type checking and type inference will be disabled. The TypeScript documentation describes this type as 
+\begin{quote}
+   [...] a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.~\cite{TypeScriptHandbook:BasicTypes}
+\end{quote}
+It seems legitimate to use \emph{any} alongside the utilization of third party libraries or in situations where the flexibility of JavaScript's loose typing (see sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused. The following code snippet outlines a situation, where compilation passes, but an error is thrown at runtime:
+\begin{JsCode}[numbers=none]
+let foo: any = 'bar';
+foo.getNumber();
+\end{JsCode}
+Because of type checks being disabled for variable \texttt{foo}, access to the not existing property \texttt{getNumber} won't be detected by the compiler. Even if the identifier was annotated correctly, or its type could be inferred by omitting a type annotation, it is possible to get around type checks:
+\begin{JsCode}[numbers=none]
+let foo: string = 'bar';
+(foo as any).getNumber();
+\end{JsCode}
+In both cases, the JavaScript runtime engine will throw \emph{TypeError: foo.getNumber is not a function}. The examples from above highlight the potentiality of creating conditions where a detectable mistake remains undiscovered by the compiler, which could cause a program to crash.
+
+\subsection{Definition File Mistakes}
+\label{sec:definition-file-mistakes}
+
+\subsection{Erroneous API Responses}
+\label{sec:erroneous-api-responses}
+
+\section{Method Principle}
+\label{sec:method-principle}
+
+\section{Type Check Situations}
+\label{sec:type-check-situations}
+
+\subsection{Main Cases}
+\label{sec:main-cases}
+
+\subsection{Edge Cases}
+\label{sec:edge-cases}
+
+\subsection{Exceptions}
+\label{sec:exceptions}
+
+\subsection{Procedure}
+\label{sec:procedure}
