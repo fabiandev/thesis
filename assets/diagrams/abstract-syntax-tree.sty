@@ -1,0 +1,47 @@
+%!tikz editor 1.0
+\documentclass{article}
+\usepackage{tikz}
+\usepackage[graphics, active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+%!tikz preamble begin
+
+%!tikz preamble end
+
+
+\begin{document}
+%!tikz source begin
+\begin{tikzpicture}[
+  auto,
+  sibling distance=11em,
+  level distance=8em,
+  font=\small,
+  text centered,
+  every node/.style = {
+	minimum width=width("VariableDeclaration"),
+	minimum height=5em,
+    shape=rectangle,
+	rounded corners,
+	inner xsep=.5em,
+    draw,
+	align=center,
+    % top color=white, bottom color=blue!20
+	}
+  ]
+  
+  \node { SourceFile }
+    child { node { VariableStatement }
+	  child { node { VariableDeclarationList }
+	    child { node { VariableDeclaration }
+		  child { node { \begin{tabular}{c}Identifier \\[.2em] \footnotesize{\texttt{foo}}\end{tabular} } }
+		  child { node { StringKeyword } }
+		  child { node { \begin{tabular}{c}StringLiteral \\[.2em] \footnotesize{\texttt{"bar"}}\end{tabular} } }
+		}
+		child { node {...} }
+	  }
+	};;
+
+\end{tikzpicture}
+%!tikz source end
+
+\end{document}

@@ -9,13 +9,15 @@
 \usepackage{blindtext}
 \usepackage{threeparttable}
 \usepackage{romannum}
+\usepackage{tikz}
+\usepackage[subpreambles=true]{standalone}
 
-\graphicspath{{images/}}
+\graphicspath{{assets/images/}}
 \logofile{logo}
 \bibliography{references}
 
 
-\title{Generating runtime type checks for JavaScript from TypeScript}
+\title{Generating Runtime Type Checks for JavaScript from TypeScript}
 \author{Fabian Pirklbauer}
 \programname{Interactive Media}
 \placeofstudy{Hagenberg}
@@ -47,6 +49,8 @@
 \mainmatter
 %%%----------------------------------------------------------
 
+% TODO: Align string. Use " instead of '
+% TODO: Check cites, especially p., pp. and --
 \include{contents/chapters/introduction}
 \include{contents/chapters/technical_foundation}
 \include{contents/chapters/state_of_the_art}
