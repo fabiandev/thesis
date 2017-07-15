@@ -4,19 +4,119 @@
 
 After elaborating situations where runtime errors may occur in the previous chapter (see sec.~\ref{sec:undetectable-errors}), even with preceding static type checks by the TypeScript compiler, a program will be implemented, that should catch those cases while the compiled JavaScript program is running. All previously defined cases (see sec.~\ref{sec:type-check-situations}) should be honored and suitable technology should be selected to perform the required steps (see sec.~\ref{sec:required-steps}) to achieve the desired result (see sec.~\ref{sec:desired-result}).
 
-\section{Tools and Libraries}
-\label{sec:tools-libraries}
+\section{Technology}
+\label{sec:technology}
 
-To create a an application that efficiently achieves its goals, it is important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, that provides functionality needed for the implementation, it should be utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
+The project itself will be implemented in TypeScript, while the compiled program will be executed in a \emph{Node.js\footnote{https://nodejs.org}} environment. It will be published on the \emph{npm} (i.e., node package manager) registry\footnote{https://www.npmjs.com}, a ``[...] public collection of packages of open-source code for Node.js [...]~\cite{npmjs:about}'', which should make it easy for developers to install an executable version of \emph{ts-runtime} on their system. Also other packages should be able to integrate as fast as possible with this project. This implies that both, an API (i.e., application programming interface) and a CLI (i.e., command line interface), should be provided. Furthermore, to create an application that efficiently achieves its goal, it will be important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, that provides functionality needed for the implementation, it should be utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
 
 \subsection{TypeScript Compiler API}
 
+The TypeScript compiler exposes an API to utilize its functionality programmatically. This makes it possible to read in an existing TypeScript project, perform static type checks on it and to emit a compiled JavaScript program, while having control over various aspects of this process. Several steps that are required to generate type checks for the JavaScript runtime, are provided by the TypeScript compiler. With version 2.3 an API was exposed to enable abstract syntax tree transformations~\cite{TypeScriptPullRequest:Transformation} and an issue preventing traversing the AST~\cite{TypeScriptIssue:Visitors} was resolved with version 2.4~\cite{TypeScriptPullRequest:Visitors}. Not only the ability to modify the syntax tree may be useful for the project of this thesis, also other features may be beneficial. As the project of this thesis will make use of the compiler API later in this chapter, some parts of it will be described below.
 
+\subsubsection{Compiler Components}
+
+To receive a runnable JavaScript program from a TypeScript project, a number of components contribute to the TypeScript compiler:~\cite[p.~251]{TypeScriptBook:Syed:2017}:
+\begin{itemize}
+  \item \textbf{Scanner:} The scanner is responsible for the tokenization of the source code and is controlled by the parser~\cite[p.~260]{TypeScriptBook:Syed:2017}.
+  \item \textbf{Parser:} After a source file is tokenized, the parser creates an abstract syntax tree out of it~\cite[p.~263]{TypeScriptBook:Syed:2017}.
+  \item \textbf{Binder:} In this part of the compiler, connections between nodes of the AST are created through \emph{symbols}~\cite[p.~267]{TypeScriptBook:Syed:2017}.
+  \item \textbf{Checker:} The checker is the largest part of the TypeScript compiler and performs static type checks on the source files~\cite[p.~282]{TypeScriptBook:Syed:2017}.
+  \item \textbf{Emitter:} The emitter translates the TypeScript syntax tree of the source files to plain JavaScript~\cite[p.~286]{TypeScriptBook:Syed:2017}, based on the compiler options.
+\end{itemize}
+These components don't have to be triggered individually when using the compiler API and a wrapper is provided, named \emph{Program}. It holds the options and source files of the current compilation~\cite[p.~254]{TypeScriptBook:Syed:2017} and provides access to the \emph{Checker}~\cite[p.~282]{TypeScriptBook:Syed:2017} and \emph{Emitter}~\cite[p.~286]{TypeScriptBook:Syed:2017}.
+
+\subsubsection{Compiler Options}
+
+When starting a a compilation through the TypeScript compiler API, a multitude of options~\cite{TypeScriptHandbook:CompilerOptions} may be passed. They include, but are not limited to settings for the type checking behavior, files that should be emitted, and the ECMAScript standard the resulting JavaScript code should comply to.
+
+\subsubsection{Program}
+
+A TypeScript project compilation can be triggered, by providing the path to a single or multiple entry files, alongside customized compiler options. All files that are referenced from the input files are loaded recursively, by making use of a \emph{compiler host}. Also it exposes the functionality, to emit the compiled JavaScript code.
+
+\subsubsection{Compiler Host}
+
+The compiler host abstracts, among other things, the reading and writing of input files by the \emph{Program}. By default, files will be accessed on the file system, however, a custom compiler host may be provided to a new \emph{Program}.
+
+\subsubsection{Node}
+
+The abstract syntax tree, created during the compilation of a TypeScript project, consists of nodes, while every node has a specific kind. A file, for example, is of kind \emph{SourceFile}, whereas a class declaration is represented by a node with the kind \emph{ClassDeclaration}.
+
+\subsubsection{Symbol}
+
+A syntax tree abstracts a source file to interact with it in various ways, but it lacks relations between nodes, that are not directly connected to each other. Symbols are created to provide these relationships between such nodes. While it is possible to identify a type reference through the AST, there is no link to the declaration of the type. However, by extracting the symbol of the type reference, the node of the type declaration can be obtained.
+
+\subsubsection{Printer}
+
+The compiler API exposes a printer, which can create text out of an AST node recursively. Therefore it is possible to pass a \emph{SourceFile} node to the printer, and getting back a string containing TypeScript code.
+
+% As the project of this thesis will make use of the compiler API later in this chapter, it may be of advantage to briefly describe the typical procedure of a compilation.
+
+%To receive a runnable JavaScript program from a TypeScript project, a number of components contribute to the compilation process:~\cite[p.~251]{TypeScriptBook:Syed:2017}:
+%\begin{enumerate}
+%  \item \textbf{Scanner:} The scanner is responsible for the tokenization of the source code and is controlled by the parser~\cite[p.~260]{TypeScriptBook:Syed:2017}.
+%  \item \textbf{Parser:} After a source file is tokenized, the parser creates an abstract syntax tree out of it~\cite[p.~263]{TypeScriptBook:Syed:2017}.
+%  \item \textbf{Binder:} In this part of the compiler, connections between nodes of the AST are created through \emph{symbols}~\cite[p.~267]{TypeScriptBook:Syed:2017}.
+%  \item \textbf{Checker:} The checker is the largest part of the TypeScript compiler and performs static type checks on the source files~\cite[p.~282]{TypeScriptBook:Syed:2017}.
+%  \item \textbf{Emitter:} The emitter translates the TypeScript syntax to plain JavaScript~\cite[p.~286]{TypeScriptBook:Syed:2017}.
+%\end{enumerate}
+%These components don't have to be triggered individually when using the compiler API and a wrapper is provided, called \emph{Program}. It holds the options and source files of the current compilation~\cite[p.~254]{TypeScriptBook:Syed:2017} and provides access to the \emph{Checker}~\cite[p.~282]{TypeScriptBook:Syed:2017} and \emph{Emitter}~\cite[p.~286]{TypeScriptBook:Syed:2017}.
+
+%\subsubsection{Compiler Components}
 
 \subsection{Runtime Type System}
 
+A multitude of libraries are available that aim to provide a runtime type system for JavaScript and several of them were evaluated to use with \emph{ts-runtime}. Libraries that did not seem to be maintained any more were not considered.
+
+\subsubsection{ObjectModel}
+
+\emph{ObjectModel\footnote{https://github.com/sylvainpolletvillard/ObjectModel}} is an extensive type system, which ``[...] intends to bring strong dynamic type checking to [JavaScript] web applications~\cite{RuntimeTypeSystem:ObjectModel}''. While being actively maintained and a detailed documentation is available, several features that are required to reflect TypeScript's static type system are not included in this library, making it not entirely suitable for the use with the project of this thesis.
+
+\subsubsection{tcomb}
+
+The project \emph{tcomb\footnote{https://github.com/gcanti/tcomb}} argues to ``[...] check the types of JavaScript values at runtime~\cite{RuntimeTypeSystem:tcomb}''. Probably one of the most famous runtime type checking libraries for JavaScript, with more than 1300 stars on GitHub~\cite{RuntimeTypeSystem:tcomb}, it is again intended to be used for JavaScript code. Considerations especially for TypeScript are not part of this package.
+
+\subsubsection{io-ts}
+
+Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a ``TypeScript compatible runtime type system [...]~\cite{RuntimeTypeSystem:io-ts}''. While it did look promising to be utilized, some aspects did not meet the expectations. For example being able to define the type reflection of a class alongside the class declaration itself is not provided by the library, as well as being able to retrieve a type reference with type parameters (i.e., generics) is not possible. However, as \emph{io-ts\footnote{https://github.com/gcanti/io-ts}} may evolve over time, a transition of \emph{ts-runtime} to use it at a later point is possible.
+
+\subsubsection{runtypes}
+
+The \emph{runtypes\footnote{https://github.com/pelotom/runtypes}} library is a fairly young project, which wants to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see sec.~\ref{sec:value-types}) is used, which does not include parameter and return type compatibility.
+
+\subsubsection{flow-runtime}
+
+The \emph{flow-runtime\footnote{https://github.com/codemix/flow-runtime}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features (see sec.~\ref{sec:comparison}) this library seems to be most suitable for the thesis project and to reflect the static type system of TypeScript as close as possible. Additionally \emph{flow-runtime} has a separate package, that generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, which proves that a great number of cases for Flow syntax were implemented in this package.
+
+%\section{Tools and Libraries}
+%\label{sec:tools-libraries}
+
+
+
+%To create an application that efficiently achieves its goal, it is important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, that provides functionality needed for the implementation, it should be utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
+
 \section{Architecture}
 \label{sec:architecture}
+
+In this section, the architecture for the application will be designed, that should already outline how the program will operate and define some of the components that will be needed:
+%\begin{itemize}
+%  \item \textbf{Core} The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
+%  \item \textbf{Scanner} After ensuring, that all input is valid and an abstraction of the source files from a TypeScript project to transform could be created without errors, the abstraction can be scanned. In this part of the program, ambient and external declarations will be identified, that won't be included in the compiled program, bis need to be reflected, in order to guarantee that type checks can take place during runtime. Also all identifiers from the source files should be remembered, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+%  \item \textbf{Mutator} The required information to proceed with the actual modifications on the source file abstractions should now be available.
+%\end{itemize}
+
+%\section{Tools and Libraries}
+%\label{sec:tools-libraries}
+%
+%To create an application that efficiently achieves its goal, it is important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, that provides functionality needed for the implementation, it should be utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
+%
+%\subsection{TypeScript Compiler API}
+%
+%Several steps that are required to generate type checks for the JavaScript runtime, are provided by the TypeScript compiler API, as of version 2.4. An API was exposed to enable abstract syntax tree transformations with version 2.3~\cite{TypeScriptPullRequest:Transformation} and an issue, preventing traversing the AST, was resolved with version 2.4~\cite{TypeScriptIssue:Visitors}.
+
+%\subsection{Runtime Type System}
+%
+%\section{Architecture}
+%\label{sec:architecture}
 
 \section{Components}
 \label{sec:components}

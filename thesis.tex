@@ -6,7 +6,7 @@
 \documentclass[master,english]{hgbthesis}
 
 \RequirePackage[utf8]{inputenc}
-\usepackage{blindtext}
+% \usepackage{blindtext}
 \usepackage{threeparttable}
 \usepackage{romannum}
 \usepackage{tikz}
@@ -15,7 +15,6 @@
 \graphicspath{{assets/images/}}
 \logofile{logo}
 \bibliography{references}
-
 
 \title{Generating Runtime Type Checks for JavaScript from TypeScript}
 \author{Fabian Pirklbauer}
@@ -29,6 +28,12 @@
 
 %%% Restricted publication license instead of CC:
 % \strictlicense
+
+%%% Do not hyphenate the following words
+%%%----------------------------------------------------------
+\hyphenation{SourceFile}
+\hyphenation{ClassDeclaration}
+%%%----------------------------------------------------------
 
 %%%----------------------------------------------------------
 \begin{document}
