@@ -13,13 +13,13 @@
 %!tikz source begin
 \begin{tikzpicture}[
   auto,
-  sibling distance=11em,
-  level distance=8em,
-  font=\small,
+  sibling distance=9em,
+  level distance=6.5em,
+  font=\footnotesize,
   text centered,
   every node/.style = {
-	minimum width=width("VariableDeclaration"),
-	minimum height=5em,
+	minimum width=6.9em,
+	minimum height=4em,
     shape=rectangle,
 	rounded corners,
 	inner xsep=.5em,
@@ -30,16 +30,16 @@
   ]
   
   \node { SourceFile }
-    child { node { VariableStatement }
-	  child { node { VariableDeclarationList }
-	    child { node { VariableDeclaration }
-		  child { node { \begin{tabular}{c}Identifier \\[.2em] \footnotesize{\texttt{foo}}\end{tabular} } }
-		  child { node { StringKeyword } }
-		  child { node { \begin{tabular}{c}StringLiteral \\[.2em] \footnotesize{\texttt{"bar"}}\end{tabular} } }
+    child { node {VariableStatement}
+	  child { node {VariableDeclarationList}
+	    child { node {VariableDeclaration}
+		  child { node {\begin{tabular}{c}Identifier\\[.2em]\centering\scriptsize{\texttt{foo}}\end{tabular}} }
+		  child { node {StringKeyword} }
+		  child { node {\begin{tabular}{c}StringLiteral \\[.2em]\centering\scriptsize{\texttt{"bar"}}\end{tabular}} }
 		}
 		child { node {...} }
 	  }
-	};;
+	};
 
 \end{tikzpicture}
 %!tikz source end
