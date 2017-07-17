@@ -423,7 +423,7 @@ JavaScript makes use of a \emph{lexical scope} model, which is based on where va
 Program~\ref{prog:scopes} gives a simple example of how scopes behave in JavaScript and also shows the importance to be aware of it. While there are ways to get around lexical scoping in JavaScript, those mechanisms are considered bad practice~\cite[p.~14]{YDKJS:ScopesAndClosures:Simpson:2014} and come with performance issues~\cite[p.~21]{YDKJS:ScopesAndClosures:Simpson:2014}, hence won't be covered here.
 
 \begin{program}
-\caption{Variable \texttt{i} was declared on line 7 as counter for a for loop. When function \texttt{bar} is called from the loop, the identifier \texttt{i} exists in the scope of \texttt{bar}, or rather in its enclosing scope \texttt{foo}, and \texttt{i} is assigned the value \texttt{2}. This results in an infinite loop, as the loop will never reach its condition to stop of \texttt{i} being equal to or greater than \texttt{10}.~\cite[p.~26]{YDKJS:ScopesAndClosures:Simpson:2014}}
+\caption{Variable \texttt{i} was declared on line~\ref{prog:scoped:declaration} as counter for a for loop. When function \texttt{bar} is called from within the loop, the identifier \texttt{i} exists in the scope of \texttt{bar}, or rather in its enclosing scope \texttt{foo}, and \texttt{i} is assigned the value \texttt{2}. This results in an infinite loop, as it will never reach its condition to stop of \texttt{i} being equal to or greater than \texttt{10}.~\cite[p.~26]{YDKJS:ScopesAndClosures:Simpson:2014}}
 \label{prog:scopes}
 \begin{JsCode}
 function foo() {
@@ -432,7 +432,7 @@ function foo() {
     i = 2;
   }
   
-  for(var i = 0; i < 10; i++) {
+  for(var i = 0; i < 10; i++) { /+\label{prog:scoped:declaration}+/
     bar();
   }
   
