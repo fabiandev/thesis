@@ -42,6 +42,10 @@ The compiler host abstracts, among other things, the reading and writing of inpu
 
 The abstract syntax tree, created during the compilation of a TypeScript project, consists of nodes, while every node has a specific kind. A file, for example, is of kind \emph{SourceFile}, whereas a class declaration is represented by a node with the kind \emph{ClassDeclaration}.
 
+\subsubsection{Syntax Kind}
+
+The TypeScript API exposes an enum, named \emph{SyntaxKind}, which maps a numeric value to an AST node type (e.g.\ \emph{InterfaceDeclaration}). As every syntax tree node defines a \texttt{kind} property, containing a number from the syntax tree enumeration, it is possible to always determine the type of a node.
+
 \subsubsection{Symbol}
 
 A syntax tree abstracts a source file to interact with it in various ways, but it lacks relations between nodes, that are not directly connected to each other. Symbols are created to provide these relationships between such nodes. While it is possible to identify a type reference through the AST, there is no link to the declaration of the type. However, by extracting the symbol of the type reference, the node of the type declaration can be obtained.
@@ -228,7 +232,7 @@ Program~\ref{prog:transform} shows a, reduced to its essentials, version of the 
 \caption{The \texttt{transform} function of the project's core, reduced to its essentials. The \texttt{ts} namespace from line~\ref{prog:transform:ts1} and~\ref{prog:transform:ts2} point to the TypeScript API.}
 \label{prog:transform}
 \begin{JsCode}
-transform(entryFiles: string[], options?: Options} {
+function transform(entryFiles: string[], options?: Options} {
   const opts = getOptions(options);
   const program = ts.createProgram(entryFiles, opts.compilerOptions); /+\label{prog:transform:ts1}+/
   const scanner = new Scanner(program, opts);
@@ -239,20 +243,173 @@ transform(entryFiles: string[], options?: Options} {
 \end{JsCode}
 \end{program}
 %TODO: Add ref
-It is not fully functional, but should give an idea of the program flow, also depicted in figure~REF!!!. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST from all source files of the TypeScript program, which are passed to the mutators of \emph{ts-runtime}.
+It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
+\begin{program}
+\caption{}
+\label{prog:transformer}
+\begin{JsCode}
+function transformer() {
+  let context: MutationContext;
+  
+  const visitor = node => {
+    node = mutate(node, context); /+\label{prog:transformer:mutate}+/
+    return ts.visitEachChild(node);
+  }
+  
+  return sourceFile => {
+    context = createContext(sourceFile);
+    return ts.visitNode(sourceFile, visitor);
+  };
+}
+\end{JsCode}
+\end{program}
+Technically, the abstract syntax tree node's children are followed to the very bottom before applying mutations on them. This should assure, that every transformation already includes modifications from its child nodes, also preventing additions to the tree from being processed.
+
 
 \subsection{Mutators}
 % describe base mutator
 
+Every mutator of the project, extends a base mutator, that provides a simplified API, which is utilized by the core (i.e., \emph{Transformer}) of the project. Therefore each mutator must cohere with its base, which in its simplest form may look like the code below:
+\begin{JsCode}[numbers=none]
+class InterfaceMutator extends Mutator {
 
+  protected kind = ts.SyntaxKind.InterfaceDeclaration;
+  
+  protected mutate(node: ts.InterfaceDeclaration): ts.Node {
+    return node;
+  }
+
+}
+\end{JsCode}
+A valid mutator must define a \texttt{kind} property, containing a syntax kind---or a list (i.e., array) of syntax kinds---to define which node types the mutator is able to process. Additionally, also a method \texttt{mutate} must exist on a mutator. This function accepts a single parameter, which is the node to be processed. The mutator may then perform modifications on it, or can replace the node entirely. Each mutator is meant to be used through the method \texttt{mutateNode}, defined by the base class API. This ensures that the following checks are performed to discover, if the node should be processed:
+\begin{enumerate}
+  \item Is the kind of the node supported by the mutator?
+  \item Is the node flagged to be skipped?
+  \item Is the node declared ambient, using the \texttt{declare} keyword?
+\end{enumerate}
+If all of these checks pass, the actual \texttt{mutate} method is called. If, however, any of the conditions from above could not be met, the original node is returned untouched. Based on the defined cases from section~\ref{sec:type-check-situations}, the following mutators were implemented, located in \texttt{src/mutators} and also showing their file names without an extension:
+\begin{itemize}
+  \item ArrowFunctionMutator
+  \item AsExpressionMutator
+  \item BinaryExpressionMutator
+  \item BlockLikeMutator
+  \item ClassDeclarationMutator
+  \item FunctionDeclarationMutator
+  \item FunctionExpressionMutator
+  \item InterfaceDeclarationMutator
+  \item SourceFileMutator
+  \item TypeAliasDeclarationMutator
+  \item VariableDeclarationListMutator
+\end{itemize}
+Some of the implementations were more complex than others and special cases had to be taken into account. While every mutator will be outlined, a few of them will be handled in more detail.
+
+\subsubsection{Arrow Function Mutator}
+
+The arrow function mutator has to modify the body of the passed node, while some peculiarities have to be considered. As for every other function type (i.e., function expression and function declarations), the parameters have to be asserted, while they can be optional or may have a default value. Also every location where the function may return a value has to be observed and checked. A major difference to function expressions is, that they may omit a function body, previously described in section~\ref{sec:latest-improvements}, it has to be created in order to insert runtime type checks. Because of the arrow function mutator being relatively small, compared to other mutators, it is shown in program~\ref{prog:mutator:arrow-function}.
+\begin{program}
+\caption{The arrow function mutator of \emph{ts-runtime}.}
+\label{prog:mutator:arrow-function}
+\begin{JsCode}
+export class ArrowFunctionMutator extends Mutator {
+
+  protected kind = ts.SyntaxKind.ArrowFunction;
+
+  protected mutate(node: ts.ArrowFunction): ts.CallExpression {
+    return this.factory.annotate(
+      this.factory.mutateFunctionBody(node), /+\label{prog:mutator:arrow-function:mutate-body}+/
+      this.factory.functionReflection(node) /+\label{prog:mutator:arrow-function:reflect}+/
+    );
+  }
+
+}
+\end{JsCode}
+\end{program}
+Analyzing the code of the class, it obviously makes use of the factory, that will be described later in this chapter. Alongside changing the arrow function's body, it is also annotated. This means, that a reflection of the function, including its parameters and the return type, will be added to the function object, to retrieve it in other places of the running program. To better describe, how the result of a transformation may look like, the following arrow function is given. 
+\begin{JsCode}[numbers=none]
+(): string => "bar";
+\end{JsCode}
+The call to \texttt{mutateFunctionBody} in program~\ref{prog:mutator:arrow-function} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
+\begin{JsCode}[numbers=none]
+() => {
+  const _returnType = t.return(t.string());
+  return _returnType.assert("bar");
+}
+\end{JsCode}
+Also a description of the function signature is retrieved via \texttt{functionReflection} on line~\ref{prog:mutator:arrow-function:reflect}, that is represented with:
+\begin{JsCode}[numbers=none]
+t.function(t.return(t.string()));
+\end{JsCode}
+Furthermore, the arrow function is annotated with this reflection. As in most cases a function expression would be assigned to a variable, the code below could be the result of the transformation:
+\begin{JsCode}[numbers=none]
+const foo = t.annotate(() => {
+  const _returnType = t.return(t.string());
+  return _returnType.assert("bar");
+}, t.function(t.return(t.string())));
+\end{JsCode}
+The variable \texttt{foo} now holds the arrow function, with added information about its signature. The type of the identifier may then be used to declare another variable, like in the following code snippet:
+\begin{JsCode}[numbers=none]
+const bar: typeof foo = (): string => "hi";
+\end{JsCode}
+This results in the following code in the compiled JavaScript program:
+\begin{JsCode}[numbers=none]
+const bar = t.typeOf(foo).assert(/* transformed arrow function */);
+\end{JsCode}
+A function \texttt{t.typeOf}---part of the \emph{flow-runtime} library---is called with \texttt{foo}, which extracts the previously annotated information. Therefore it can be checked, if the value that should be assigned to \texttt{bar}, matches the type of \texttt{foo}. Otherwise it could only be verified, if the value is a function, which is unsatisfactory to ensure type compatibility.
+
+\subsubsection{As Expression Mutator}
+
+Also TypeScript type assertions should be asserted at runtime. This means that if a value is casted to another type, it should be validated if the value actually is compatible with this type:
+\begin{JsCode}[numbers=none]
+"foo" as number;
+\end{JsCode}
+The code from above will therefore be substituted with the one below:
+\begin{JsCode}[numbers=none]
+t.number().assert("foo");
+\end{JsCode}
+While the assertion used in this example already raises an error when being statically checked by the TypeScript compiler, there are situations where a cast can be performed successfully, even though types do not match (see sec.~\ref{sec:undetectable-errors}).
+
+\subsubsection{Binary Expression Mutator}
+
+Binary expressions in JavaScript (and TypeScript) include, but are not limited to, assignments, comparisons and bitwise operations~\cite{expressions-and-operators:MDN:2017}. However, the mutator which is handling such nodes, is only considering assignment operations. It is worth to note that an expression with an assignment operator is a different AST node, than a variable declaration with an initializer. Anyway, the outcome of the transformation is very similar, therefore being pictured later in this section.
+
+\subsubsection{Block Like Mutator}
+
+The transformation API of the TypeScript compiler allows for substituting AST nodes, by returning any node from a tree visitor. While this functionality is heavily used in the project of this thesis, it does only allow to replace a node with exactly one node. There are cases that require mutators to add a new node alongside another one. These situations include function, class and enum declarations. As shown in the mutator for arrow functions, they are annotated with their signature reflection.
+Also function declarations have to be annotated in this way, but it is not possible to wrap them into another function call, as this would change the scope of the declaration (see sec.~\ref{sec:latest-improvements}). Because of that the annotation should be added beneath the function declaration itself.
+The same applies to enumerations, as they are initialized by a self executing function in the target code (see sec.~\ref{sec:type-check-situations}). Also there is no information available about the variable that will hold the enum object after the TypeScript compiler emits the final JavaScript code, during transformation. This means, that the annotation should take place after the initialization of the runtime representation of the enumeration.
+For classes the situation is different. Decorators can be used to annotate the class, but its type parameters need to be available before the first instantiation, to make use of them in the class signature reflection:
+\begin{JsCode}[numbers=none]
+class A<T> { }
+\end{JsCode}
+The class from above will result in the following transformation by the block-like mutator:
+\begin{JsCode}[numbers=none]
+const _ATypeParametersSymbol = Symbol("ATypeParameters");
+class A<T> { }
+\end{JsCode}
+The main focus of this example is on the first line of the snippet, therefore the class transformation itself was omitted, where a symbol for the class's type parameters is declared, to expose it to the same scope as of the class. How this symbol is further used, will be described in the ensuing section.
+
+\subsubsection{Class Declaration Mutator}
+
+The class declaration mutator is one of the most complex. It has to consider various situations, including that a class may extend another class, implement interfaces, can have method and non-method properties, may include function overloads~\cite{TypeScriptHandbook:Functions}, and can merge with interface declarations~\cite{TypeScriptHandbook:DeclarationMerging}. Also class members may have modifiers such as \emph{static}, \emph{readonly}, \emph{public}, \emph{private} and \emph{protected}.
+
+
+\subsubsection{Function Declaration Mutator}
+
+% GENERICS
+
+\subsubsection{Interface Expression Mutator}
+
+\subsubsection{Source File Mutator}
+
+\subsubsection{Type Alias Declaration Mutator}
+
+\subsubsection{Variable Declaration List Mutator}
 
 %Based on the definition of cases, where type reflections and assertions need to be performed, described in section~\ref{sec:type-check-situations}, 
 
 % Itemize all mutators
 
 \subsection{Options}
-
-\subsection{Transformer}
 
 \subsection{Event Bus}
 
@@ -290,6 +447,9 @@ It is not fully functional, but should give an idea of the program flow, also de
 %\subsection{Externals}
 %
 %\subsection{Ambient Declarations}
+
+\section{Program Procedure}
+\label{sec:program-procedure}
 
 \section{Usage}
 \label{sec:usage}
