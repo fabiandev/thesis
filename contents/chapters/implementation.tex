@@ -9,7 +9,8 @@ After elaborating situations where runtime errors may occur in the previous chap
 
 The project itself will be implemented in TypeScript, while the compiled program will be executed in a \emph{Node.js\footnote{https://nodejs.org}} environment. It will be published on the \emph{npm} (i.e., node package manager) registry\footnote{https://www.npmjs.com}, a ``[...] public collection of packages of open-source code for Node.js [...]~\cite{npmjs:about}'', which should make it easy for developers to install an executable version of \emph{ts-runtime} on their system. Also other packages should be able to integrate as fast as possible with this project. This implies that both, an API (i.e., application programming interface) and a CLI (i.e., command line interface), should be provided. Furthermore, to create an application that efficiently achieves its goal, it will be important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, that provides functionality needed for the implementation, it should be utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
 
-\subsection{TypeScript Compiler API}
+\subsection{TypeScript Compiler}
+\label{sec:typescript-compiler}
 
 The TypeScript compiler exposes an API to utilize its functionality programmatically. This makes it possible to read in an existing TypeScript project, perform static type checks on it and to emit a compiled JavaScript program, while having control over various aspects of this process. Several steps that are required to generate type checks for the JavaScript runtime, are provided by the TypeScript compiler. With version 2.3 an API was exposed to enable abstract syntax tree transformations~\cite{TypeScriptPullRequest:Transformation} and an issue preventing traversing the AST~\cite{TypeScriptIssue:Visitors} was resolved with version 2.4~\cite{TypeScriptPullRequest:Visitors}. Not only the ability to modify the syntax tree may be useful for the project of this thesis, also other features may be beneficial. As the project of this thesis will make use of the compiler API later in this chapter, some parts of it will be described below.
 
@@ -64,6 +65,7 @@ The compiler API exposes a printer, which can create text out of an AST node rec
 %\subsubsection{Compiler Components}
 
 \subsection{Runtime Type System}
+\label{sec:runtime-type-system}
 
 A multitude of libraries are available that aim to provide a runtime type system for JavaScript and several of them were evaluated to use with \emph{ts-runtime}. Libraries that did not seem to be maintained any more were not considered.
 
@@ -85,7 +87,7 @@ The \emph{runtypes\footnote{https://github.com/pelotom/runtypes}} library is a f
 
 \subsubsection{flow-runtime}
 
-The \emph{flow-runtime\footnote{https://github.com/codemix/flow-runtime}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features (see sec.~\ref{sec:comparison}) this library seems to be most suitable for the thesis project and to reflect the static type system of TypeScript as close as possible. Additionally \emph{flow-runtime} has a separate package, that generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, which proves that a great number of cases for Flow syntax were implemented in this package.
+The \emph{flow-runtime\footnote{https://github.com/codemix/flow-runtime}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features (see sec.~\ref{sec:comparison}) this library seems to be most suitable for the thesis project and to reflect the static type system of TypeScript as close as possible. Additionally \emph{flow-runtime} has a separate package, that generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, which proves that a great number of cases for Flow syntax are implemented in this package.
 
 %\section{Tools and Libraries}
 %\label{sec:tools-libraries}
@@ -98,10 +100,80 @@ The \emph{flow-runtime\footnote{https://github.com/codemix/flow-runtime}} projec
 \label{sec:architecture}
 
 In this section, the architecture for the application will be designed, that should already outline how the program will operate and define some of the components that will be needed:
+
+\subsection{Central Element}
+
+The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
+
+\subsection{Components}
+
+Specific tasks will be dedicated to separate components, which contain the logic for a selected purpose, to keep the project extensible and maintainable.
+
+\subsubsection{Options}
+
+It will be beneficial to control the behavior of \emph{ts-runtime}, when initiating a transformation process. While the program should provide sensible defaults, it should be possible to optionally overwrite these default settings, by passing the desired options to the application.
+
+\subsubsection{Event Bus}
+
+Some of the components of the application will have access to other components and their API, whereas other parts of the program won't know the state of the transformation process. It might be necessary to observe, or to get notified, if a condition changes, where an event bus will be of advantage. Consequently, the event bus (i.e., bus) should be accessible globally. 
+
+\subsubsection{Scanner}
+
+Not to confuse with the scanner of the TypeScript compiler (see sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+
+\subsubsection{Mutators}
+
+For every situation where runtime type checks should be generated (see sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
+
+\subsubsection{Factory}
+
+To avoid code duplication, the factory should provide a collection of common transformations performed on syntax tree nodes. It will be utilized by the mutators, to keep their footprint as small as possible and to reduce code complexity.
+
+\subsubsection{Context}
+
+As not all components of the application are connected to each other, the context should provide a centralized gateway to information, that might be required in the mutators or the factory. It should, among other things, have knowledge of the current source file being processed, the options of the application and the TypeScript compiler program.
+
+\subsubsection{Utilities}
+
+Miscellaneous functionality, that does not require any link to the state of the program, should be collected in the utilities of \emph{ts-runtime}. It should be available from any location of the project.
+
 %\begin{itemize}
-%  \item \textbf{Core} The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
-%  \item \textbf{Scanner} After ensuring, that all input is valid and an abstraction of the source files from a TypeScript project to transform could be created without errors, the abstraction can be scanned. In this part of the program, ambient and external declarations will be identified, that won't be included in the compiled program, bis need to be reflected, in order to guarantee that type checks can take place during runtime. Also all identifiers from the source files should be remembered, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
-%  \item \textbf{Mutator} The required information to proceed with the actual modifications on the source file abstractions should now be available.
+%  \item \textbf{Options:} It will be beneficial to control the behavior of \emph{ts-runtime}, when initiating a transformation process. While the program should provide sensible defaults, it should be possible to optionally overwrite these default settings, by passing the desired options to the application.
+%  \item \textbf{Event Bus:} Some of the components of the application will have access to other components and their API, whereas other parts of the program won't know the state of the transformation process. It might be necessary to observe, or to get notified, if a condition changes, where an event bus will be of advantage. Consequently, the event bus (i.e., bus) should be accessible globally. 
+%  \item \textbf{Scanner:} Not to confuse with the scanner of the TypeScript compiler (see sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+%  \item \textbf{Mutators:} For every situation where runtime type checks should be generated (see sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
+%  \item \textbf{Factory:} To avoid code duplication, the factory should provide a collection of common transformations performed on syntax tree nodes. It will be utilized by the mutators, to keep their footprint as small as possible and to reduce their code complexity.
+%  \item \textbf{Context:} As not all components of the application are connected to each other, the context should provide a centralized gateway to information, that might be required in the mutators or the factory. It should, among other things, have knowledge of the current source file being processed, the options of the application and the TypeScript compiler program.
+%  \item \textbf{Utilities:} Miscellaneous functionality, that does not require any link to the state of the program, should be collected in the utilities of \emph{ts-runtime}. It should be available from any location of the project.
+%\end{itemize}
+
+\subsection{Outline}
+
+After the main parts of the program have been defined, it is possible to draw connection between them (see fig.~\ref{fig:architecture}).
+\begin{figure}
+\centering
+\includestandalone{assets/diagrams/architecture}
+\caption{Component architecture of the thesis project.}
+\label{fig:architecture}
+\end{figure}
+As already stated, the central element (i.e., core) of the application controls the program flow, therefore having knowledge and access to all components of \emph{ts-runtime}. It evaluates the options, creates a TypeScript compiler program (see sec.~\ref{sec:typescript-compiler}) and triggers the scanning and transforming of the syntax tree, before emitting a compiled JavaScript project with inserted runtime type checks. 
+
+%\subsection{Event Bus}
+%
+%Some of the components of the application will have access to other components and their API, whereas other parts of the program won't know the state of the transformation process. It might be necessary to observe, or get notified, if a condition changes, where an event bus could be of advantage.
+%
+%\subsection{Scanning}
+%
+%After ensuring, that all input is valid and an abstraction of the source files from a TypeScript project to transform could be created without errors, the abstraction can be scanned. In this part of the program, ambient and external declarations will be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also all identifier names accross source files should be remembered, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+%
+%\subsection{Modifications}
+%
+%The required information to proceed with the actual modifications on the source file abstractions should now be available.
+
+%\begin{itemize}
+%  \item \textbf{Core:} The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
+%  \item \textbf{Scanner:} After ensuring, that all input is valid and an abstraction of the source files from a TypeScript project to transform could be created without errors, the abstraction can be scanned. In this part of the program, ambient and external declarations will be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also all identifier names accross source files should be remembered, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+%  \item \textbf{Mutator:} The required information to proceed with the actual modifications on the source file abstractions should now be available.
 %\end{itemize}
 
 %\section{Tools and Libraries}
@@ -118,8 +190,67 @@ In this section, the architecture for the application will be designed, that sho
 %\section{Architecture}
 %\label{sec:architecture}
 
+\section{Application Structure}
+\label{sec:structure}
+
+The following directory structure will be used for \emph{ts-runtime}, which at the same time shows the most important files and folders of the project:
+\dirtree{%
+.1 /src.
+.2 bin\DTcomment{Command Line Interface}.
+.2 lib\DTcomment{Runtime Type Checking Library}.
+.2 mutators\DTcomment{AST Node Transformers}.
+.2 bus.ts\DTcomment{Event Bus}.
+.2 context.ts\DTcomment{Mutation Context}.
+.2 index.ts\DTcomment{API Exposure}.
+.2 factory.ts\DTcomment{Common AST Node Transformations}.
+.2 options.ts\DTcomment{Default Options}.
+.2 scanner.ts\DTcomment{AST Scanner}.
+.2 transform.ts\DTcomment{Application Core}.
+.2 util.ts\DTcomment{Miscellaneous Utilities}.
+}
+
 \section{Components}
 \label{sec:components}
+
+
+In this section the implementation of the core of the project, as well as the application's components, will be described. The main focus will be on challenges that had to be overcome, and on the interconnections of the different parts of the program.
+
+\subsection{Transformer}
+
+The \emph{Transformer}, located in \texttt{src/transformer.ts}, is the core of the thesis project and exposes three methods, that may be utilized via the project's API:
+\begin{itemize}
+  \item \texttt{\textbf{getOptions:}} This function accepts an object as parameter, that aligns with the \emph{Options} interface, described later in this section. It then merges the passed object with the default settings, and returns the result. This ensures, that all required options are contained in the resulting object.
+  \item \texttt{\textbf{transform:}} By calling this method, a transformation process is initiated. It is required to pass at least a list of entry file names. Optionally, an \emph{Options} object may be passed as well. Nothing is returned, but the compiled JavaScript files are written to disk, according to the TypeScript compiler options, if no errors occurred.
+  \item \texttt{\textbf{transformReflection:}} The \texttt{transform} function loads the list of files from disk, which requires a file system to be present. On the contrary, this method accepts a list of file reflections, that must include the passed entry files, as well as all modules referenced, recursively. This enables the application, to act without a real file system. Also the target code is not persisted, but a list of file reflections, containing the compilation result, is returned.
+\end{itemize}
+Program~\ref{prog:transform} shows a, reduced to its essentials, version of the \texttt{transform} function.
+\begin{program}
+\caption{The \texttt{transform} function of the project's core, reduced to its essentials. The \texttt{ts} namespace from line~\ref{prog:transform:ts1} and~\ref{prog:transform:ts2} point to the TypeScript API.}
+\label{prog:transform}
+\begin{JsCode}
+transform(entryFiles: string[], options?: Options} {
+  const opts = getOptions(options);
+  const program = ts.createProgram(entryFiles, opts.compilerOptions); /+\label{prog:transform:ts1}+/
+  const scanner = new Scanner(program, opts);
+  const files = program.getSourceFiles();
+  const result = ts.transform(files, [transformer], opts.compilerOptions); /+\label{prog:transform:ts2}+/ /+\label{prog:transform:transformer}+/
+  emit(result);
+}
+\end{JsCode}
+\end{program}
+%TODO: Add ref
+It is not fully functional, but should give an idea of the program flow, also depicted in figure~REF!!!. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST from all source files of the TypeScript program, which are passed to the mutators of \emph{ts-runtime}.
+
+\subsection{Mutators}
+% describe base mutator
+
+
+
+%Based on the definition of cases, where type reflections and assertions need to be performed, described in section~\ref{sec:type-check-situations}, 
+
+% Itemize all mutators
+
+\subsection{Options}
 
 \subsection{Transformer}
 
@@ -129,40 +260,36 @@ In this section, the architecture for the application will be designed, that sho
 
 \subsection{Factory}
 
-\subsection{Mutators}
-
-% Itemize all mutators
-
 \subsection{Utilities}
 
-\section{Transformation Results}
-\label{sec:transformation-results}
-
-\subsection{SourceFile}
-
-\subsection{Variables}
-
-\subsection{Type Assertions}
-
-\subsection{Functions}
-
-\subsection{Type Queries}
-
-\subsection{Enumerations}
-
-\subsection{Type Aliases}
-
-\subsection{Interfaces}
-
-\subsection{Classes}
-
-\subsection{Method Overloads}
-
-\subsection{Generics}
-
-\subsection{Externals}
-
-\subsection{Ambient Declarations}
+%\section{Transformation Results}
+%\label{sec:transformation-results}
+%
+%\subsection{SourceFile}
+%
+%\subsection{Variables}
+%
+%\subsection{Type Assertions}
+%
+%\subsection{Functions}
+%
+%\subsection{Type Queries}
+%
+%\subsection{Enumerations}
+%
+%\subsection{Type Aliases}
+%
+%\subsection{Interfaces}
+%
+%\subsection{Classes}
+%
+%\subsection{Method Overloads}
+%
+%\subsection{Generics}
+%
+%\subsection{Externals}
+%
+%\subsection{Ambient Declarations}
 
 \section{Usage}
 \label{sec:usage}
