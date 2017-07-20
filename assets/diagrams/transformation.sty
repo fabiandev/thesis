@@ -1,0 +1,68 @@
+%!tikz editor 1.0
+\documentclass{article}
+\usepackage{tikz}
+\usepackage[graphics, active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+%!tikz preamble begin
+\usetikzlibrary{arrows,er,shapes,chains}
+
+%!tikz preamble end
+
+
+\begin{document}
+%!tikz source begin
+\begin{tikzpicture}[
+  ->,
+  >=stealth',
+  shorten >= 1pt,
+  auto,
+  node distance=2.3em and 3em,
+  font=\footnotesize,
+  text centered,
+  every entity/.style={
+    minimum width=7.2em,
+	minimum height=4.3em,
+    outer sep=0,
+    inner sep=.1em
+  }
+  ]
+  
+	\tikzset{}  
+  
+	\tikzstyle{decision} = [diamond, draw, text width=4.5em, minimum height=6.5em, minimum width=6.5em, node distance=2.3em and 3em, text badly centered, inner sep=.1em, outer sep=0]
+	\tikzstyle{block} = [rectangle, draw, text width=5em, text centered, rounded corners, minimum height=4em]
+	\tikzstyle{std} = [rectangle, draw, text width=5em, text centered, minimum height=4em]
+	\tikzstyle{line} = [draw, -latex']
+	\tikzstyle{cloud} = [draw, ellipse, minimum height=2em]
+	\tikzstyle{round} = [draw, circle, minimum height=3em]
+  
+
+	\node [round] (start) {start};
+	
+	\node [block,below=of start] (options) {optain options};
+	
+	\node [block,below=of options] (commondir) {compute common directory};
+	
+	\node [decision,below=of commondir] (reflections) {transform reflections?};
+	\node [block,left=of reflections] (host) {create custom compiler host};
+	\node [block,right=of reflections] (host) {create TypeScript compiler host};
+	
+	\node [block,below=of reflections] (program) {create TypeScript program};
+	
+	\node [decision,below=of program] (diagnostics) {compiler errors?};
+	\node [decision,right=of diagnostics] (force) {force?};
+	\node [decision,below=of force] (semantic) {semantic errors?};
+	
+	\node [block,below=of diagnostics] (scan) {scan syntax tree};
+	
+	\node [block,below=of scan] (transform) {apply transformations};
+	\node [std,left=of transform] (mutators) {Mutators};
+	
+	\node [block,below=of transform] (emit) {emit target code};
+	
+  
+\end{tikzpicture}
+%!tikz source end
+
+\end{document}
