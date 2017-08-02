@@ -148,7 +148,7 @@ class, which holds its property names, to identify an object as
 having a specific type~\cites[pp.~102-105]{MasteringTypeScript:Rozentals:2015}[pp.~17--19]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. This solution is similar to the previous one, but it introduces a pattern which is more readable and maintainable.
 \end{itemize}
 Another mechanism is to use \textit{decorators\footnote{https://tc39.github.io/proposal-decorators}},
-a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like \emph{Babel\footnote{https://babeljs.io}}~\cite{TypeScriptHandbook:Decorators, DecoratorsBabel}.
+a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like \emph{Babel\footnote{https://babeljs.io}}~\cite{TypeScriptHandbook:Decorators, Babel:Plugins:Decorators}.
 The solution used in~\cite{DecoratorTypeChecks}, that makes use of decorators, again requires
 to add them to the source code manually. Furthermore only primitive types and instances can be checked automatically. Structural type checks---e.g.\ for custom objects or interfaces---have
 to be provided by the developer.
