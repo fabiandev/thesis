@@ -145,6 +145,22 @@ keepspaces=true,%
 	#1}}%
 {}
 
+% Code Environment for TypeScript
+\lstnewenvironment{TsCode}[1][]
+{\lstset{%
+	language=JavaScript,
+	escapeinside={/+}{+/}, % makes "/+" and "+/" available for Latex escapes (labels etc.)
+	#1}}%
+{}
+
+% Code Environment for Flow
+\lstnewenvironment{FlowCode}[1][]
+{\lstset{%
+	language=JavaScript,
+	escapeinside={/+}{+/}, % makes "/+" and "+/" available for Latex escapes (labels etc.)
+	#1}}%
+{}
+
 
 % Code Environment for LaTeX
 \lstnewenvironment{LaTeXCode}[1][]	% code environment for Latex
