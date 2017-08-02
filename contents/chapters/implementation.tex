@@ -221,7 +221,7 @@ In this section the implementation of the core of the project, as well as the ap
 
 \subsection{Transformer}
 
-The \emph{Transformer}, located in \texttt{src/transformer.ts}, is the core of the thesis project and exposes three methods, that may be utilized via the project's API:
+The transformer, located in \texttt{src/transformer.ts}, is the core of the thesis project and exposes three methods, that may be utilized via the project's API:
 \begin{itemize}
   \item \texttt{\textbf{getOptions:}} This function accepts an object as parameter, that aligns with the \emph{Options} interface, described later in this section. It then merges the passed object with the default settings, and returns the result. This ensures, that all required options are contained in the resulting object.
   \item \texttt{\textbf{transform:}} By calling this method, a transformation process is initiated. It is required to pass at least a list of entry file names. Optionally, an \emph{Options} object may be passed as well. The compiled JavaScript files are written to disk, according to the TypeScript compiler options, if no errors occurred.
@@ -740,8 +740,105 @@ A diagram, depicting the most significant parts of this process, can also be fou
 \section{Usage}
 \label{sec:usage}
 
-\subsection{Programming Interface}
+After the project of this thesis has been implemented, it needs to be consumable by other applications or developers. In order to use the application, Node.js version six or greater needs to be installed on the system. Further \emph{npm}, which comes with Node.js, or \emph{yarn\footnote{https://yarnpkg.com}} is required to install \emph{ts-runtime} from the npm registry. The following command can be used with yarn, to add the package as a dependency to a project via the command line:
+\begin{GenericCode}[numbers=none]
+yarn add ts-runtime
+\end{GenericCode}
+With npm, the corresponding command is as follows:
+\begin{GenericCode}[numbers=none]
+npm install ts-runtime --save
+\end{GenericCode}
+After the package is available on a system, different approaches are provided to interact with \emph{ts-runtime}, which are described in this chapter.
+
+\subsection{Application Programming Interface}
 \label{sec:usage-api}
+
+The library exposes various sections of its internals via an application programming interface (i.e., API). To provide high flexibility when making use of this project, technically almost all parts are accessible from outside. However, for a typical setup, only the options component, the transformer, as well as the bus may be used, which are exported from the main file of the published package. In JavaScript the library can be loaded as shown below:
+\begin{JsCode}[numbers=none]
+import * as tsr from 'ts-runtime';
+\end{JsCode}
+In this case, every exported member of the main file of \emph{ts-runtime} is imported and being made available through the variable \texttt{tsr}. To load only specific parts of the application, the following syntax can be used:
+\begin{JsCode}[numbers=none]
+import { transform } from 'ts-runtime';
+\end{JsCode}
+While the examples from above make use of a code style from the EcmaScript 2015 language specification~\cite[p.~302]{ES6Spec:Ecma:2015}, not all features from this specification are available in Node.js at this time~\cite{Node:Docs:ES6}, and the syntax shown below needs to be used~\cite{Node:API:Modules}:
+\begin{JsCode}[numbers=none]
+const tsr = require('ts-runtime');
+\end{JsCode}
+However, when utilizing a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax from the former two examples may be used. After successfully loading the project of this thesis, its functionality can be used programmatically, which is outlined in program~\ref{prog:usage-api}.
+\begin{program}
+\caption{This code makes uses the API of the thesis project and utilizes the bus component to append TypeScript compiler diagnostics to a file.}
+\label{prog:usage-api}
+\begin{JsCode}
+import * as fs from 'fs';
+import * as ts from 'typescript';
+import { transform, bus } from 'ts-runtime';
+
+const stream = fs.createWriteStream('diags.log', { flags: 'a' });
+
+bus.on(bus.events.DIAGNOSTICS, diagnostics => {
+  logStream.write(
+    ts.formatDiagnostics(diagnostics, {
+      getCurrentDirectory: () => '',
+      getNewLine: () => '\n',
+      getCanonicalFileName: fileName => fileName
+    })
+  );
+});
+
+bus.on(bus.events.STOP, () => {
+  stream.end();
+});
+
+transform('./entry');
+\end{JsCode}
+\end{program}
 
 \subsection{Command Line Interface}
 \label{sec:usage-cli}
+
+The project of this thesis does also include a command line interface (i.e., CLI), which requires the package to be installed globally via the command line:
+\begin{JsCode}[numbers=none]
+yarn global add ts-runtime
+\end{JsCode}
+Again, also npm may be used to install \emph{ts-runtime}:
+\begin{JsCode}[numbers=none]
+npm install -g ts-runtime
+\end{JsCode}
+The CLI of the application is now exposed to the environment variables and it may be executed from any location of the operating system. To display a help message, including its options and usage examples, the following command can be run:
+\begin{JsCode}[numbers=none]
+tsr --help
+\end{JsCode}
+The only argument that is required to be passed to the command line interface, is at least one TypeScript entry file name, while the extension may be omitted. Figure~\ref{fig:cli} shows an example of the CLI, where the TypeScript compiler options should be loaded from a file, and the transformation process should not be aborted if semantic errors are raised by the compiler.
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{cli_mixed}
+\caption{Output of the command line interface, with compiler errors and warnings. The TypeScript file \texttt{entry.ts} within the directory \texttt{src} was compiled, while the TypeScript compiler options where loaded from \texttt{tsconfig.json}, and the transformation process was not aborted on the occurrence of semantic errors, as the \texttt{force} flag was set.}
+\label{fig:cli}
+\end{figure}
+
+\subsection{Playground}
+\label{sec:usage-playground}
+
+To easily test \emph{ts-runtime} for small code snippets, a playground was created, to try the project in a browser. It takes advantage of the reflection transformation feature, which does not require an underlying file system. While it is not included in the published package on the npm registry, it can be obtained from the repository on GitHub\footnote{https://github.com/fabiandev/ts-runtime}, where the source code of the project is available. The playground is also served directly from this repository\footnote{https://fabiandev.github.io/ts-runtime/}, as shown in figure~\ref{fig:playground}.
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{playground-shadow}
+\caption{The playground for the project, to test transformations and its behavior at runtime.}
+\label{fig:playground}
+\end{figure}
+The transformed and compiled JavaScript code can also be executed in the browser, to not only show the result of the target code, but to also inspect its behavior at runtime.
+% (see fig.~\ref{fig:playground-run}).
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.85\textwidth]{playground_run}
+%\caption{Playground Run Code.}
+%\label{fig:playground-run}
+%\end{figure}
+
+
+
+
+
+
+
