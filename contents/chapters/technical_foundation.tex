@@ -82,11 +82,15 @@ To ensure that a program follows the specified rules of its type system and to g
 %\label{sec:explicit-implicit-typing}
 
 %Explicitly typed languages require a programmer to define types manually in a program as shown below.
-%\begin{JavaCode}[numbers=none]%int i = 10;
-%boolean b = true;%\end{JavaCode}
+%\begin{JavaCode}[numbers=none]
+%int i = 10;
+%boolean b = true;
+%\end{JavaCode}
 %Languages that are typed implicitly may look like the following:
-%\begin{JsCode}[numbers=none]%let i = 10;
-%let b = true;%\end{JsCode}
+%\begin{JsCode}[numbers=none]
+%let i = 10;
+%let b = true;
+%\end{JsCode}
 
 %\subsection{Static and Dynamic Typing}
 %\label{sec:static-dynamic-typing}
@@ -137,28 +141,52 @@ typeof num; // "number"
 \end{JsCode}
 The returned string by \texttt{typeof} does not reflect the specified value types entirely. As shown in table~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature \texttt{"function"} will be returned and \texttt{"object"} otherwise. Strangely, for a value of type \emph{Null}, the result will be \texttt{"object"}. A proposal to change the specification and to fix this bug---erroneously indicating that null is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
 
-\begin{table}\caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
-\label{tab:typeof}\centering  \setlength{\tabcolsep}{5mm} % separator between columns
+\begin{table}
+\caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
+\label{tab:typeof}
+\centering
+  \setlength{\tabcolsep}{5mm} % separator between columns
   \def\arraystretch{1.25} % vertical stretch factor
-  \begin{tabular}{|c|c|}    \hline    \emph{Type of Value} & \emph{Result} \\    \hline \hline    Undefined & \texttt{"undefined"} \\    \hline
-    Null & \texttt{"object"} \\    \hline
-    Number & \texttt{"number"} \\    \hline
-    String & \texttt{"string"} \\    \hline
-    Symbol & \texttt{"symbol"} \\    \hline
-    Object (not callable) & \texttt{"object"} \\    \hline
-    Object (callable) & \texttt{"function"} \\    \hline  \end{tabular}\end{table}
+  \begin{tabular}{|c|c|}
+    \hline
+    \emph{Type of Value} & \emph{Result} \\
+    \hline \hline
+    Undefined & \texttt{"undefined"} \\
+    \hline
+    Null & \texttt{"object"} \\
+    \hline
+    Number & \texttt{"number"} \\
+    \hline
+    String & \texttt{"string"} \\
+    \hline
+    Symbol & \texttt{"symbol"} \\
+    \hline
+    Object (not callable) & \texttt{"object"} \\
+    \hline
+    Object (callable) & \texttt{"function"} \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \subsection{Type Conversion}
 \label{sec:type-conversion}
 
 In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value, it simply performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see section~\ref{sec:value-conversion}). Because of that it is important to know, which values are considered true, and which conversion will result in being false, depending on their type, as shown in table~\ref{tab:truthy-falsy}.
-\begin{table}\caption{Values evaluated as false or true when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}\centering
+\begin{table}
+\caption{Values evaluated as false or true when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}
+\centering
   \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
   \setlength{\tabcolsep}{1ex}
   \def\arraystretch{1.20}
   \setlength{\tabcolsep}{1ex}
-  \begin{tabular}{|c||l|}    \hline    \emph{Falsy} & \texttt{undefined}, \texttt{null}, \texttt{0}, \texttt{-0}, \texttt{NaN} and \texttt{""}~(empty string). \\    \hline
-    \emph{Truthy} & {\rr Any other value, including \texttt{[]}~(empty array) and \texttt{\{\}}~(empty object). } \\    \hline  \end{tabular}\end{table}
+  \begin{tabular}{|c||l|}
+    \hline
+    \emph{Falsy} & \texttt{undefined}, \texttt{null}, \texttt{0}, \texttt{-0}, \texttt{NaN} and \texttt{""}~(empty string). \\
+    \hline
+    \emph{Truthy} & {\rr Any other value, including \texttt{[]}~(empty array) and \texttt{\{\}}~(empty object). } \\
+    \hline
+  \end{tabular}
+\end{table}
 There are various situation where a conversion is desired, which happens implicitly in JavaScript. For example if a string should be added to a number, and vice versa, the number is converted to a string and the result is a concatenation of both values:
 \begin{JsCode}[numbers=none]
 "2" + 3 // "23"
@@ -176,26 +204,35 @@ A more comprehensive overview of possible type conversions, summarized by \citea
 
 % Although conversion between types is performed by JavaScript, it is possible to explicitly perform a cast. (Explicit conversion)
 
-\begin{table}\caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}.}\label{tab:conversions}\centering
-  \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}  \setlength{\tabcolsep}{1ex}
+\begin{table}
+\caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}.}\label{tab:conversions}
+\centering
+  \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
+  \setlength{\tabcolsep}{1ex}
   \def\arraystretch{1.20}
   \setlength{\tabcolsep}{1ex}
   \small
   \begin{threeparttable}
-  \begin{tabular}{|l||c|c|c|c|c|} % p{0.25\textwidth}    \hline      \multicolumn{1}{|c}{\emph{Initial Value}} &
+  \begin{tabular}{|l||c|c|c|c|c|} % p{0.25\textwidth}
+    \hline
+      \multicolumn{1}{|c}{\emph{Initial Value}} &
       \multicolumn{1}{|c}{\emph{String}} &
       \multicolumn{1}{|c}{\emph{Number}} &
       \multicolumn{1}{|c|}{\emph{Boolean}} &
-      \multicolumn{1}{|c|}{\emph{Object}} \\    \hline\hline      \texttt{undefined} &
+      \multicolumn{1}{|c|}{\emph{Object}} \\
+    \hline\hline
+      \texttt{undefined} &
       \texttt{"undefined"} &
       \texttt{NaN} &
       \texttt{false} &
-      \emph{TypeError} \\    \hline
+      \emph{TypeError} \\
+    \hline
       \texttt{null} &
       \texttt{"null"} &
       \texttt{0} &
       \texttt{false} &
-      \emph{TypeError} \\    \hline\hline
+      \emph{TypeError} \\
+    \hline\hline
       \texttt{true} &
       \texttt{"true"} &
       \texttt{1} & &
@@ -205,7 +242,8 @@ A more comprehensive overview of possible type conversions, summarized by \citea
       \texttt{"false"} &
       \texttt{0} &
       &
-      \footnotesize(\romannum{1}) \\    \hline\hline
+      \footnotesize(\romannum{1}) \\
+    \hline\hline
       \texttt{""} (empty string) &
       &
       \texttt{0} &
@@ -295,7 +333,8 @@ A more comprehensive overview of possible type conversions, summarized by \citea
       \emph{TypeError} &
       \texttt{true} &
       \footnotesize(\romannum{1}) \\
-    \hline  \end{tabular}
+    \hline
+  \end{tabular}
   \begin{tablenotes}
     \footnotesize
     \item (\romannum{1}) For situations, where converting a value to an object does not throw a TypeError, a new object of the value's type is returned. E.g.\ for the value \texttt{"Hello world!"}, \texttt{new String("Hello world!")} is returned~\cite[p.~44]{ES6Spec:Ecma:2015}.
@@ -303,7 +342,8 @@ A more comprehensive overview of possible type conversions, summarized by \citea
     \item \footnotesize(\romannum{3}) The same steps as in \footnotesize(\romannum{2}) are performed with the difference, that \texttt{valueOf} will be preferred over \texttt{toString}.
     \item \footnotesize(\romannum{4}) The toString method of the Array object joins the array separated by a comma, which would result in \texttt{["a","b","c"]} being converted to \texttt{"a,b,c"}~\cite{ArrayPrototypeToString:MDN:2017}.
   \end{tablenotes}
-\end{threeparttable}\end{table}
+\end{threeparttable}
+\end{table}
 
 %When taking a look at table~\ref{tab:truthy-falsy}, the following examples are considered equal and evaluate to true:
 %\begin{JsCode}
@@ -352,8 +392,8 @@ Following the rules from above it is interesting to look at comparing an object 
 \end{JsCode}
 Using the equality operator, the object is converted using the default toString method, returning \texttt{"[object Object]"}, resulting in the compared values being equal. When making use of the \emph{strict} equality operator, no conversion is performed and the expression is false.
 
-% {} == "[object Object]" // true
-% {} === "[object Object]" // false
+% {} == "[object Object]" // true
+% {} === "[object Object]" // false
 
 % NaN never true
 
