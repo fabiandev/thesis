@@ -2,11 +2,17 @@
 \chapter{Evaluation}
 \label{cha:evaluation}
 
+In this chapter, the implemented project of this thesis will be tested and evaluated. Different methods will be used to measure and verify the quality and functionality of \emph{ts-runtime}.
+
 \section{Automated Unit Tests}
 \label{sec:automated-unit-tests}
 
+To ensure the correctness of the source code transformations applied to a TypeScript project, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android}'' to ''[...] verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests should raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when utilized at runtime. If such a change is intended, the corresponding tests have to be updated as well.
+
 \section{Performance Analyzation}
 \label{sec:performance-analyzation}
+
+
 
 \section{Comparison}
 \label{sec:evalutaion-comparison}
