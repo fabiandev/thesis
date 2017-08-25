@@ -232,28 +232,97 @@ function log(message, logger) {
     logger.log(message);
 }
 \end{JsCode}
-If the parameter \texttt{logger} equals \texttt{void 0}, which is identical to \texttt{undefined}\footnote{TODO: explain void 0}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
+If the parameter \texttt{logger} equals \texttt{void 0}, which is identical to \texttt{undefined}\footnote{The void operator can be used to retrieve the value \texttt{undefined} by calling \texttt{void(0)}, which is equivalent to \texttt{void 0}~\cite{void:MDN:2017}.}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
 
 % enums, namespaces, decorators, (abstract) class (visibility/inheritance/implements), default value for parameter, readonly
 
 \subsection{Future JavaScript}
 \label{sec:ts-future-javascript}
 
- 
- % future javascript => now
-
-
+While the TypeScript compiler can target different JavaScript versions, such as ES3, ES5 and ES2015, it also supports future ECMAScript proposals, like decorators and asynchronous functions~\cites{TypeScriptHandbook:CompilerOptions, TypeScriptWebsite}. This allows for the usage of features, that are not yet implemented by browsers, which is achieved by changing parts of the source or including additional code that mimics the behavior of a certain feature and delivers the same result. The code below uses a pattern, referred to as \emph{destructuring assignment}~\cite{DestructuringAssignment:Mozilla:2015}, to assign the values \texttt{1} and \texttt{2} to the variables \texttt{foo} and \texttt{bar} respectively:
+\begin{JsCode}[numbers=none]
+let [ foo, bar ] = [1, 2];  
+\end{JsCode}
+While this line would remain unchanged when targeting the ES2015 standard or higher, where the \emph{array binding pattern} is already specified~\cite[p.~198]{ES6Spec:Ecma:2015}, the outcome is different for ES5 and below:
+\begin{JsCode}[numbers=none]
+var _a = [1, 2], foo = _a[0], bar = _a[1];
+\end{JsCode}
+As the pattern is not specified in the fifth edition of ECMAScript~\cite{ES5Spec:Ecma:2015}, the compiler exchanges the line with an alternative implementation, as shown in the snippet above.
  
 \section{Flow}
 \label{sec:flow}
 
-\emph{Flow\footnote{https://flow.org}} is another open source static type checker for JavaScript, developed by \emph{Facebook\footnote{https://code.facebook.com/projects/}}.
+\emph{Flow\footnote{https://flow.org}} is another open source static type checker for JavaScript, developed by \emph{Facebook\footnote{https://code.facebook.com}}~\cite{FacebookCode:Flow}. The most noticeable difference to TypeScript is the lack of an extensive compiler provided by the project itself. Instead, Flow relies on \emph{Babel\footnote{https://babeljs.io}}, which is a compiler for JavaScript~\cite{BabelWebsite}, with
+\begin{quote}
+  [...] support for Flow [that] will take [...] Flow code and strip out any type annotations.~\cite{FlowDocs:Install}
+\end{quote}
+Alternatively the library \emph{flow-remove-types\footnote{https://github.com/flowtype/flow-remove-types}} can be used~\cite{FlowDocs:Install}. Another difference between the two JavaScript supersets are their design goals. While TypeScript goal is not to ``[a]pply a sound or "provably correct" type system [but to] strike a balance between correctness and productivity.~\cite{TypeScriptWiki:DesignGoals}'', Flow's type system ``tries to be as sound and complete as possible~\cite{FlowDocs:TypesAndExpressions}''. The syntax of Flow itself is mostly identical to the one of TypeScript~\cite{FlowDocs:TypesAnnotations}. Brzóska sums up the differences between the two languages, as shown in table~\ref{tab:typescript-flow}.
+%\begin{table}
+%\caption{Differences between TypeScript and Flow.~\cite{TypeScriptVsFlow}}
+%\label{tab:typescript-flow}
+%\centering
+%\def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
+%\setlength{\tabcolsep}{1ex}
+%\def\arraystretch{1.20}
+%\setlength{\tabcolsep}{1ex}
+%\small
+%\begin{tabular}{|c|p{0.35\textwidth}|p{0.35\textwidth}|}
+%\hline
+%   \multicolumn{1}{|c}{} &
+%   \multicolumn{1}{|c}{\emph{TypeScript}} &
+%   \multicolumn{1}{|c|}{\emph{Flow}} \\
+%\hline\hline
+%    Design Goal &
+%   {\rr balance between correctness and productivity} &
+%   {\rr enforce type soundness and safety} \\
+%\hline
+%\end{tabular}
+%\end{table}
+\begin{table}\caption{Differences between TypeScript and Flow.~\cite{TypeScriptVsFlow}}
+\label{tab:typescript-flow}\centering\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabular}{|r||c|c|c|}    \hline    & \emph{TypeScript} & \emph{Flow} \\    \hline    \hline    Design Goal &
+    \makecell{correctness and productivity} &
+    \makecell{soundness and safety} \\
+    \hline    IDE Integrations &
+    top-notch &
+    sketchy \\
+    \hline
+    Autocomplete &
+    yes &
+    unreliable \\    \hline
+    Speed &
+    stable &
+    degrades \\    \hline
+    Generic Definitions &
+    yes &
+    yes \\    \hline
+    Generic Calls &
+    yes &
+    no \\    \hline
+    Library Typings &
+    many &
+    few \\    \hline  \end{tabular}\end{table}
 
 \section{Other Supersets}
 \label{sec:other-supersets}
 
-\section{Comparison}
-\label{sec:comparison}
+% TODO: check if the itemize is OK with citing
+Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, some of them being supersets, with different purposes. The \emph{CoffeeScript\footnote{https://github.com/jashkenas/coffeescript}} project collected an extensive list, containing the following maintained languages they refer to as supersets~\cite{LanguagesToJavaScript}:
+\begin{itemize}
+  \item \textbf{JavaScript\texttt{++}:} Supports classes, type checking, and other features.
+  \item \textbf{Objective-J:} Same relationship to JavaScript as \emph{Objective-C} to \emph{C}.
+  %\item \textbf{Six:} Supports features from the 6th edition of ECMAScript through a transpiler
+  %\item \textbf{Latte JS:} Similar to CoffeeScript with JavaScript syntax
+  \item \textbf{JSX:} Adds XML-like syntax to represent HTML elements.
+  \item \textbf{oj:} Objective-C inspired superset with an experimental type checker.
+\end{itemize}
+The collection also contains languages like \emph{Scala.js\footnote{http://www.scala-js.org}}, which compiles \emph{Scala\footnote{http://scala-lang.org}} code to JavaScript, or \emph{Opal\footnote{http://opalrb.org}}, a \emph{Ruby\footnote{https://www.ruby-lang.org}} to JavaScript compiler~\cite{LanguagesToJavaScript}.
 
+% TODO: move some contents from "runtime-type-checks" and "runtime-type-system"?
 \section{Existing Runtime Projects}
 \label{sec:existing-projects}
+
+As there are no libraries available to automatically generate runtime type checks from TypeScript code at this time, validations have to be included manually and various techniques are described in section~\ref{sec:runtime-type-checks}. However, there exists some packages that aim to provide a runtime type system, which are explored in section~\ref{sec:runtime-type-system}.
+

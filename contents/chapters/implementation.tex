@@ -245,7 +245,7 @@ function transform(entryFiles: string[], options?: Options} {
 %TODO: Add ref
 It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
 \begin{program}
-\caption{}
+\caption{An exemplary version of the transformer, that visits all nodes of a TypeScript program and triggers the transformations.}
 \label{prog:transformer}
 \begin{JsCode}
 function transformer() {
@@ -736,6 +736,12 @@ A variety of elements work together to achieve the desired result of the project
   \item The transformation process is now finished and a file reflection list, containing the target files, is returned.
 \end{enumerate}
 A diagram, depicting the most significant parts of this process, can also be found in figure~\ref{fig:transformation-process}.
+\begin{figure}
+\centering
+\includestandalone{assets/diagrams/transformation}
+\caption{Simplified diagram of the transformation process.}
+\label{fig:transformation-process}
+\end{figure}
 
 \section{Usage}
 \label{sec:usage}

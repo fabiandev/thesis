@@ -2,20 +2,60 @@
 \chapter{Evaluation}
 \label{cha:evaluation}
 
-In this chapter, the implemented project of this thesis will be tested and evaluated. Different methods will be used to measure and verify the quality and functionality of \emph{ts-runtime}.
+In this chapter, the implemented project of this thesis will be tested and evaluated. Different methods will be used to measure and verify the quality and functionality of \emph{ts-runtime}. This should assure that all components work as intended and the resulting transformations align with the expected outcome. Furthermore it should highlight that the implementation was carried out carefully, while also pointing out potential compromises when making use of the library.
 
 \section{Automated Unit Tests}
 \label{sec:automated-unit-tests}
 
-To ensure the correctness of the source code transformations applied to a TypeScript project, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android}'' to ''[...] verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests should raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when utilized at runtime. If such a change is intended, the corresponding tests have to be updated as well.
+To ensure the correctness of the source code transformations applied to a TypeScript project, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android} [...] to verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests should raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when utilized at runtime. If such a change is intended, the corresponding tests have to be updated as well. The tests not only cover the mutators itself, but also the project's components are tested extensively. In total 456 tests have been written with a code coverage\footnote{``Code coverage is the percentage of code which is covered by automated tests.~\cite{CodeCoverage:Atlassian}''} of almost 91\%. Table~\ref{tab:code-coverage} shows a detailed summary of the project's coverage.
+\begin{table}\caption{Code coverage summary.}
+\label{tab:code-coverage}\centering\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabular}{|r||c|c|c|c|}    \hline    & \emph{Statements} & \emph{Branches} & \emph{Functions} & \emph{Lines} \\    \hline    \hline    Components & 93.02\% & 82.62\% & 94.90\% & 93.38\% \\    \hline    Mutators & 97.14\% & 91.30\% & 98.18\% & 96.76\% \\    \hline
+    \hline
+    \multicolumn{1}{|r||}{\multirow{2}{*}{Total}} & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\
+    \cline{2-5}
+    \multicolumn{1}{|c||}{} & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\
+    \hline
+%    \hline
+%    Total Percentage & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\%    \hline
+%    Total Amount & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\%    \hline  \end{tabular}\end{table}
+It gives an overview of the total statements executed, the amount of branches---such as \emph{else} statements or \emph{case} clauses---visited, the percentage of functions that are executed, as well as the number of relevant lines covered in the tests. For the unit tests itself the testing framework \emph{Mocha}\footnote{https://mochajs.org} was used, while the library \emph{Istanbul}\footnote{https://istanbul.js.org} was utilized to extract the code coverage report.
+
+\section{Continuous Integration}
+\label{sec:continuous-integration}
+
+The \emph{ts-runtime} project takes advantage of the continuous integration (i.e., CI) practice, which can be defined as
+\begin{quote}
+  [...] a development practice where developers integrate code into a shared repository frequently, [which] can then be verified by an automated build and automated tests.~\cite{ContinuousIntegration:Codeship}% While automated testing is not strictly part of CI it is typically implied.
+\end{quote}
+This eliminates the risk of introducing errors to the library accidentally. When pushing changes to the remote repository, hosted on GitHub\footnote{https://github.com/fabiandev/ts-runtime}, the source code is built automatically by the continuous integration platform \emph{Travis CI\footnote{https://travis-ci.org}}, where the state of each build is publicly visible\footnote{https://travis-ci.org/fabiandev/ts-runtime}. The following steps are performed when invoking a CI build:
+\begin{enumerate}
+  \item Build the project with the native TypeScript compiler.
+  \item Build the project again with \emph{ts-runtime} with the result of step one.
+  \item Run the unit tests for all components and mutators.
+  \item Execute the command line interface from the build of step two.
+\end{enumerate}
+If one of the steps from above is not successful, the build is considered as failed, which is transparently indicated on the repository website of the project. In this case all issues should be addressed before releasing a new version of the library to the node package manager registry. If a build was successful, the code coverage statistics are transmitted to \emph{Coveralls\footnote{https://coveralls.io}}, a web service that keeps track of them over time, providing an interface to explore coverage for individual files, alongside determining if code coverage increased or decreased. Again, these insights are available to the public\footnote{https://coveralls.io/github/fabiandev/ts-runtime} and shown on the repository page of \emph{ts-runtime}.
+
+% the following tasks are performed
+% uploaded to coveralls, keeps track of changes
+
+% link to travis and coveralls
+
+% TODO: Application Test, Project Application, Operational Test, Operation Test, Utilization Test, Project Utilization
+\section{Operational Test}
+\label{sec:operational-test}
 
 \section{Performance Analyzation}
 \label{sec:performance-analyzation}
 
+\section{Summary}
+\label{sec:evaluation-summary}
 
-
-\section{Comparison}
-\label{sec:evalutaion-comparison}
+%\section{Comparison}
+%\label{sec:evalutaion-comparison}
 
 %\subsection{Javascript without Type Checks}
 %\label{sec:javascript-without-type-checks}
@@ -26,5 +66,5 @@ To ensure the correctness of the source code transformations applied to a TypeSc
 %\subsection{Flow with Generated Type Checks}
 %\label{sec:flow-with-generated-type-checks}
 
-\section{Interpretation and Conclusion}
-\label{sec:interpretation-conclusion}
+%\section{Interpretation and Conclusion}
+%\label{sec:interpretation-conclusion}
