@@ -46,28 +46,37 @@ If one of the steps from above is not successful, the build is considered as fai
 \label{sec:operational-test}
 
 %TODO: add figure
-After the project of this thesis has been tested, using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the trending TypeScript project \emph{pretty-algorithms\footnote{https://github.com/jiayihu/pretty-algorithms}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{https://github.com/trending/typescript} was used, which was on top of the list on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. Unsurprisingly no errors were reported and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. When building with generated runtime type checks, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between testing the original project and with runtime type checks added. Figure~\ref{fig:operational-test} depicts the data that could be examined in this section. The detailed results can be found in section~\ref{app:sec:test-results} of the appendix.
+After the project of this thesis has been tested, using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the trending TypeScript project \emph{pretty-algorithms\footnote{https://github.com/jiayihu/pretty-algorithms}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{https://github.com/trending/typescript} was used, which was on top of the list on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. Unsurprisingly no errors were reported and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. When building with generated runtime type checks, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between testing the original project and with runtime type checks added. Figure~\ref{fig:operational-test} depicts the time required to run the unit tests with the three different builds. As the increase in execution time is given by the runtime type system, provided by \emph{flow-runtime}, that is utilized to enable runtime type reflections and assertions, the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in table~\ref{tab:build-time}.
+\begin{table}\caption{The average time required in seconds to build \emph{pretty-algorithms} with the native TypeScript API, as well as the \emph{ts-runtime} API and CLI. While a standard TypeScript build creates a JavaScript application out of TypeScript code, the \emph{ts-runtime} builds also take care of generating and including runtime type checks.}
+\label{tab:build-time}\centering\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabular}{|r||c|}    \hline    & \emph{Average Build Time} \\    \hline    \hline    TypeScript CLI & 1.94s \\
+    \hline
+    ts-runtime CLI & 2.72s \\
+    \hline
+    ts-runtime API & 2.71s \\    \hline  \end{tabular}\end{table}
+The detailed results, that could be examined in this section, can be found in section~\ref{app:sec:build-time} and~\ref{app:sec:test-results} of the appendix. All data was gathered on a system running MacOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/operational-test}
 \caption{Comparison of unit test execution times of the library \emph{pretty-algorithms}. The label \emph{standard} refers to a build without any modifications, while \emph{ts-runtime} refers to a build with generated runtime type checks with the project of this thesis, and \emph{ts-runtime (fixed)} denotes a build, where the type incompatibilities of the previous build were resolved. The dashed lines indicate the average of all iterations of a given build.}
 \label{fig:operational-test}
 \end{figure}
-All data was gathered on a system running MacOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 
 \section{Performance Analyzation}
 \label{sec:performance-analyzation}
 
 %TODO: ass table
 In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pretty-algorithms} in a Node.js environment, the library was also compared in a browser with \emph{Benchmark.js\footnote{https://github.com/bestiejs/benchmark.js}}, ``[a] robust benchmarking library that supports high-resolution timers [and] returns statistically significant results~\cite{Evaluation:benchmarkjs}''. For graphically representing the results, \emph{Astrobench\footnote{https://github.com/kupriyanenko/astrobench}} was utilized. As including runtime type checks to a project also means, that a representation of a type system is required, it was to be expected, that the original build will outperform \emph{ts-runtime}. Anyway, it may be of advantage to gain knowledge of the performance impact. When running the benchmarks, the original library could reach 56,564,588 operations per second on average, while the \emph{ts-runtime} build scored 14,234 operations per second, meaning that it reached 0.025\% of its performance. The closest result of the two builds was 21,462 operations per seconds with generated runtime type checks, compared to 1,648,386 operations per second from the original package, which is about 77 times faster. When comparing results of a primitive type check, as well as a type compatibility verification of a class and an interface, \emph{ts-runtime} could accomplish its best result of 79,935 versus 338,363 operations per second, which is almost 24\% of the performance of the JavaScript code with handwritten type checks. The entire dataset can be found in section~\ref{app:sec:benchmark-results} of the appendix, while table~\ref{tab:benchmarks} provides an overview of the test results not related to \emph{pretty-algorithms}. The benchmarks were captured on the same system as in section~\ref{sec:operational-test}, with the 64-bit browser \emph{Chrome\footnote{https://www.google.com/chrome/}} version 60.0.3112.113.
-\begin{table}[h]
+\begin{table}[ht]
   \caption{In table~\ref{tab:benchmarks:primitive}, a value was verified for being a string with the \texttt{typeof} operator for the manual check and with \emph{ts-runtime} for the generated checks. Similarly, the \texttt{instanceof} operator was used for the manual verification in table~\ref{tab:benchmarks:class}, while for the results in table~\ref{tab:benchmarks:interface}, every property was examined individually.}
   \label{tab:benchmarks}
   \setlength{\tabcolsep}{5mm}
   \def\arraystretch{1.25}
   \small
   % Primitive
-  \begin{subtable}[h]{1.0\textwidth}
+  \begin{subtable}[ht]{1.0\textwidth}
     \setlength{\tabcolsep}{5mm}
     \def\arraystretch{1.25}
     \centering
@@ -86,7 +95,7 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
     \label{tab:benchmarks:primitive}
   \end{subtable}
   % Class
-  \begin{subtable}[h]{1.0\textwidth}
+  \begin{subtable}[ht]{1.0\textwidth}
     \setlength{\tabcolsep}{5mm}
     \def\arraystretch{1.25}
     \centering
@@ -105,7 +114,7 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
     \label{tab:benchmarks:class}
   \end{subtable}
   % Interface
-  \begin{subtable}[h]{1.0\textwidth}
+  \begin{subtable}[ht]{1.0\textwidth}
     \setlength{\tabcolsep}{5mm}
     \def\arraystretch{1.25}
     \centering
