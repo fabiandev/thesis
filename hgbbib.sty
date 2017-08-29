@@ -65,21 +65,28 @@
 % Currently the only public macro:
 % \MakeBibliography ... creates a reference section split subsections (default)
 % \MakeBibliography[nosplit] ... creates a one-piece reference section
-\newcommand{\MakeBibliography}[1][]{
+\newcommand{\MakeBibliography}[2][]{
 	% opt. arg (#1): optional argument "nosplit" to get a 1-piece bibliography
 	%\clearpage
 	\ifthenelse{\equal{#1}{nosplit}}%
 		{% create a single bibliography with all entries:
 			\printbibheading[heading=bibintoc,title={\@bibtitle}]
 			\begin{bibhyphenation}	
+			\phantomsection
 			\printbibliography[heading=noheader]
 			\end{bibhyphenation}
 		}
 		{% split the bibliography using the predefined categories:
 			\printbibheading[heading=bibintoc,title={\@bibtitle}]
 			\begin{bibhyphenation}
+			\phantomsection
 			\printbibliography[filter=literature,heading=subbibintoc,title={\@bibtitleLiteratur}]
-			\printbibliography[filter=avmedia,heading=subbibintoc,title={\@bibtitleAvmedia}]
+			\ifthenelse{\equal{#2}{nomedia}}% { }
+			{
+				\phantomsection
+				\printbibliography[filter=avmedia,heading=subbibintoc,title={\@bibtitleAvmedia}]
+			}
+			\phantomsection
 			\printbibliography[filter=online,heading=subbibintoc,title={\@bibtitleOnline}]
 			\end{bibhyphenation}
 		}%
