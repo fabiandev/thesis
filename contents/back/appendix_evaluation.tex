@@ -9,7 +9,7 @@
 \centering
 \tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
 \def\arraystretch{1.25}
-% \small
+\small
 \begin{longtabu} to \textwidth {|r||X[c,m]|X[c,m]|X[c,m]|}  \hline  \emph{Iteration} & \emph{TypeScript CLI} & \emph{ts-runtime CLI} & \emph{ts-runtime API} \\  \hline
    1 & 1.942s & 2.740s & 2.677s \\
   \hline
@@ -35,14 +35,18 @@
   21 & 1.944s & 2.706s & 2.784s \\  \hline
   22 & 1.952s & 2.717s & 2.744s \\  \hline
   23 & 1.955s & 2.708s & 2.686s \\  \hline
-  24 & 2.010s & 2.793s & 2.711s \\  \hline
+  24 & 2.010s & 2.793s & 2.711s \\
+  \hline
+  \pagebreak  \hline
+  \emph{Iteration} & \emph{TypeScript CLI} & \emph{ts-runtime CLI} & \emph{ts-runtime API} \\
+  \hline
   25 & 1.969s & 2.711s & 2.682s \\  \hhline{====}
   Average & 1.935s & 2.717s & 2.708s \\
   \hline\end{longtabu}
 }
 \end{center}
 
-\section{Unit Tests}
+\section{Unit Tests Execution Time}
 \label{app:sec:test-results}
 
 \begin{center}
@@ -50,7 +54,7 @@
 \centering
 \tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
 \def\arraystretch{1.25}
-% \small
+\small
 \begin{longtabu} to \textwidth {|r||X[c,m]|X[c,m]|X[c,m]|}  \hline  \emph{Iteration} & \emph{TypeScript Build} & \emph{ts-runtime Build} & \emph{ts-runtime Build (fixed)} \\  \hline
    1 & 2.108s & 2.371s & 2.430s \\
   \hline
@@ -85,3 +89,740 @@
 
 \section{Benchmark Tests}
 \label{app:sec:benchmark-results}
+
+\begin{minipage}{\textwidth}
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 131,426 & 151 \\
+  \hline
+  Samples (Cycles)  & 89 & 86 \\
+  \hline
+  Operations/Second & 2,455,478 & 2,693 \\
+  \hline
+  Margin of Error   & 0.87\% & 2.36\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/activity-selection\#activitySelector}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 50,024 & 195 \\
+  \hline
+  Samples (Cycles)  & 93 & 93 \\
+  \hline
+  Operations/Second & 919,213 & 3,629 \\
+  \hline
+  Margin of Error   & 0.21\% & 0.78\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/huffman\#huffman}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 23,703 & 146 \\
+  \hline
+  Samples (Cycles)  & 90 & 91 \\
+  \hline
+  Operations/Second & 441,323 & 2,698 \\
+  \hline
+  Margin of Error   & 0.65\% & 0.49\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/inversions-count\#countInversions}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 15,024 & 32 \\
+  \hline
+  Samples (Cycles)  & 93 & 88 \\
+  \hline
+  Operations/Second & 277,705 & 579 \\
+  \hline
+  Margin of Error   & 0.87\% & 0.69\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/longest-common-subsequence\#findLCS}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 15,524 & 102 \\
+  \hline
+  Samples (Cycles)  & 94 & 93 \\
+  \hline
+  Operations/Second & 291,322 & 1,912 \\
+  \hline
+  Margin of Error   & 0.87\% & 0.68\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/longest-common-subsequence\#lcsLength}
+}
+\end{center}
+\end{minipage}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 90,632 & 455 \\
+  \hline
+  Samples (Cycles)  & 92 & 92 \\
+  \hline
+  Operations/Second & 1,684,257 & 8,528 \\
+  \hline
+  Margin of Error   & 0.56\% & 0.61\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/maximum-subarray\#maxCrossSubarray}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 11,553 & 17 \\
+  \hline
+  Samples (Cycles)  & 86 & 87 \\
+  \hline
+  Operations/Second & 204,981 & 315 \\
+  \hline
+  Margin of Error   & 0.62\% & 1.65\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/maximum-subarray\#maxSubarray}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 565,446 & 236 \\
+  \hline
+  Samples (Cycles)  & 93 & 88 \\
+  \hline
+  Operations/Second & 10,313,122 & 4,281 \\
+  \hline
+  Margin of Error   & 1.07\% & 0.67\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/priority-queue\#extractMax}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 445,302 & 391 \\
+  \hline
+  Samples (Cycles)  & 92 & 91 \\
+  \hline
+  Operations/Second & 8,108,396 & 7,159 \\
+  \hline
+  Margin of Error   & 0.88\% & 0.71\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/priority-queue\#increasePriority}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 286,848 & 206 \\
+  \hline
+  Samples (Cycles)  & 92 & 90 \\
+  \hline
+  Operations/Second & 5,296,213 & 3,791 \\
+  \hline
+  Margin of Error   & 0.89\% & 0.66\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/priority-queue\#insert}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 51,412 & 322 \\
+  \hline
+  Samples (Cycles)  & 92 & 92 \\
+  \hline
+  Operations/Second & 947,689 & 6,004 \\
+  \hline
+  Margin of Error   & 1.28\% & 0.80\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/rod-cutting\#bottomUpCutRod}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 27,315 & 180 \\
+  \hline
+  Samples (Cycles)  & 92 & 90 \\
+  \hline
+  Operations/Second & 511,249 & 3,333 \\
+  \hline
+  Margin of Error   & 0.55\% & 0.73\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/rod-cutting\#cutRod}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 58,578 & 49 \\
+  \hline
+  Samples (Cycles)  & 92 & 91 \\
+  \hline
+  Operations/Second & 1,079,036 & 912 \\
+  \hline
+  Margin of Error   & 0.88\% & 0.65\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{misc/rod-cutting\#topDownCutRod}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 3,512,823 & 1,013 \\
+  \hline
+  Samples (Cycles)  & 92 & 93 \\
+  \hline
+  Operations/Second & 64,198,881 & 18,877 \\
+  \hline
+  Margin of Error   & 0.92\% & 0.56\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search\#binarySearch}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 4,338,946 & 331 \\
+  \hline
+  Samples (Cycles)  & 89 & 90 \\
+  \hline
+  Operations/Second & 76,632,545 & 6,072 \\
+  \hline
+  Margin of Error   & 1.11\% & 2.06\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#insert}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 463,402 & 20 \\
+  \hline
+  Samples (Cycles)  & 94 & 87 \\
+  \hline
+  Operations/Second & 8,496,621 & 368 \\
+  \hline
+  Margin of Error   & 0.94\% & 0.68\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#maximum}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 473,362 & 18 \\
+  \hline
+  Samples (Cycles)  & 93 & 87 \\
+  \hline
+  Operations/Second & 8,672,193 & 334 \\
+  \hline
+  Margin of Error   & 0.93\% & 0.53\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#minimum}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 471,958 & 27 \\
+  \hline
+  Samples (Cycles)  & 92 & 89 \\
+  \hline
+  Operations/Second & 8,655,508 & 499 \\
+  \hline
+  Margin of Error   & 0.84\% & 1.33\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#predecessor}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 423,236 & 21 \\
+  \hline
+  Samples (Cycles)  & 91 & 89 \\
+  \hline
+  Operations/Second & 7,657,685 & 392 \\
+  \hline
+  Margin of Error   & 1.05\% & 0.70\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#remove}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 443,428 & 18 \\
+  \hline
+  Samples (Cycles)  & 91 & 87 \\
+  \hline
+  Operations/Second & 8,162,362 & 331 \\
+  \hline
+  Margin of Error   & 0.91\% & 0.59\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#search}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 480,070 & 18 \\
+  \hline
+  Samples (Cycles)  & 88 & 85 \\
+  \hline
+  Operations/Second & 8,592,765 & 329 \\
+  \hline
+  Margin of Error   & 1.04\% & 0.67\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#successor}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 411,043 & 26 \\
+  \hline
+  Samples (Cycles)  & 90 & 89 \\
+  \hline
+  Operations/Second & 7,411,455 & 478 \\
+  \hline
+  Margin of Error   & 0.92\% & 0.54\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{search/binary-search-tree\#transplant}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 68,002 & 309 \\
+  \hline
+  Samples (Cycles)  & 94 & 89 \\
+  \hline
+  Operations/Second & 1,271,033 & 5,643 \\
+  \hline
+  Margin of Error   & 0.52\% & 1.20\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/counting-sort\#countingSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 46,278,689 & 8,884 \\
+  \hline
+  Samples (Cycles)  & 92 & 93 \\
+  \hline
+  Operations/Second & 857,754,288 & 163,276 \\
+  \hline
+  Margin of Error   & 0.87\% & 0.77\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/heap-sort\#left}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 46,204,099 & 8,941 \\
+  \hline
+  Samples (Cycles)  & 91 & 94 \\
+  \hline
+  Operations/Second & 850,272,444 & 163,986 \\
+  \hline
+  Margin of Error   & 0.93\% & 1.21\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/heap-sort\#right}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 588,664 & 202 \\
+  \hline
+  Samples (Cycles)  & 88 & 91 \\
+  \hline
+  Operations/Second & 10,738,762 & 3,758 \\
+  \hline
+  Margin of Error   & 1.47\% & 0.69\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/heap-sort\#maxHeapify}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 196,323 & 122 \\
+  \hline
+  Samples (Cycles)  & 91 & 90 \\
+  \hline
+  Operations/Second & 3,634,607 & 2,236 \\
+  \hline
+  Margin of Error   & 0.70\% & 0.67\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/heap-sort\#buildMaxHeap}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 96,408 & 36 \\
+  \hline
+  Samples (Cycles)  & 90 & 87 \\
+  \hline
+  Operations/Second & 1,774,855 & 643 \\
+  \hline
+  Margin of Error   & 0.83\% & 0.72\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/heap-sort\#heapSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 327,267 & 1,765 \\
+  \hline
+  Samples (Cycles)  & 93 & 89 \\
+  \hline
+  Operations/Second & 6,090,107 & 32,420 \\
+  \hline
+  Margin of Error   & 0.59\% & 0.68\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/insertion-sort\#insertionSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 330,844 & 887 \\
+  \hline
+  Samples (Cycles)  & 92 & 91 \\
+  \hline
+  Operations/Second & 6,066,608 & 16,813 \\
+  \hline
+  Margin of Error   & 0.53\% & 1.18\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/merge-and-insertion-sort\#mergeAndInsertionSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 86,821 & 1,124 \\
+  \hline
+  Samples (Cycles)  & 95 & 92 \\
+  \hline
+  Operations/Second & 1,648,386 & 21,426 \\
+  \hline
+  Margin of Error   & 0.59\% & 0.43\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/merge-sort\#merge}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 19,730 & 115 \\
+  \hline
+  Samples (Cycles)  & 92 & 95 \\
+  \hline
+  Operations/Second & 356,236 & 2,158 \\
+  \hline
+  Margin of Error   & 0.69\% & 1.60\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/merge-sort\#mergeSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 188,938 & 345 \\
+  \hline
+  Samples (Cycles)  & 94 & 94 \\
+  \hline
+  Operations/Second & 3,520,557 & 6,471 \\
+  \hline
+  Margin of Error   & 0.79\% & 0.44\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/quick-sort\#partition}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 59,085 & 80 \\
+  \hline
+  Samples (Cycles)  & 92 & 94 \\
+  \hline
+  Operations/Second & 1,119,694 & 1,495 \\
+  \hline
+  Margin of Error   & 0.59\% & 0.52\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/quick-sort\#quickSort}
+}
+\end{center}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+\small
+\begin{tabu} to \textwidth {|r||X[c,m]|X[c,m]|}
+  \hline  & \emph{TypeScript Build} & \emph{ts-runtime Build} \\  \hline  \hline
+  Iterations/Cycle  & 186,947 & 238 \\
+  \hline
+  Samples (Cycles)  & 93 & 87 \\
+  \hline
+  Operations/Second & 3,502,988 & 4,346 \\
+  \hline
+  Margin of Error   & 0.68\% & 1.09\% \\
+  \hline
+\end{tabu}
+\captionof*{table}{sort/selection-sort\#selectionSort}
+}
+\end{center}
