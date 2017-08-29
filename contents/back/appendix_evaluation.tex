@@ -1,8 +1,87 @@
 \chapter{Evaluation Results}
 \label{app:evaluation}
 
+\section{Build Time}
+\label{app:sec:build-time}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+% \small
+\begin{longtabu} to \textwidth {|r||X[c,m]|X[c,m]|X[c,m]|}  \hline  \emph{Iteration} & \emph{TypeScript CLI} & \emph{ts-runtime CLI} & \emph{ts-runtime API} \\  \hline
+   1 & 1.942s & 2.740s & 2.677s \\
+  \hline
+   2 & 1.928s & 2.716s & 2.723s \\  \hline
+   3 & 1.946s & 2.685s & 2.671s \\  \hline
+   4 & 1.898s & 2.697s & 2.735s \\  \hline
+   5 & 1.903s & 2.689s & 2.734s \\  \hline
+   6 & 1.921s & 2.686s & 2.743s \\  \hline
+   7 & 1.946s & 2.735s & 2.633s \\  \hline
+   8 & 1.936s & 2.685s & 2.680s \\  \hline
+   9 & 1.913s & 2.704s & 2.686s \\  \hline
+  10 & 1.922s & 2.740s & 2.750s \\  \hline
+  11 & 1.926s & 2.761s & 2.655s \\  \hline
+  12 & 1.931s & 2.706s & 2.651s \\  \hline
+  13 & 1.947s & 2.718s & 2.717s \\  \hline
+  14 & 1.926s & 2.702s & 2.736s \\  \hline
+  15 & 1.916s & 2.710s & 2.736s \\  \hline
+  16 & 1.908s & 2.716s & 2.736s \\  \hline
+  17 & 1.949s & 2.718s & 2.763s \\  \hline
+  18 & 1.931s & 2.733s & 2.629s \\  \hline
+  19 & 1.924s & 2.732s & 2.718s \\  \hline
+  20 & 1.923s & 2.716s & 2.682s \\  \hline
+  21 & 1.944s & 2.706s & 2.784s \\  \hline
+  22 & 1.952s & 2.717s & 2.744s \\  \hline
+  23 & 1.955s & 2.708s & 2.686s \\  \hline
+  24 & 2.010s & 2.793s & 2.711s \\  \hline
+  25 & 1.969s & 2.711s & 2.682s \\  \hhline{====}
+  Average & 1.935s & 2.717s & 2.708s \\
+  \hline\end{longtabu}
+}
+\end{center}
+
 \section{Unit Tests}
 \label{app:sec:test-results}
+
+\begin{center}
+{
+\centering
+\tabulinesep=1.2mm\setlength{\tabcolsep}{5mm}
+\def\arraystretch{1.25}
+% \small
+\begin{longtabu} to \textwidth {|r||X[c,m]|X[c,m]|X[c,m]|}  \hline  \emph{Iteration} & \emph{TypeScript Build} & \emph{ts-runtime Build} & \emph{ts-runtime Build (fixed)} \\  \hline
+   1 & 2.108s & 2.371s & 2.430s \\
+  \hline
+   2 & 2.131s & 2.319s & 2.419s \\  \hline
+   3 & 2.159s & 2.346s & 2.436s \\  \hline
+   4 & 2.181s & 2.350s & 2.450s \\  \hline
+   5 & 2.082s & 2.351s & 2.329s \\  \hline
+   6 & 2.124s & 2.349s & 2.333s \\  \hline
+   7 & 2.118s & 2.342s & 2.361s \\  \hline
+   8 & 2.089s & 2.327s & 2.349s \\  \hline
+   9 & 2.110s & 2.344s & 2.397s \\  \hline
+  10 & 2.119s & 2.335s & 2.390s \\  \hline
+  11 & 2.102s & 2.374s & 2.348s \\  \hline
+  12 & 2.107s & 2.332s & 2.347s \\  \hline
+  13 & 2.227s & 2.455s & 2.360s \\  \hline
+  14 & 2.214s & 2.455s & 2.335s \\  \hline
+  15 & 2.231s & 2.490s & 2.341s \\  \hline
+  16 & 2.216s & 2.472s & 2.333s \\  \hline
+  17 & 2.240s & 2.470s & 2.374s \\  \hline
+  18 & 2.143s & 2.347s & 2.338s \\  \hline
+  19 & 2.232s & 2.355s & 2.339s \\  \hline
+  20 & 2.308s & 2.343s & 2.356s \\  \hline
+  21 & 2.286s & 2.366s & 2.343s \\  \hline
+  22 & 2.178s & 2.360s & 2.369s \\  \hline
+  23 & 2.179s & 2.331s & 2.350s \\  \hline
+  24 & 2.174s & 2.354s & 2.447s \\  \hline
+  25 & 2.173s & 2.460s & 2.512s \\  \hhline{====}
+  Average & 2.169s & 2.376s & 2.375s \\
+  \hline\end{longtabu}
+}
+\end{center}
 
 \section{Benchmark Tests}
 \label{app:sec:benchmark-results}
