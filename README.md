@@ -1,9 +1,9 @@
 # Master's Thesis
 
-Title: Generating Runtime Type Checks for JavaScript from TypeScript  
-Author: Fabian Pirklbauer  
-University: [University of Applied Sciences Upper Austria](https://www.fh-ooe.at/en/)  
-Course of Studies: [Interactive Media](https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/)
+**Title:** Generating Runtime Type Checks for JavaScript from TypeScript  
+**Author:** Fabian Pirklbauer  
+**University:** [University of Applied Sciences Upper Austria](https://www.fh-ooe.at/en/)  
+**Course of Studies:** [Interactive Media](https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/)
 
 ## Abstract
 
