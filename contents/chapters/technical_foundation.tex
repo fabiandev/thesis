@@ -8,7 +8,7 @@ This chapter will give an overview of the technical knowledge required for this 
 
 There are different kinds of programming languages with different characteristics and specifications. An essential part of a language is its type system, which has a great impact on the behavior of a program and may influence the syntax the program is written in.
 In general a programming language can be categorized as typed or untyped, where untyped languages do not have a static type system at all, or have a single type that can hold any value~\cite[p.~2]{TypeSystems:Cardelli:2004}. More precisely a language is considered typed independently of types being part of the syntax, but simply by the existence of a (static) type system~\cite[p.~2]{TypeSystems:Cardelli:2004}.
-According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research\footnote{https://www.microsoft.com/research/}} a type system is
+According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research\footnote{\url{https://www.microsoft.com/research/}}} a type system is
 \begin{quote}
   [a] collection of type rules for a typed programming language~\cite[p.~38]{TypeSystems:Cardelli:2004}
 \end{quote}
@@ -20,7 +20,7 @@ He further equates \emph{type system} with \emph{static type system} and also \c
 \begin{quote}
   [l]anguages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}.
 \end{quote}
-Obviously, a widely adopted consensus in terminology is to use both, \emph{untyped} (e.g.\ in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g.\ in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
+A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g.\ in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g.\ in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
 
 % While a type system may help in preventing execution errors, a programming language is not required to have a type system to ensure against specific errors, as there are mechanisms for untyped languages to make them safe. % runtime type checks (see ..!)
 
@@ -103,9 +103,9 @@ To ensure that a program follows the specified rules of its type system and to g
 \section{JavaScript}
 \label{sec:javascript}
 
-JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.}} submitted the language to Ecma International\footnote{https://www.ecma-international.org}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'' and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub\footnote{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.}} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see \ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Request by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
+JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.}} submitted the language to Ecma International\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'' and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub\footnote{\url{https://github.com}}} it was the most popular language on its platform by opened \emph{Pull Requests\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.}} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see \ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Request by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
 
-While JavaScript is known for programming inside browsers and adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js\footnote{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}, also used in the popular \emph{Chrome\footnote{https://www.google.com/chrome/}} browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
+While JavaScript is known for programming inside browsers and adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js\footnote{\url{https://nodejs.org}}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}, also used in the popular \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
 % Add info about ECMAScript? JS and ES used as synonyms for the most parts. ES to distinguish versions/editions
 
@@ -148,6 +148,7 @@ The returned string by \texttt{typeof} does not reflect the specified value type
 \centering
   \setlength{\tabcolsep}{5mm} % separator between columns
   \def\arraystretch{1.25} % vertical stretch factor
+  \small
   \begin{tabular}{|c|c|}
     \hline
     \emph{Type of Value} & \emph{Result} \\
@@ -178,6 +179,7 @@ In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]
   \setlength{\tabcolsep}{1ex}
   \def\arraystretch{1.20}
   \setlength{\tabcolsep}{1ex}
+  \small
   \begin{tabular}{|c||l|}
     \hline
     \emph{Falsy} & \texttt{undefined}, \texttt{null}, \texttt{0}, \texttt{-0}, \texttt{NaN} and \texttt{""}~(empty string). \\
@@ -363,6 +365,7 @@ A more comprehensive overview of possible type conversions, summarized by \citea
 %"1" === 1 // false
 %\end{JsCode}
 
+% TODO: missing footnote explanation
 \subsection{Value Comparison}
 \label{sec:value-comparison}
 
@@ -713,7 +716,7 @@ The development of JavaScript is dependent on its specification defined by ECMAS
 \subsection{Extensions}
 \label{sec:javascript-extensions}
 
-There are a multitude of extensions available for JavaScript. In \cite{LanguagesThatCompileToJS:CoffeeScript:2017} an extensive list of languages that compile to JavaScript, JavaScript supersets, parsers and compilers can be found. That list includes \emph{CoffeeScript\footnote{http://coffeescript.org}}---a ``[...] language that compiles into JavaScript''~\cite{CoffeeScript}---as well as the static type checkers \emph{TypeScript\footnote{https://www.typescriptlang.org}} and \emph{Flow\footnote{https://flow.org}}. Languages that have packages available for transforming its code to JavaScript include, but are not limited to, \emph{Ruby}, \emph{Python}, \emph{Java}, \emph{Scala} and \emph{C\texttt{\#}}.
+There are a multitude of extensions available for JavaScript. In \cite{LanguagesThatCompileToJS:CoffeeScript:2017} an extensive list of languages that compile to JavaScript, JavaScript supersets, parsers and compilers can be found. That list includes \emph{CoffeeScript\footnote{\url{http://coffeescript.org}}}---a ``[...] language that compiles into JavaScript''~\cite{CoffeeScript}---as well as the static type checkers \emph{TypeScript\footnote{\url{https://www.typescriptlang.org}}} and \emph{Flow\footnote{\url{https://flow.org}}}. Languages that have packages available for transforming its code to JavaScript include, but are not limited to, \emph{Ruby}, \emph{Python}, \emph{Java}, \emph{Scala} and \emph{C\texttt{\#}}.
 
 \subsection{Further Reading}
 \label{sec:further reading}
@@ -733,7 +736,7 @@ An \emph{abstract syntax tree} (i.e., \emph{AST}) is the representation of a sou
   \item In the fourth step of a typical compiler, the \emph{optimizer} creates intermediate code and applies code improvement algorithms.
   \item The \emph{code generator} is the last step, where the final target code of a program is generated.
 \end{enumerate}
-To demonstrate, how an abstract syntax tree may look like for TypeScript, a simple variable declaration was inserted in the online editor \emph{AST explorer\footnote{https://astexplorer.net}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, CSS, and HTML~\cite{ASTExplorer}. The resulting syntax tree is illustrated in figure~\ref{fig:ast}.
+To demonstrate, how an abstract syntax tree may look like for TypeScript, a simple variable declaration was inserted in the online editor \emph{AST explorer\footnote{\url{https://astexplorer.net}}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, CSS, and HTML~\cite{ASTExplorer}. The resulting syntax tree is illustrated in figure~\ref{fig:ast}.
 
 \begin{figure}
 \centering
