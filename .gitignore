@@ -14,3 +14,4 @@
 *.tps
 *.sta
 .texpadtmp
+assets/diagrams/*.sty
