@@ -6,47 +6,37 @@
 \documentclass[master,english]{hgbthesis}
 
 \RequirePackage[utf8]{inputenc}
-% \usepackage{blindtext}
-\usepackage{threeparttable}
+
+\usepackage[subpreambles=true]{standalone}
 \usepackage{romannum}
+\usepackage{url}
 \usepackage{dirtree}
-\usepackage{subcaption}
+\usepackage{threeparttable}
 \usepackage{longtable}
 \usepackage{tabu}
-\usepackage{hhline}
 \usepackage{makecell}
 \usepackage{multirow}
-\usepackage{url}
-\usepackage{tikz}
-\usepackage[subpreambles=true]{standalone}
+\usepackage{subcaption}
+\usepackage{hhline}
 
 \graphicspath{{assets/images/}}
 \logofile{logo}
 
 \addbibresource{references.bib}
-%\bibliography{references}
 
-\title{Generating Runtime Type Checks for JavaScript from TypeScript} % Generating Runtime Type Checks for JavaScript from TypeScript Type Annotations
+% Generating Runtime Type Checks for JavaScript from TypeScript Type Annotations
+\title{Generating Runtime Type Checks for JavaScript from TypeScript}
 \author{Fabian Pirklbauer}
 \programname{Interactive Media}
 \placeofstudy{Hagenberg}
 \dateofsubmission{2017}{09}{15}
 
-% \semester{Fall Semester 2017} 	% Fall/Spring Semester YYYY
-% \coursetitle{Introduction to Trivial Problems 1} 
-% \advisor{Roger K.~Putnik, M.Sc.}
-
-%%% Restricted publication license instead of CC:
-% \strictlicense
-
-%%% Do not hyphenate the following words
-%%%----------------------------------------------------------
+% Do not hyphenate the following words
 \hyphenation{SourceFile}
 \hyphenation{ClassDeclaration}
 \hyphenation{block-like}
 \hyphenation{for-of}
 \hyphenation{for-in}
-%%%----------------------------------------------------------
 
 %%%----------------------------------------------------------
 \begin{document}
