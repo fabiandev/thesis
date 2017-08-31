@@ -174,7 +174,9 @@ The returned string by \texttt{typeof} does not reflect the specified value type
 \label{sec:type-conversion}
 
 In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value, it simply performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see section~\ref{sec:value-comparison}). Because of that it is important to know, which values are considered true, and which conversion will result in being false, depending on their type, as shown in table~\ref{tab:truthy-falsy}.
-\begin{table}\caption{Values evaluated as false or true when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}\centering
+\begin{table}
+\caption{Values evaluated as false or true when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}
+\centering
   \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
   \setlength{\tabcolsep}{1ex}
   \def\arraystretch{1.20}

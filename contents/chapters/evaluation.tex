@@ -7,19 +7,34 @@ In this chapter, the implemented project of this thesis will be tested and evalu
 \label{sec:automated-unit-tests}
 
 To ensure the correctness of the source code transformations applied to a TypeScript project, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android} [...] to verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests should raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when utilized at runtime. If such a change is intended, the corresponding tests have to be updated as well. The tests not only cover the mutators itself, but also the project's components are tested extensively. In total 456 tests have been written with a code coverage\footnote{``Code coverage is the percentage of code which is covered by automated tests.~\cite{CodeCoverage:Atlassian}''} of almost 91\%. Table~\ref{tab:code-coverage} shows a detailed summary of the project's coverage.
-\begin{table}\caption{Code coverage summary.}
-\label{tab:code-coverage}\centering\setlength{\tabcolsep}{5mm}
+\begin{table}
+\caption{Code coverage summary.}
+\label{tab:code-coverage}
+\centering
+\setlength{\tabcolsep}{5mm}
 \def\arraystretch{1.25}
 \small
-\begin{tabular}{|r||c|c|c|c|}    \hline    & \emph{Statements} & \emph{Branches} & \emph{Functions} & \emph{Lines} \\    \hline    \hline    Components & 93.02\% & 82.62\% & 94.90\% & 93.38\% \\    \hline    Mutators & 97.14\% & 91.30\% & 98.18\% & 96.76\% \\    \hline
+\begin{tabular}{|r||c|c|c|c|}
+    \hline
+    & \emph{Statements} & \emph{Branches} & \emph{Functions} & \emph{Lines} \\
+    \hline
+    \hline
+    Components & 93.02\% & 82.62\% & 94.90\% & 93.38\% \\
+    \hline
+    Mutators & 97.14\% & 91.30\% & 98.18\% & 96.76\% \\
+    \hline
     \hline
     \multicolumn{1}{|r||}{\multirow{2}{*}{Total}} & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\
     \cline{2-5}
     \multicolumn{1}{|c||}{} & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\
     \hline
 %    \hline
-%    Total Percentage & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\%    \hline
-%    Total Amount & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\%    \hline  \end{tabular}\end{table}
+%    Total Percentage & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\
+%    \hline
+%    Total Amount & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\
+%    \hline
+  \end{tabular}
+\end{table}
 It gives an overview of the total statements executed, the amount of branches---such as \emph{else} statements or \emph{case} clauses---visited, the percentage of functions that are executed, as well as the number of relevant lines covered in the tests. For the unit tests itself the testing framework \emph{Mocha}\footnote{\url{https://mochajs.org}} was used, while the library \emph{Istanbul}\footnote{\url{https://istanbul.js.org}} was utilized to extract the code coverage report.
 
 \section{Continuous Integration}
@@ -46,16 +61,27 @@ If one of the steps from above is not successful, the build is considered as fai
 \label{sec:operational-test}
 
 %TODO: add figure
-After the project of this thesis has been tested, using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the trending TypeScript project \emph{pretty-algorithms\footnote{\url{https://github.com/jiayihu/pretty-algorithms}}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{\url{https://github.com/trending/typescript}} was used, which was on top of the list on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. Unsurprisingly no errors were reported and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. When building with generated runtime type checks, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between testing the original project and with runtime type checks added. Figure~\ref{fig:operational-test} depicts the time required to run the unit tests with the three different builds. As the increase in execution time is given by the runtime type system, provided by \emph{flow-runtime}, that is utilized to enable runtime type reflections and assertions, the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in table~\ref{tab:build-time}. On average, a \emph{ts-runtime} build is 0.8 seconds slower, reaching around 71\% of the performance of a native TypeScript compiler build, while also considering its supplementary functionality. 
-\begin{table}\caption{The average time required in seconds to build \emph{pretty-algorithms} with the native TypeScript API, as well as the \emph{ts-runtime} API and CLI. While a standard TypeScript build creates a JavaScript application out of TypeScript code, the \emph{ts-runtime} builds also take care of generating and including runtime type checks.}
-\label{tab:build-time}\centering\setlength{\tabcolsep}{5mm}
+After the project of this thesis has been tested, using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the trending TypeScript project \emph{pretty-algorithms\footnote{\url{https://github.com/jiayihu/pretty-algorithms}}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{\url{https://github.com/trending/typescript}} was used, which was on top of the list on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. Unsurprisingly no errors were reported and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. When building with generated runtime type checks, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between testing the original project and with runtime type checks added. Figure~\ref{fig:operational-test} depicts the time required to run the unit tests with the three different builds. As the increase in execution time is given by the runtime type system, provided by \emph{flow-runtime}, that is utilized to enable runtime type reflections and assertions, the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in table~\ref{tab:build-time}. On average, a \emph{ts-runtime} build is 0.8 seconds slower, reaching around 71\% of the performance of a native TypeScript compiler build, while also considering its supplementary functionality. 
+\begin{table}
+\caption{The average time required in seconds to build \emph{pretty-algorithms} with the native TypeScript API, as well as the \emph{ts-runtime} API and CLI. While a standard TypeScript build creates a JavaScript application out of TypeScript code, the \emph{ts-runtime} builds also take care of generating and including runtime type checks.}
+\label{tab:build-time}
+\centering
+\setlength{\tabcolsep}{5mm}
 \def\arraystretch{1.25}
 \small
-\begin{tabular}{|r||c|}    \hline    & \emph{Average Build Time} \\    \hline    \hline    TypeScript CLI & 1.94s \\
+\begin{tabular}{|r||c|}
+    \hline
+    & \emph{Average Build Time} \\
+    \hline
+    \hline
+    TypeScript CLI & 1.94s \\
     \hline
     ts-runtime CLI & 2.72s \\
     \hline
-    ts-runtime API & 2.71s \\    \hline  \end{tabular}\end{table}
+    ts-runtime API & 2.71s \\
+    \hline
+  \end{tabular}
+\end{table}
 The detailed results, that could be examined in this section, can further be found in section~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running MacOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 \begin{figure}
 \centering
@@ -81,7 +107,10 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
     \def\arraystretch{1.25}
     \centering
     \begin{tabular}{|r||c|c|}
-      \hline      & \emph{Manual Checks} & \emph{Generated Checks} \\      \hline      \hline
+      \hline
+      & \emph{Manual Checks} & \emph{Generated Checks} \\
+      \hline
+      \hline
       Iterations/Cycle & 43,234,495 & 69,510 \\
       \hline
       Samples (Cycles) & 92 & 89 \\
@@ -100,7 +129,10 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
     \def\arraystretch{1.25}
     \centering
     \begin{tabular}{|r||c|c|}
-      \hline      & \emph{Manual Checks} & \emph{Generated Checks} \\      \hline      \hline
+      \hline
+      & \emph{Manual Checks} & \emph{Generated Checks} \\
+      \hline
+      \hline
       Iterations/Cycle & 27,266 & 5,139 \\
       \hline
       Samples (Cycles) & 65 & 81 \\
@@ -119,7 +151,10 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
     \def\arraystretch{1.25}
     \centering
     \begin{tabular}{|r||c|c|}
-      \hline      & \emph{Manual Checks} & \emph{Generated Checks} \\      \hline      \hline
+      \hline
+      & \emph{Manual Checks} & \emph{Generated Checks} \\
+      \hline
+      \hline
       Iterations/Cycle & 1,800,557 & 3,140 \\
       \hline
       Samples (Cycles) & 86 & 90 \\
