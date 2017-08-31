@@ -62,41 +62,37 @@
 	 \biburlsetup}%
 	{}
 
-\newcommand\ifmember[2]{%
-	\in@{#1}{#2}%
-	\ifin@
-		\expandafter\@firstoftwo
-	\else
-		\expandafter\@secondoftwo
-	\fi
-}
-
 % Currently the only public macro:
 % \MakeBibliography ... creates a reference section split subsections (default)
 % \MakeBibliography[nosplit] ... creates a one-piece reference section
+% \MakeBibliography[noliterature] ... excludes literature subsection
+% \MakeBibliography[nomedia] ... excludes media subsection
+% \MakeBibliography[noonline] ... excludes online subsection
+% \MakeBibliography[nomedia,noonline] ... combinations can not be used with "nosplit"
 \newcommand{\MakeBibliography}[1][]{
-	% opt. arg (#1): optional argument "nosplit" to get a 1-piece bibliography
+	% opt. arg (#1): optional argument "nosplit" to get a 1-piece bibliography,
+	% or "noliterature", "nomedia" and "noonline" to exclude a given subsection,
+	% or multiple if comma separated, e.g. "nomedia,noonline".
 	%\clearpage
-	\ifmember{nosplit}{#1}
+	\ifmember{nosplit}{#1}%
 		{% create a single bibliography with all entries:
 			\printbibheading[heading=bibintoc,title={\@bibtitle}]
 			\begin{bibhyphenation}	
-			\phantomsection
 			\printbibliography[heading=noheader]
 			\end{bibhyphenation}
 		}
 		{% split the bibliography using the predefined categories:
 			\printbibheading[heading=bibintoc,title={\@bibtitle}]
 			\begin{bibhyphenation}
-			\ifmember{noliterature}{#1}{}{
+			\ifmember{noliterature}{#1}{}{%
 				\phantomsection
 				\printbibliography[filter=literature,heading=subbibintoc,title={\@bibtitleLiteratur}]
 			}
-			\ifmember{nomedia}{#1}{}{
+			\ifmember{nomedia}{#1}{}{%
 				\phantomsection
 				\printbibliography[filter=avmedia,heading=subbibintoc,title={\@bibtitleAvmedia}]
 			}
-			\ifmember{noonline}{#1}{}{
+			\ifmember{noonline}{#1}{}{%
 				\phantomsection
 				\printbibliography[filter=online,heading=subbibintoc,title={\@bibtitleOnline}]
 			}
