@@ -1,17 +1,5 @@
 \makeatletter
-
 % see https://tex.stackexchange.com/a/79060/122215
 \providecommand*{\input@path}{}
 \g@addto@macro\input@path{{lib/}}
-
 \makeatother
-
-% see https://tex.stackexchange.com/a/260921/122215
-\newcommand\ifmember[2]{%
-	\in@{#1}{#2}%
-	\ifin@
-		\expandafter\@firstoftwo
-	\else
-		\expandafter\@secondoftwo
-	\fi
-}
