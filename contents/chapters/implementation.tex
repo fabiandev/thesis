@@ -1,7 +1,7 @@
 \chapter{Implementation}
 \label{cha:implementation}
 
-After elaborating situations where runtime errors may occur in the previous chapter (see sec.~\ref{sec:undetectable-errors}), even with preceding static type checks by the TypeScript compiler, a program will be implemented, that should catch those situations while the compiled JavaScript program is running. All previously defined cases (see sec.~\ref{sec:type-check-situations}) should be honored and suitable technology should be selected to perform the required steps (see sec.~\ref{sec:required-steps}) to achieve the desired result (see sec.~\ref{sec:desired-result}).
+After elaborating situations where runtime errors may occur in the previous chapter (see Sec.~\ref{sec:undetectable-errors}), even with preceding static type checks by the TypeScript compiler, a program will be implemented, that should catch those situations while the compiled JavaScript program is running. All previously defined cases (see Sec.~\ref{sec:type-check-situations}) should be honored and suitable technology should be selected to perform the required steps (see Sec.~\ref{sec:required-steps}) to achieve the desired result (see Sec.~\ref{sec:desired-result}).
 
 \section{Technology}
 \label{sec:technology}
@@ -86,7 +86,7 @@ Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a
 
 \subsubsection{runtypes}
 
-The \emph{runtypes\footnote{\url{https://github.com/pelotom/runtypes}}} library is a fairly young project, which wants to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see sec.~\ref{sec:value-types}) is used, which does not include the comparison of parameters or tests for return type compatibility.
+The \emph{runtypes\footnote{\url{https://github.com/pelotom/runtypes}}} library is a fairly young project, which wants to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see Sec.~\ref{sec:value-types}) is used, which does not include the comparison of parameters or tests for return type compatibility.
 
 \subsubsection{flow-runtime}
 
@@ -106,7 +106,7 @@ In this section, the architecture for the application will be designed, that sho
 
 \subsection{Central Element}
 
-The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
+The transformation process is a sequential process, as defined in Section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
 
 \subsection{Components}
 
@@ -122,11 +122,11 @@ Some of the components of the application will have access to other components a
 
 \subsubsection{Scanner}
 
-Not to confuse with the scanner of the TypeScript compiler (see sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+Not to confuse with the scanner of the TypeScript compiler (see Sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
 
 \subsubsection{Mutators}
 
-For every situation where runtime type checks should be generated (see sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
+For every situation where runtime type checks should be generated (see Sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
 
 \subsubsection{Factory}
 
@@ -143,8 +143,8 @@ Miscellaneous functionality, that does not require any link to the state of the 
 %\begin{itemize}
 %  \item \textbf{Options:} It will be beneficial to control the behavior of \emph{ts-runtime}, when initiating a transformation process. While the program should provide sensible defaults, it should be possible to optionally overwrite these default settings, by passing the desired options to the application.
 %  \item \textbf{Event Bus:} Some of the components of the application will have access to other components and their API, whereas other parts of the program won't know the state of the transformation process. It might be necessary to observe, or to get notified, if a condition changes, where an event bus will be of advantage. Consequently, the event bus (i.e., bus) should be accessible globally. 
-%  \item \textbf{Scanner:} Not to confuse with the scanner of the TypeScript compiler (see sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
-%  \item \textbf{Mutators:} For every situation where runtime type checks should be generated (see sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
+%  \item \textbf{Scanner:} Not to confuse with the scanner of the TypeScript compiler (see Sec.~\ref{sec:typescript-compiler}), this component of the thesis project should scan the abstract tree of the source files. Ambient and external declarations should be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also identifier names across all source files should be stored, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
+%  \item \textbf{Mutators:} For every situation where runtime type checks should be generated (see Sec.~\ref{sec:type-check-situations}), a mutator should exist, that performs the modification or substitution of the AST node.
 %  \item \textbf{Factory:} To avoid code duplication, the factory should provide a collection of common transformations performed on syntax tree nodes. It will be utilized by the mutators, to keep their footprint as small as possible and to reduce their code complexity.
 %  \item \textbf{Context:} As not all components of the application are connected to each other, the context should provide a centralized gateway to information, that might be required in the mutators or the factory. It should, among other things, have knowledge of the current source file being processed, the options of the application and the TypeScript compiler program.
 %  \item \textbf{Utilities:} Miscellaneous functionality, that does not require any link to the state of the program, should be collected in the utilities of \emph{ts-runtime}. It should be available from any location of the project.
@@ -152,14 +152,14 @@ Miscellaneous functionality, that does not require any link to the state of the 
 
 \subsection{Outline}
 
-After the main parts of the program have been defined, it is possible to draw connections between them (see fig.~\ref{fig:architecture}).
+After the main parts of the program have been defined, it is possible to draw connections between them (see Fig.~\ref{fig:architecture}).
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/architecture}
 \caption{Component architecture of the thesis project.}
 \label{fig:architecture}
 \end{figure}
-As already stated, the central element (i.e., core) of the application controls the program flow, therefore having knowledge and access to all components of \emph{ts-runtime}. It evaluates the options, creates a TypeScript compiler program (see sec.~\ref{sec:typescript-compiler}) and triggers the scanning and transforming of the syntax tree, before emitting a compiled JavaScript project with inserted runtime type checks. 
+As already stated, the central element (i.e., core) of the application controls the program flow, therefore having knowledge and access to all components of \emph{ts-runtime}. It evaluates the options, creates a TypeScript compiler program (see Sec.~\ref{sec:typescript-compiler}) and triggers the scanning and transforming of the syntax tree, before emitting a compiled JavaScript project with inserted runtime type checks. 
 
 %\subsection{Event Bus}
 %
@@ -174,7 +174,7 @@ As already stated, the central element (i.e., core) of the application controls 
 %The required information to proceed with the actual modifications on the source file abstractions should now be available.
 
 %\begin{itemize}
-%  \item \textbf{Core:} The transformation process is a sequential process, as defined in section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
+%  \item \textbf{Core:} The transformation process is a sequential process, as defined in Section~\ref{sec:required-steps}, which already suggests, that a central element will be needed, coordinating all different steps that should to be executed. It will be responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project will have to interpret different settings, including options for the TypeScript compiler. Also it will have to react to possible errors and will have to handle them adequately.
 %  \item \textbf{Scanner:} After ensuring, that all input is valid and an abstraction of the source files from a TypeScript project to transform could be created without errors, the abstraction can be scanned. In this part of the program, ambient and external declarations will be identified, that won't be included in the compiled program, but need to be reflected in order to guarantee that type checks can take place during runtime. Also all identifier names accross source files should be remembered, to avoid duplicate identifiers when introducing new variables during the insertion of runtime type checks.
 %  \item \textbf{Mutator:} The required information to proceed with the actual modifications on the source file abstractions should now be available.
 %\end{itemize}
@@ -241,7 +241,7 @@ function transform(entryFiles: string[], options?: Options} {
 }
 \end{JsCode}
 \end{program}
-It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
+It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in Program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
 \begin{program}
 \caption{An exemplary version of the transformer, that visits all nodes of a TypeScript program and triggers the transformations.}
 \label{prog:transformer}
@@ -287,7 +287,7 @@ A valid mutator must define a \texttt{kind} property, containing a syntax kind--
   \item Is the node flagged to be skipped?
   \item Is the node declared ambient, using the \texttt{declare} keyword?
 \end{enumerate}
-If all of these checks pass, the actual \texttt{mutate} method is called. If, however, any of the conditions from above could not be met, the original node is returned untouched. Based on the defined cases from section~\ref{sec:type-check-situations}, the following mutators were implemented, located in \texttt{src/mutators}, also showing their file names without an extension:
+If all of these checks pass, the actual \texttt{mutate} method is called. If, however, any of the conditions from above could not be met, the original node is returned untouched. Based on the defined cases from Section~\ref{sec:type-check-situations}, the following mutators were implemented, located in \texttt{src/mutators}, also showing their file names without an extension:
 \begin{itemize}
   \item ArrowFunctionMutator
   \item AsExpressionMutator
@@ -305,7 +305,7 @@ Some of the implementations were more complex than others and special cases had 
 
 \subsubsection{Arrow Function Mutator}
 
-The arrow function mutator has to modify the body of the passed node, while some peculiarities have to be considered. As for every other function type (i.e., function expression and function declaration), the parameters have to be asserted, while they can be optional or may have a default value. Also every location where the function may return a value has to be observed and checked. A major difference to function expressions is, that they can omit the function body, previously described in section~\ref{sec:latest-improvements}. In such a case it has to be created, in order to be able to insert runtime type checks. Because of the arrow function mutator being relatively small, compared to other mutators, it is shown in program~\ref{prog:mutator:arrow-function}.
+The arrow function mutator has to modify the body of the passed node, while some peculiarities have to be considered. As for every other function type (i.e., function expression and function declaration), the parameters have to be asserted, while they can be optional or may have a default value. Also every location where the function may return a value has to be observed and checked. A major difference to function expressions is, that they can omit the function body, previously described in Section~\ref{sec:latest-improvements}. In such a case it has to be created, in order to be able to insert runtime type checks. Because of the arrow function mutator being relatively small, compared to other mutators, it is shown in Program~\ref{prog:mutator:arrow-function}.
 \begin{program}
 \caption{The arrow function mutator of \emph{ts-runtime}.}
 \label{prog:mutator:arrow-function}
@@ -328,7 +328,7 @@ Analyzing the code of the class, it obviously makes use of the factory, that wil
 \begin{JsCode}[numbers=none]
 (): string => "bar";
 \end{JsCode}
-The call to \texttt{mutateFunctionBody} in program~\ref{prog:mutator:arrow-function} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
+The call to \texttt{mutateFunctionBody} in Program~\ref{prog:mutator:arrow-function} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
 \begin{JsCode}[numbers=none]
 () => {
   const _returnType = t.return(t.string());
@@ -366,7 +366,7 @@ The code from above will therefore be substituted with the statement below:
 \begin{JsCode}[numbers=none]
 t.number().assert("foo");
 \end{JsCode}
-While the assertion used in this example already raises an error when being statically checked by the TypeScript compiler, there are situations where a cast can be performed successfully, even though types do not match (see sec.~\ref{sec:undetectable-errors}).
+While the assertion used in this example already raises an error when being statically checked by the TypeScript compiler, there are situations where a cast can be performed successfully, even though types do not match (see Sec.~\ref{sec:undetectable-errors}).
 
 \subsubsection{Binary Expression Mutator}
 
@@ -376,8 +376,8 @@ Binary expressions in JavaScript (and TypeScript) include, but are not limited t
 
 The transformation API of the TypeScript compiler allows for substituting AST nodes, by returning another node from a tree visitor. While this functionality is heavily used in the project of this thesis, it does only allow to replace a node with exactly one other node. There are cases that require mutators to substitute a node with a list of nodes. These situations include declarations for functions, classes and enums:
 \begin{itemize}
-  \item As shown in the mutator for arrow functions, they are annotated with their signature reflection. Also function declarations have to be annotated in this way, but it is not possible to wrap them into another function call, as this would change the scope of the declaration (see sec.~\ref{sec:latest-improvements}). Because of that, the annotation should be added beneath the function declaration itself.
-  \item The same applies to enumerations, as they are initialized by a self executing function in the target code (see sec.~\ref{sec:type-check-situations}). Also there is no information available about the variable that will hold the enum object after the TypeScript compiler emits the final JavaScript code, during transformation. This means, that the annotation should take place after the initialization of the runtime representation of the enumeration.
+  \item As shown in the mutator for arrow functions, they are annotated with their signature reflection. Also function declarations have to be annotated in this way, but it is not possible to wrap them into another function call, as this would change the scope of the declaration (see Sec.~\ref{sec:latest-improvements}). Because of that, the annotation should be added beneath the function declaration itself.
+  \item The same applies to enumerations, as they are initialized by a self executing function in the target code (see Sec.~\ref{sec:type-check-situations}). Also there is no information available about the variable that will hold the enum object after the TypeScript compiler emits the final JavaScript code, during transformation. This means, that the annotation should take place after the initialization of the runtime representation of the enumeration.
   \item For classes the situation is different. Decorators can be used to annotate the class, but its type parameters need to be available before the first instantiation, to make use of them in the class signature reflection.
 \end{itemize}
 To better illustrate, how the transformation for classes differ from function and enum declarations in the block-like mutator, the code below is given:
@@ -421,9 +421,9 @@ class NumberConverter extends Singleton implements Converter {
 
 }
 \end{JsCode}
-It extends another class and implements a single interface. Furthermore, a \emph{readonly} property is defined, and the method \texttt{convert} is overloaded. The result, after being processed by \emph{ts-runtime}, is shown in program~\ref{prog:transformation:class}.
+It extends another class and implements a single interface. Furthermore, a \emph{readonly} property is defined, and the method \texttt{convert} is overloaded. The result, after being processed by \emph{ts-runtime}, is shown in Program~\ref{prog:transformation:class}.
 \begin{program}
-\caption{JavaScript code, after the transformation of a class from section~\ref{sec:mutators}.}
+\caption{JavaScript code, after the transformation of a class from Section~\ref{sec:mutators}.}
 \label{prog:transformation:class}
 \begin{JsCode}
 @t.annotate(t.class("NumberConverter", t.extends(t.ref(Singleton)),
@@ -631,7 +631,7 @@ The number in the runtime reflection is the hashed file name, as previously ment
 
 \subsection{Options}
 
-In order to provide developers with the ability to adjust the behavior of this project, the options component exposes an interface, settings have to align to (see prog~\ref{prog:options}):
+In order to provide developers with the ability to adjust the behavior of this project, the options component exposes an interface, settings have to align to (see Prog.~\ref{prog:options}):
 \begin{program}
 \caption{The interface for the options of \emph{ts-runtime}.}
 \label{prog:options}
@@ -664,7 +664,7 @@ interface Options {
   \item \textbf{libNamespace:} If a prefix for the library identifier is desired, it can be set with this option.
   \item \textbf{declarationPrefix:} In some situations, new variable declarations are introduced by the mutators. To easily distinguish generated identifiers from others, a prefix can be set.
 \end{itemize}
-While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings, that will be used for every option that is not specified (see prog.~\ref{prog:options-defaults}).
+While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings, that will be used for every option that is not specified (see Prog.~\ref{prog:options-defaults}).
 \begin{program}
 \caption{The default options for \emph{ts-runtime}.}
 \label{prog:options-defaults}
@@ -720,17 +720,17 @@ A variety of elements work together to achieve the desired result of the project
 \begin{enumerate}
   \item The transformer has to obtain a complete set of options, by requesting the default options for \emph{ts-runtime} and the TypeScript compiler, which can then be merged with the settings passed. If the options are not valid, the transformation is stopped.
   \item The root directory for the TypeScript project to be processed needs to be discovered next. Either it is provided through the TypeScript compiler option \emph{rootDir}, or it is computed based on the input entry files.
-  \item At this point the transformer distinguishes between a compilation of files from the file system or a reflection, that is represented by a list of objects, containing the file name and its contents as a string. The latter requires a custom compiler host (see sec.~\ref{sec:typescript-compiler}) to be created, which can provide the TypeScript program with the appropriate data from the reflection list. For a classic compilation, the standard compiler host, provided by TypeScript, will be used.
+  \item At this point the transformer distinguishes between a compilation of files from the file system or a reflection, that is represented by a list of objects, containing the file name and its contents as a string. The latter requires a custom compiler host (see Sec.~\ref{sec:typescript-compiler}) to be created, which can provide the TypeScript program with the appropriate data from the reflection list. For a classic compilation, the standard compiler host, provided by TypeScript, will be used.
   \item A TypeScript program is instantiated with the compiler host, the compiler options, and the entry files. The TypeScript compiler will now process the project and provides access to the type checker, alongside other useful functionality, like compiler diagnostics (i.e., errors).
   \item If errors were detected by TypeScript, the processing will be stopped. In case of the force option being set, the transformation will only be aborted, if diagnostics occurred that are not related to semantics.
   \item The abstract syntax tree for each source file is scanned, where identifiers are stored and ambient and external declarations are extracted.
   \item The state of the application now allows for the actual transformations to take place. Every node is passed to the mutators, which perform modifications if required.
-  \item As the current TypeScript program is no longer synchronized with the AST of the source files, it has to be replaced with a new instance. The TypeScript printer (see sec.~\ref{sec:typescript-compiler}) is utilized to create a reflection of the project, that---alongside with a compiler host that supports the reflections---is used to create a new program.
+  \item As the current TypeScript program is no longer synchronized with the AST of the source files, it has to be replaced with a new instance. The TypeScript printer (see Sec.~\ref{sec:typescript-compiler}) is utilized to create a reflection of the project, that---alongside with a compiler host that supports the reflections---is used to create a new program.
   \item The target code can now be emitted by the TypeScript program, and the result is written to disk or a reflection of the emitted files is created.
   \item As a last step all external and ambient declarations are requested from the scanner. The transformer then creates runtime representations through the factory and includes them in the emitted result.
   \item The transformation process is now finished and a file reflection list, containing the target files, is returned.
 \end{enumerate}
-A diagram, depicting the most significant parts of this process, can also be found in figure~\ref{fig:transformation-process}.
+A diagram, depicting the most significant parts of this process, can also be found in Figure~\ref{fig:transformation-process}.
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/transformation}
@@ -766,7 +766,7 @@ While the examples from above make use of a code style from the EcmaScript 2015 
 \begin{JsCode}[numbers=none]
 const tsr = require("ts-runtime");
 \end{JsCode}
-However, when utilizing a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax from the former two examples may be used. After successfully loading the project of this thesis, its functionality can be used programmatically, which is outlined in program~\ref{prog:usage-api}.
+However, when utilizing a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax from the former two examples may be used. After successfully loading the project of this thesis, its functionality can be used programmatically, which is outlined in Program~\ref{prog:usage-api}.
 \begin{program}
 \caption{This code makes uses the API of the thesis project and utilizes the bus component to append TypeScript compiler diagnostics to a file.}
 \label{prog:usage-api}
@@ -821,7 +821,7 @@ The only argument that is required to be passed to the command line interface, i
 \subsection{Playground}
 \label{sec:usage-playground}
 
-To easily test \emph{ts-runtime} for small code snippets, a playground was created, to try the project in a browser. It takes advantage of the reflection transformation feature, which does not require an underlying file system. While it is not included in the published package on the npm registry, it can be obtained from the repository on GitHub\footnote{\url{https://github.com/fabiandev/ts-runtime}}, where the source code of the project is available. The playground is also served directly from this repository\footnote{\url{https://fabiandev.github.io/ts-runtime/}}, as shown in figure~\ref{fig:playground}.
+To easily test \emph{ts-runtime} for small code snippets, a playground was created, to try the project in a browser. It takes advantage of the reflection transformation feature, which does not require an underlying file system. While it is not included in the published package on the npm registry, it can be obtained from the repository on GitHub\footnote{\url{https://github.com/fabiandev/ts-runtime}}, where the source code of the project is available. The playground is also served directly from this repository\footnote{\url{https://fabiandev.github.io/ts-runtime/}}, as shown in Figure~\ref{fig:playground}.
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{playground-shadow}
