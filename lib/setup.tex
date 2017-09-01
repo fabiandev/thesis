@@ -1,0 +1,7 @@
+\makeatletter
+  \newcommand{\setlibpath}[1][lib/]{
+    % see https://tex.stackexchange.com/a/79060/122215
+    \providecommand*{\input@path}{}
+    \g@addto@macro\input@path{{#1}}
+  }
+\makeatother
