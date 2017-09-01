@@ -1,7 +1,10 @@
 \makeatletter
-  \newcommand{\setlibpath}[1][lib/]{
+  %% command to append a path to the input paths
+  \newcommand{\setlibpath}[1]{
     % see https://tex.stackexchange.com/a/79060/122215
     \providecommand*{\input@path}{}
     \g@addto@macro\input@path{{#1}}
   }
 \makeatother
+
+\setlibpath{lib/} % automatically append lib/ to input paths
