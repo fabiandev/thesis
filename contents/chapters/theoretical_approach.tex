@@ -116,11 +116,9 @@ let foo = MyString.accepts(10);
 \end{JsCode}
 Before the number is assigned, it should be passed to the type representation of \texttt{MyString}, which should check if the received value is compatible. In case of a violation, the program should report an error.
 
-% TODO: Rename. Also contains type reflection
 \section{Definition of Cases}
 \label{sec:type-check-situations}
 
-% this are the cases, where we want to perform type checks
 The current situation for TypeScript projects, as discussed in Section~\ref{sec:existing-projects} observed, that runtime type checks cannot be generated automatically at this time. Additional effort is required to integrate code safety features for the compiled program. This means that situations may be missed, where checks would be of advantage. In order to achieve a development environment, where as many undetectable errors (see Sec.~\ref{sec:undetectable-errors} as possible are reported during execution time, it may be beneficial to automate the inclusion of runtime type checks. In order to provide generated runtime type checks for a TypeScript project, cases have to be collected, where such checks have to be performed.
 
 \subsection{Interfaces and Type Aliases}

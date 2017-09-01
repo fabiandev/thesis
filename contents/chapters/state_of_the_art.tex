@@ -17,8 +17,6 @@ This means that every program that is valid in JavaScript is also legal in a Jav
 
 TypeScript was created by Anders Hejlsberg---the designer of C\texttt{\#}---at Microsoft~\cite[p.~10]{MasteringTypeScript:Rozentals:2017} and was released in 2012 under the Apache 2.0 open source license~\cite[p.~xix]{ProTypeScript:Fenton:2014}. The most important aspect of TypeScript is, that it includes a compilation step, where static type checking is performed~\cite[p.~11]{MasteringTypeScript:Rozentals:2017}. Type annotations are optional and the compiler will infer type information where possible~\cite[p.~10]{TypeScriptBook:Syed:2017}. TypeScript also introduces concepts known from other programming languages, such as interfaces and enumerations (i.e., enums). Not only it is possible to develop a program in the TypeScript syntax, but also to add type annotations to existing JavaScript projects~\cite[p.~13]{MasteringTypeScript:Rozentals:2017}. The most significant particularities and features will be explored in this section.
 
-% implicit/type inference, explicit, structural/type compatibility, ambient, generics, union types
-
 \subsubsection{Basic Types}
 \label{sec:ts-basic-types}
 
@@ -31,8 +29,6 @@ Like many major languages, TypeScript defines some basic types, that overlap wit
   \item \emph{Never} for instance is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back~\cite{TypeScriptHandbook:BasicTypes}.
 \end{itemize}
 While other types, such as \emph{Function} or more advanced structures are also available, the ones listed in combination with those already defined in JavaScript (i.e., Undefined, Null, Boolean, String, Symbol, Number, and Object) are the most important ones to get started.
-
-%The \emph{Tuple} type is a special kind of an array, only allowing a fixed number of elements. \emph{Enum} may be already known from other programming languages, like Java, which is useful to define a set of numeric values. The \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available. It also allows e.g. to access any property on an object, whether it does exist or not. The counterpart to Any is the \emph{Void} type. Again, it is used in other languages, for example to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} will be accepted as value. The \emph{Never} is, for instance, useful for functions that always throw an error or result in an infinite loop, as a value won't ever come back~\cite{TypeScriptHandbook:BasicTypes}.
 
 \subsubsection{Type Inference}
 \label{sec:ts-type-inference}
@@ -62,25 +58,6 @@ num = 1;
 \end{JsCode}
 The variable \texttt{num} was declared, but not initialized, requiring  a type annotation, in order to be treated as a number by TypeScript. Omitting the explicit type information, the compiler would infer the Any type, allowing arbitrary assignments to the variable.
 
-%\begin{program}
-%\caption{This program shows the basic usage of an interface in TypeScript. After compilation, only the class will remain in the JavaScript code. The interface, as well as the \texttt{implements} clause, are compiled away.}
-%\label{prog:ts-ambient-interface}
-%\begin{JsCode}
-%type StringOrNumber = string | number;
-%
-%interface CanSpeak {
-%  speak();
-%}
-%
-%class Person implements CanSpeak {
-%  speak() {
-%    return `Hi, my name is \${name}`;
-%  }
-%}
-%\end{JsCode}
-%\end{program}
-
-%TODO: missing footnote explanation
 \subsubsection{Type Assertions}
 \label{sec:ts-type-assertions}
 
@@ -93,7 +70,7 @@ It is the developer that has to take care of performing sufficient checks when u
 import RandomName from "random-name";
 let name: string = (RandomName as any).getName();
 \end{JsCode}
-In the sample from above, the default export from the library \texttt{random-name} was imported as \texttt{RandomName}. This package is neither written in TypeScript nor does it have type definitions available. However, the library has a callable \texttt{getName} property, returning a string. As the compiler is not aware of the package's properties and their return types, it is necessary to tell it which type to assert. \texttt{RandomName} was casted to \texttt{any}, allowing property access independently of their existence. Again, because of type assertions (or type casts) not performing any special checking, the solution from above may lead to errors if the author of the package decides to change its API\footnote{TODO: Explain API}. Therefore manually checking for if \texttt{RandomName} has a callable \texttt{getName} property and is actually returning a string may be recommended here.
+In the sample from above, the default export from the library \texttt{random-name} was imported as \texttt{RandomName}. This package is neither written in TypeScript nor does it have type definitions available. However, the library has a callable \texttt{getName} property, returning a string. As the compiler is not aware of the package's properties and their return types, it is necessary to tell it which type to assert. \texttt{RandomName} was casted to \texttt{any}, allowing property access independently of their existence. Again, because of type assertions (or type casts) not performing any special checking, the solution from above may lead to errors if the author of the package decides to change its application programming interface (i.e., API). Therefore manually checking for if \texttt{RandomName} has a callable \texttt{getName} property and is actually returning a string may be recommended here.
 As an alternative to the type casting syntax with the \texttt{as} keyword, the following may be used:
 \begin{JsCode}[numbers=none]
 let name: string = (<any>RandomName).getName();
@@ -102,7 +79,7 @@ However, this \emph{angle-bracket} syntax is not supported when using TypeScript
 
 \subsubsection{Ambient Type Declarations}
 \label{sec:ts-ambient-type-declarations}
-% TODO: Refactor TypeScript type assertions
+
 In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g.\ classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, that was not written in TypeScript and there are no type definitions for it available. In the previous section type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g.\ a variable, class, namespace or enum with the \texttt{declare} keyword, makes them ambient and will be treated by the compiler as if they were part of the code:
 \begin{JsCode}[numbers=none]
 declare const RandomName: any;
@@ -114,8 +91,6 @@ declare const RandomName: {
 };
 \end{JsCode}
 From now on, TypeScript will know, that the import has a callable property \texttt{getName} that returns a string.
-
-% pick up later with hasOwnProperty typeof === function and return typeof string
 
 \subsubsection{Structural Types}
 \label{sec:ts-structural-types}
@@ -141,10 +116,8 @@ p = new Person();
 
 \subsubsection{Classes}
 \label{sec:ts-classes}
-% TODO: Refactor TypeScript structural types
-% TODO: Add info about abstract classes 
 
-TypeScript not only enables static type checking for JavaScript applications, but also includes additional language features. While EcmaScript 2015 introduced classes, with TypeScript it is possible to also add visibility modifiers and interface implementation to them as shown below.
+TypeScript not only enables static type checking for JavaScript applications, but also includes additional language features. While EcmaScript 2015 introduced classes, with TypeScript it is possible to also define them as abstract and to add visibility modifiers and interface implementations to them as shown below.
 \begin{JsCode}[numbers=none]
 class Person implements Human {
   public name: string;
@@ -166,7 +139,7 @@ class Person {
   }
 }
 \end{JsCode}
-This means that it is technically possible, to assign any arbitrary value to \texttt{id} of a \texttt{Person} instance during runtime.
+This means that it is technically possible, to assign an arbitrary value to \texttt{id} of a \texttt{Person} instance during runtime.
 
 \subsubsection{Enums}
 \label{sec:ts-enums}
@@ -329,7 +302,6 @@ Alternatively the library \emph{flow-remove-types\footnote{\url{https://github.c
 \subsection{Others}
 \label{sec:other-supersets}
 
-% TODO: check if the itemize is OK with citing
 Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, some of them being supersets, with different purposes. The \emph{CoffeeScript\footnote{\url{https://github.com/jashkenas/coffeescript}}} project collected an extensive list, containing the following maintained languages they refer to as supersets~\cite{LanguagesToJavaScript}:
 \begin{itemize}
   \item \textbf{JavaScript\texttt{++}:} Supports classes, type checking, and other features.
@@ -398,7 +370,7 @@ information is only available from ECMAScript 5.1, or may not be available at al
 as being of a type, if specified properties exist on it~\cites[pp.~101--102]{MasteringTypeScript:Rozentals:2015}[pp.~18--20]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. For example every \textit{Person} object must implement a \textit{getName} method. By verifying if a function with this name is available on the object, it may be considered as the given type. This gets closer to TypeScript's structural types (see Sec.~\ref{sec:ts-structural-types}).
   \item \textbf{Interface checking with generics:} For every interface there is a 
 class, which holds its property names, to identify an object as 
-having a specific type~\cites[pp.~102-105]{MasteringTypeScript:Rozentals:2015}[pp.~17--19]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. This solution is similar to the previous one, but it introduces a pattern which is more readable and maintainable.
+having a specific type~\cites[pp.~102--105]{MasteringTypeScript:Rozentals:2015}[pp.~17--19]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. This solution is similar to the previous one, but it introduces a pattern which is more readable and maintainable.
 \end{itemize}
 Another mechanism is to use \textit{decorators\footnote{\url{https://tc39.github.io/proposal-decorators}}},
 a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like \emph{Babel\footnote{\url{https://babeljs.io}}}~\cite{TypeScriptHandbook:Decorators, Babel:Plugins:Decorators}.

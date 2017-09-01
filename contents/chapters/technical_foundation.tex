@@ -16,13 +16,11 @@ with the purpose to
 \begin{quote}
   [...] prevent the occurrence of \emph{execution errors} during the running of a program~\cite[p.~1]{TypeSystems:Cardelli:2004}.
 \end{quote}
-He further equates \emph{type system} with \emph{static type system} and also \citeauthor{TypesAndProgrammingLanguages:Pierce:2002} defines type systems as being static~\cite[p.~2]{TypesAndProgrammingLanguages:Pierce:2002}, which categorizes languages as untyped, that may distinguish between types in run time, but do not have knowledge about types during compile time or interpretation, such as JavaScript (see Sec.~\ref{sec:javascript}). This notion is further supported by \citeauthor{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}, stating that
+He further equates \emph{type system} with \emph{static type system} and also \citeauthor{TypesAndProgrammingLanguages:Pierce:2002} defines type systems as being static~\cite[p.~2]{TypesAndProgrammingLanguages:Pierce:2002}, which categorizes languages as untyped, that may distinguish between types in runtime, but do not have knowledge about types during compile time or interpretation, such as JavaScript (see Sec.~\ref{sec:javascript}). This notion is further supported by \citeauthor{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}, stating that
 \begin{quote}
   [l]anguages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}.
 \end{quote}
 A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g.\ in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g.\ in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
-
-% While a type system may help in preventing execution errors, a programming language is not required to have a type system to ensure against specific errors, as there are mechanisms for untyped languages to make them safe. % runtime type checks (see ..!)
 
 \subsection{Explicitly and Implicitly Typed}
 \label{sec:explicitly-implicitly-typed}
@@ -36,7 +34,7 @@ While a type system---explicit, implicit or a combination of both---may detect p
 
 \subsection{Execution Errors}
 \label{sec:execution-errors}
-% runtime
+
 Errors can occur in various situations and in order to classify a language, it is important to understand the different types of errors. \citeauthor{TypeSystems:Cardelli:2004} distinguished between three error categories: Trapped errors, untrapped errors and forbidden errors~\cite[p.~3]{TypeSystems:Cardelli:2004}.
 
 \subsubsection{Trapped Errors}
@@ -51,7 +49,6 @@ Errors where a program does not crash or raise an exception immediately are call
 
 Following the definition of \citeauthor{TypeSystems:Cardelli:2004}, forbidden errors should include ``all of the untrapped errors, plus a subset of the trapped errors~\cite[p.~3]{TypeSystems:Cardelli:2004}''. They are not generally defined, but vary between programming languages and may even not include all untrapped errors, which leads to a language being  considered as unsafe~\cite[p.~4]{TypeSystems:Cardelli:2004}.
 
-% sound
 \subsection{Safety and Good Behavior}
 \label{sec:safety-good-behavior}
 
@@ -60,45 +57,7 @@ A programming language can be considered as safe if no untrapped errors can appe
 \subsection{Type Checking}
 \label{sec:type-checking}
 
-To ensure that a program follows the specified rules of its type system and to guarantee safety and good behavior (i.e., ensuring the absence of forbidden errors~\cite[p.~37]{TypeSystems:Cardelli:2004}), as described in Section~\ref{sec:safety-good-behavior}, type checking may be performed. Again, \citeauthor{TypeSystems:Cardelli:2004} treats \emph{type checking} and \emph{static type checking} as equivalent and calls languages that employ such a technique \emph{statically checked}~\cite[p.~3]{TypeSystems:Cardelli:2004}. Dynamically checked programming languages, on the other hand, may also ensure good behavior by applying sufficient checks at run time. Anyway, statically checked languages may also perform checks during the execution of a program to guarantee safety, if not all untrapped errors can be discovered statically during compilation~\cite[p.~4]{TypeSystems:Cardelli:2004}.
-
-%\subsubsection{Static Checking}
-%
-%\subsubsection{Dynamic Checking}
-
-% How safety is accomplished can differ,
-
-%\begin{itemize}
-%\item Trapped Error
-%\item Untrapped Error
-%\item Forbidden Error
-%\end{itemize}
-
-% Strongly Checked, Weakly Chechecked
-
-% Terminology; Soundness and Safety; Strongly and Weekly Checked, Well Typed and Well Behaved
-
-%\subsection{Explicit and Implicit Typing}
-%\label{sec:explicit-implicit-typing}
-
-%Explicitly typed languages require a programmer to define types manually in a program as shown below.
-%\begin{JavaCode}[numbers=none]
-%int i = 10;
-%boolean b = true;
-%\end{JavaCode}
-%Languages that are typed implicitly may look like the following:
-%\begin{JsCode}[numbers=none]
-%let i = 10;
-%let b = true;
-%\end{JsCode}
-
-%\subsection{Static and Dynamic Typing}
-%\label{sec:static-dynamic-typing}
-%
-%\subsection{Strong and Weak Typing}
-%\label{sec:strong-weak-typing}
-
-% In strongly typed languages it is guaranteed that there will be no forbidden errors at run time, where in weakly typed languages such errors may occur~\cite[p.~97-38]{ComputerScienceHandbook}. 
+To ensure that a program follows the specified rules of its type system and to guarantee safety and good behavior (i.e., ensuring the absence of forbidden errors~\cite[p.~37]{TypeSystems:Cardelli:2004}), as described in Section~\ref{sec:safety-good-behavior}, type checking may be performed. Again, \citeauthor{TypeSystems:Cardelli:2004} treats \emph{type checking} and \emph{static type checking} as equivalent and calls languages that employ such a technique \emph{statically checked}~\cite[p.~3]{TypeSystems:Cardelli:2004}. Dynamically checked programming languages, on the other hand, may also ensure good behavior by applying sufficient checks at runtime. Anyway, statically checked languages may also perform checks during the execution of a program to guarantee safety, if not all untrapped errors can be discovered statically during compilation~\cite[p.~4]{TypeSystems:Cardelli:2004}.
 
 \section{JavaScript}
 \label{sec:javascript}
@@ -107,9 +66,7 @@ JavaScript dates back to 1996, where its creator Brendan Eich from the company \
 
 While JavaScript is known for programming inside browsers and adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js\footnote{\url{https://nodejs.org}}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}, also used in the popular \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
-% Add info about ECMAScript? JS and ES used as synonyms for the most parts. ES to distinguish versions/editions
-
-The following sections try to give an ample exposure to the language JavaScript, outlining its most important and interesting concepts. Please note, that not all cases---especially the numerous exceptions---are described, as this would go beyond the scope of this thesis.
+The following sections try to give an overview of the language JavaScript, outlining its most important and interesting concepts. Please note, that not all cases---especially the numerous exceptions---are described, as this would go beyond the scope of this thesis.
 
 \subsection{Loose Typing}
 \label{sec:untyped-loosely-typed}
@@ -119,7 +76,7 @@ Like in other programming languages, variables can be declared and values may be
 let foo = 10;
 foo = "I've been a number, now I'm a string";
 \end{JsCode}
-The term \emph{loose typing} may be misleading to infer that JavaScript has a type system. However, when following standard terminology and keeping in mind that type system is equal to \emph{static} type system, it is made clear, that JavaScript is considered untyped. It does employ mechanisms to reject code from running, that has semantic errors, but evaluation is performed during execution, and errors are determined and reported during run time~\cite[p.~291]{ES6Spec:Ecma:2015}. Therefore JavaScript can be deemed a \emph{dynamically checked} language (see Sec.~\ref{sec:type-checking}).
+The term \emph{loose typing} may be misleading to infer that JavaScript has a type system. However, when following standard terminology and keeping in mind that type system is equal to \emph{static} type system, it is made clear, that JavaScript is considered untyped. It does employ mechanisms to reject code from running, that has semantic errors, but evaluation is performed during execution, and errors are determined and reported during runtime~\cite[p.~291]{ES6Spec:Ecma:2015}. Therefore JavaScript can be deemed a \emph{dynamically checked} language (see Sec.~\ref{sec:type-checking}).
 
 \subsection{Value Types}
 \label{sec:value-types}
@@ -134,7 +91,7 @@ JavaScript is an untyped and dynamically checked---but safe---scripting language
   \item Number
   \item Object
 \end{itemize}
-A major difference to a (statically) typed language is, that in JavaScript only values are typed, variables are not. When requesting the type of a variable with the \texttt{typeof} operator during run time, the assigned value's type is determined and returned as a string~\cite[p.~30]{YDKJS:UpAndGoing:Simpson:2015}:
+A major difference to a (statically) typed language is, that in JavaScript only values are typed, variables are not. When requesting the type of a variable with the \texttt{typeof} operator during runtime, the assigned value's type is determined and returned as a string~\cite[p.~30]{YDKJS:UpAndGoing:Simpson:2015}:
 \begin{JsCode}[numbers=none]
 let num = 10;
 typeof num; // "number"
@@ -145,8 +102,8 @@ The returned string by \texttt{typeof} does not reflect the specified value type
 \caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
 \label{tab:typeof}
 \centering
-  \setlength{\tabcolsep}{5mm} % separator between columns
-  \def\arraystretch{1.25} % vertical stretch factor
+  \setlength{\tabcolsep}{5mm}
+  \def\arraystretch{1.25}
   \small
   \begin{tabular}{|c|c|}
     \hline
@@ -204,8 +161,6 @@ Again, even a slight change to the code means an entirely different outcome:
 \end{JsCode}
 A more comprehensive overview of possible type conversions, summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with Symbol type conversions as of the latest ECMAScript 2015 specification, can be found in Tab.~\ref{tab:conversions}, which also highlights situations, where type conversions are not possible or lead to an error.
 
-% Although conversion between types is performed by JavaScript, it is possible to explicitly perform a cast. (Explicit conversion)
-
 \begin{table}
 \caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}.}\label{tab:conversions}
 \centering
@@ -215,7 +170,7 @@ A more comprehensive overview of possible type conversions, summarized by \citea
   \setlength{\tabcolsep}{1ex}
   \small
   \begin{threeparttable}
-  \begin{tabular}{|l||c|c|c|c|c|} % p{0.25\textwidth}
+  \begin{tabular}{|l||c|c|c|c|c|}
     \hline
       \multicolumn{1}{|c}{\emph{Initial Value}} &
       \multicolumn{1}{|c}{\emph{String}} &
@@ -347,26 +302,6 @@ A more comprehensive overview of possible type conversions, summarized by \citea
 \end{threeparttable}
 \end{table}
 
-%When taking a look at table~\ref{tab:truthy-falsy}, the following examples are considered equal and evaluate to true:
-%\begin{JsCode}
-%"" == false
-%
-%\end{JsCode}
-%whereas the expressions below will be false:
-%\begin{JsCode}
-%"" == true
-%null == -1
-%1 == NaN
-%!1
-%{} == ""
-%\end{JsCode}
-%In order to check if a value \emph{and} type of compared values actually equals, without performing a conversion, the strict equality operator may be used as such:
-%\begin{JsCode}
-%"1" === "1" // true
-%"1" === 1 // false
-%\end{JsCode}
-
-% TODO: missing footnote explanation
 \subsection{Value Comparison}
 \label{sec:value-comparison}
 
@@ -375,12 +310,12 @@ In Section~\ref{sec:type-conversion}, the flexibility of JavaScript has already 
 "5" > 2 // true
 "2" == 2 // true
 \end{JsCode}
-When comparing with the \emph{equality operator} \texttt{==} there are a few rules to keep in mind~\cite[~p.~72]{JavaScriptTheDefinitiveGuide:Flanagan:2011}:
+When comparing with the \emph{equality operator} \texttt{==} there are a few rules to keep in mind~\cite[p.~72]{JavaScriptTheDefinitiveGuide:Flanagan:2011}:
 \begin{itemize}
   \item The values \texttt{null} and \texttt{undefined} are considered equal.
   \item If a number and a string are compared, the string is converted to a number.
-  \item The values \texttt{true} and \texttt{false} are converted to \texttt{1} and \texttt{0} respectively.
-  \item Objects are compared by reference\footnote{Todo: Explain by reference and by value shortly}, whereas one value being a number and the other one being a string, JavaScript tries to convert it to a primitive value, either by using the object's toString or valueOf method.
+  \item The values \texttt{true} and \texttt{false} are converted to \texttt{1} and \texttt{0}, respectively.
+  \item Objects are compared by reference\footnote{In JavaScript an object's reference ``[...] points to [its] location in memory~\cite{ByValueByReference:Aggarwal:2017}''.}, whereas if the value to compare an object to is a number or a string, JavaScript tries to convert the object to a primitive value, either by using the object's \emph{toString} or \emph{valueOf} method.
   \item All other comparisons are not equal.
 \end{itemize}
 If a more strict comparison is required and an automatic conversion of values is not desired, the \emph{strict equality operator} \texttt{===} may be used. Only if type and value matches, the expression evaluates to true:
@@ -394,29 +329,6 @@ Following the rules from above it is interesting to look at comparing an object 
 {} === "[object Object]" // false
 \end{JsCode}
 Using the equality operator, the object is converted using the default toString method, returning \texttt{"[object Object]"}, resulting in the compared values being equal. When making use of the \emph{strict} equality operator, no conversion is performed and the expression is false.
-
-% {} == "[object Object]" // true
-% {} === "[object Object]" // false
-
-% NaN never true
-
-%At this point it is important to keep the values considered as truthy or falsy from table~\ref{tab:truthy-falsy} in mind. 
-%Checking for equality on two truthy or falsy values evaluates to true:
-%\begin{JsCode}[numbers=none]
-%0 == "" // true
-%\end{JsCode}
-%Besides JavaScript converting values if necessary, it does not perform a cast, if the types of the values match. E.g.\ comparing \texttt{NaN} to \texttt{0}, will evaluate to \texttt{false}. Both values are of type Number. 
-%In order to check if a value's type actually equals a type, the strict equality operator may be used as such:
-%\begin{JsCode}
-%"1" === 1   // false
-%"1" === "1" // true
-%\end{JsCode}
-
-
-
-% The flexibility of JavaScript 
-
-% NaN
 
 \subsection{Objects and Prototypal Inheritance}
 \label{sec:objects-prototypal-inheritance}
@@ -663,56 +575,8 @@ The result of all three concatenation techniques from above is identical.
 
 \subsubsection{Beyond ECMAScript 2015}
 
-The development of JavaScript is dependent on its specification defined by ECMAScript and it took long for new editions to be released~\cite{ECMA262Archive:Ecma}. Edition 5.1 was published in 2011~\cite{ESSpecOnline:Ecma:2011}, from where it took four years until the sixth edition was released in June 2015~\cite{ES2015SpecOnline:Ecma:2015}. Starting with ECMAScript 2015, a new specification will be released yearly~\cite{ECMAScriptNextSupportInMozilla:Mozilla:2017}, with the seventh edition of ECMAScript from 2016 being the latest~\cites{ECMA262:Ecma:2016}{ES2016SpecOnline:Ecma:2016}.
-
-% compare ES5 "classes" to ES6 classes with extends
-
-
-%\begin{JsCode}
-%var num = 10;
-%typeof num; // "number"
-%\end{JsCode}
-%If a variable does not have a value assigned, \texttt{"undefined"} is returned.
-%\begin{JsCode}
-%var foo;
-%typeof foo; // "undefined"
-%\end{JsCode}
-%Because of values having a type, \texttt{typeof} may be performed directly on them:
-%\begin{JsCode}
-%typeof "I am a string!"; // "string"
-%\end{JsCode}
-%As mentioned before, the type of a value (or the type of a variable's value) is returned as a string, so the operation below is possible in JavaScript:
-%\begin{JsCode}
-%typeof typeof foo; // "string"
-%\end{JsCode}
-
-%\subsection{Objects}
-%\label{sec:objects}
-%
-%\subsection{Classes}
-%\label{sec:classes}
-%
-%\subsection{Value Comparison}
-%\label{sec:value-comparison}
-%
-%\subsection{Prototypal Inheritance}
-%\label{sec:prototypal-inheritance}
-%
-%\subsection{Scope and Global Variables}
-%\label{sec:scope-global-variables}
-%
-%\subsection{Prototypal Inheritance}
-%\label{sec:prototypal-inheritance}
-%
-%\subsection{Strict Mode}
-%\label{sec:strict-mode}
-
-% Weak typing
-% no type checks
-% undefined (is not a function)
-
-%\subsection{Specifications}
-%\label{sec:specifications}
+The development of JavaScript is dependent on its specification defined by ECMAScript and it took long for new editions to be released~\cite{ECMA262Archive:Ecma}. Edition 5.1 was published in 2011~\cite{ESSpecOnline:Ecma:2011}, from where it took four years until the sixth edition was released in June 2015~\cite{ES2015SpecOnline:Ecma:2015}. Starting with ECMAScript 2015, a new specification will be released.yearly~\cite{ECMAScriptNextSupportInMozilla:Mozilla:2017}
+%, with the seventh edition of ECMAScript from 2016 being the latest~\cites{ECMA262:Ecma:2016}{ES2016SpecOnline:Ecma:2016}.
 
 \subsection{Extensions}
 \label{sec:javascript-extensions}
@@ -721,8 +585,6 @@ There are a multitude of extensions available for JavaScript. In \cite{Languages
 
 \subsection{Further Reading}
 \label{sec:further reading}
-
-% CONSISTENT RUN TIME vs RUNTIME
 
 This section handled the most important concepts of JavaScript with a focus on the characteristics that will encourage the value of runtime type checks in JavaScript, discussed later in Chapter~\ref{cha:theoretical-approach}. Various exceptions or details were not handled, as they would go beyond the knowledge required for this thesis. If a more sophisticated knowledge of the language is desired, the \emph{You Don't Know JS} series by \citeauthor{YDKJS:UpAndGoing:Simpson:2015}, \emph{\emph{\citetitle{JavaScriptTheGoodParts:Crockford:2008}}} by \citeauthor{JavaScriptTheGoodParts:Crockford:2008} and \emph{\emph{\citetitle{JavaScriptTheDefinitiveGuide:Flanagan:2011}}} by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011}, among others, are recommended.
 
