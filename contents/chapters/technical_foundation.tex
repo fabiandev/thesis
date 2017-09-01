@@ -141,7 +141,6 @@ typeof num; // "number"
 \end{JsCode}
 The returned string by \texttt{typeof} does not reflect the specified value types entirely. As shown in table~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature \texttt{"function"} will be returned and \texttt{"object"} otherwise. Strangely, for a value of type \emph{Null}, the result will be \texttt{"object"}. A proposal to change the specification and to fix this bug---erroneously indicating that null is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
 
-% TODO: all tables small?
 \begin{table}
 \caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
 \label{tab:typeof}

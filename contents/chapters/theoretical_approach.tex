@@ -21,12 +21,12 @@ In TypeScript it is possible to perform a special kind of type cast, called \emp
 \end{quote}
 It seems legitimate to use \emph{any} alongside the utilization of third party libraries or in situations where the flexibility of JavaScript's loose typing (see sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused. The following code snippet outlines a situation, where compilation passes, but an error is thrown at runtime:
 \begin{JsCode}[numbers=none]
-let foo: any = 'bar';
+let foo: any = "bar";
 foo.getNumber();
 \end{JsCode}
 Because of type checks being disabled for variable \texttt{foo}, access to the not existing property \texttt{getNumber} won't be detected by the compiler. Even if the identifier was annotated correctly, or its type could be inferred by omitting a type annotation, it is possible to get around type checks:
 \begin{JsCode}[numbers=none]
-let foo: string = 'bar';
+let foo: string = "bar";
 (foo as any).getNumber();
 \end{JsCode}
 In both cases, the JavaScript runtime engine will throw \emph{TypeError: foo.getNumber is not a function}. The examples from above highlight the potentiality of creating conditions where a detectable mistake remains undiscovered by the compiler, which could cause a program to crash.

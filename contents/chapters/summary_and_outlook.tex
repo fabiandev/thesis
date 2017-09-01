@@ -1,2 +1,12 @@
 \chapter{Summary and Outlook}
 \label{cha:summary_outlook}
+
+This thesis explored the field of runtime type checks for JavaScript, with a detailed overview of its type system, which was also compared to those of other programming languages. Following, the JavaScript superset TypeScript was examined in detail to provide a sophisticated overview of its characteristics and features, while also pointing out differences and similarities with the superset Flow. It could be determined that the static compile time type analysis of TypeScript can detect a multitude of potential errors, while there are also situations where the TypeScript compiler cannot detect possible issues for the target code. As no additional type checking techniques are included and type informations are not available in the compiled JavaScript code, other techniques have to be employed to ensure that unexpected conditions can be observed and reacted to during program execution, resulting in increased development and maintenance effort. Therefore a method was developed to automatically generate runtime type checks based on the type annotations of a TypeScript project. A theoretical concept was constructed, before a project was implemented that can extract the required information and to emit a JavaScript program with integrated runtime validations. For the runtime type system itself a third party library was utilized.
+
+Subsequently the resulting library was evaluated---including its API, CLI and the runnable JavaScript code---to prove its quality and functionality and to also provide insights into performance analyzations and benchmarks. The findings verified the operability of the project of this thesis, and the functioning of the target code. Build times are in an acceptable range, compared to the native TypeScript compiler, and type incompatibilities are reported during runtime.
+
+Additionally an extensive collection of automated unit tests and code coverage statistics are part of the project to enable continuous integration, which should preserve code quality over time and report unexpected behavior that is introduced with changes to the code base.
+
+% evaluation (good parts, bad parts: flow-runtime)
+% next steps (transition to io-ts)
+

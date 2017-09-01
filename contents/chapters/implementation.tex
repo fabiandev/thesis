@@ -241,7 +241,6 @@ function transform(entryFiles: string[], options?: Options} {
 }
 \end{JsCode}
 \end{program}
-%TODO: Add ref
 It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API. This identifier references a function, that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
 \begin{program}
 \caption{An exemplary version of the transformer, that visits all nodes of a TypeScript program and triggers the transformations.}
@@ -465,7 +464,7 @@ class NumberConverter extends Singleton {
 \end{program}
 
 \subsubsection{Function Declaration Mutator}
-% TODO: check example with HTMLElement (is this available globally?)
+
 The function declaration mutator consists of a single line of code in the \texttt{mutate} method, which is a call to \texttt{mutateFunctionBody} from the factory. A specialty about functions of all types, that was not handled in this section before, is their support for type parameters, also referred to as generics, which may look like the following in TypeScript:
 \begin{JsCode}[numbers=none]
 function foo<T>(bar: T): T[] {
@@ -485,7 +484,7 @@ function foo(bar) {
 In the code from above, the annotation, which was already shown with the arrow function mutator, was omitted. A variable is created for the type parameter and the type of \texttt{bar} will be used on every function call. This type may be extracted from an annotation, or may be inferred from the actual value as accurately as possible, if no type reflection is available for it. Further it is possible, to provide a default type for the generic parameter, or to extend another type, which may look like the following:
 \begin{JsCode}[numbers=none]
 function elementToString<T extends HTMLElement = HTMLDivElement>(el: T): string {
-  // ...
+  return el.innerText;
 }
 \end{JsCode}
 This type parameter definition results in a reflection that is shown below:
@@ -494,11 +493,9 @@ const T = t.typeParameter("T", t.ref(HTMLElement), t.ref(HTMLDivElement));
 \end{JsCode}
 In this case, the value passed to the function must be a \texttt{HTMLElement}, or a subset of it, while by default \texttt{T} refers to the \texttt{HTMLDivElement} type.
 
-% TODO: self references
-
 \subsubsection{Interface Declaration Mutator}
 
-The interface declaration mutator request a reflection of the node's type from the factory. If a class with the same name exists in scope, and therefore will be or has already been merged with the interface declaration, the interface will be removed and no mutations will take place.
+The interface declaration mutator request a reflection of the node's type from the factory. If a class with the same name exists in scope, and therefore will be or has already been merged with the interface declaration, the interface will be removed and no mutations will take place. Also generics and self references are considered during the transformation.
 
 \subsubsection{Source File Mutator}
 
@@ -606,7 +603,6 @@ The utility component is global to all parts of the project. It can be imported 
 
 \subsection{Event Bus}
 
-% TODO: cite EventEmitter or footnote?
 The event bus (i.e., bus) is a lightweight wrapper around the built in \emph{EventEmitter} of Node.js~\cite{Node:API:Events}, and includes some predefined events that can be obtained from anywhere in the project. It is used to indicate changes of the state of the program (e.g.\ start of the transformation), or to notify subscribers about other important events, such as warnings and errors.
 
 \subsection{Scanner}
@@ -679,12 +675,12 @@ While it is possible to provide settings to the transformer, it is not required 
   log: true,
   noAnnotate: false,
   libDeclarations: false,
-  declarationFileName: 'tsr-declarations',
+  declarationFileName: "tsr-declarations",
   excludeDeclarationFile: false,
   excludeLib: false,
-  libIdentifier: 't',
-  libNamespace: '',
-  declarationPrefix: '_'
+  libIdentifier: "t",
+  libNamespace: "",
+  declarationPrefix: "_"
 }
 \end{JsCode}
 \end{program}
@@ -760,32 +756,32 @@ After the package is available on a system, different approaches are provided to
 
 The library exposes various sections of its internals via an application programming interface (i.e., API). To provide high flexibility when making use of this project, technically almost all parts are accessible from outside. However, for a typical setup, only the options component, the transformer, as well as the bus may be used, which are exported from the main file of the published package. In JavaScript the library can be loaded as shown below:
 \begin{JsCode}[numbers=none]
-import * as tsr from 'ts-runtime';
+import * as tsr from "ts-runtime";
 \end{JsCode}
 In this case, every exported member of the main file of \emph{ts-runtime} is imported and being made available through the variable \texttt{tsr}. To load only specific parts of the application, the following syntax can be used:
 \begin{JsCode}[numbers=none]
-import { transform } from 'ts-runtime';
+import { transform } from "ts-runtime";
 \end{JsCode}
 While the examples from above make use of a code style from the EcmaScript 2015 language specification~\cite[p.~302]{ES6Spec:Ecma:2015}, not all features from this specification are available in Node.js at this time~\cite{Node:Docs:ES6}, and the syntax shown below needs to be used~\cite{Node:API:Modules}:
 \begin{JsCode}[numbers=none]
-const tsr = require('ts-runtime');
+const tsr = require("ts-runtime");
 \end{JsCode}
 However, when utilizing a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax from the former two examples may be used. After successfully loading the project of this thesis, its functionality can be used programmatically, which is outlined in program~\ref{prog:usage-api}.
 \begin{program}
 \caption{This code makes uses the API of the thesis project and utilizes the bus component to append TypeScript compiler diagnostics to a file.}
 \label{prog:usage-api}
 \begin{JsCode}
-import * as fs from 'fs';
-import * as ts from 'typescript';
-import { transform, bus } from 'ts-runtime';
+import * as fs from "fs";
+import * as ts from "typescript";
+import { transform, bus } from "ts-runtime";
 
-const stream = fs.createWriteStream('diags.log', { flags: 'a' });
+const stream = fs.createWriteStream("diags.log", { flags: "a" });
 
 bus.on(bus.events.DIAGNOSTICS, diagnostics => {
   logStream.write(
     ts.formatDiagnostics(diagnostics, {
-      getCurrentDirectory: () => '',
-      getNewLine: () => '\n',
+      getCurrentDirectory: () => "",
+      getNewLine: () => "\n",
       getCanonicalFileName: fileName => fileName
     })
   );
@@ -795,7 +791,7 @@ bus.on(bus.events.STOP, () => {
   stream.end();
 });
 
-transform('./entry');
+transform("./entry");
 \end{JsCode}
 \end{program}
 

@@ -48,7 +48,7 @@ Type '"foo"' is not assignable to type 'number'.
 The term \emph{diagnostic} over \emph{error} is used here, because by default the compiler won't stop in such cases and will do its best to emit the final JavaScript code~\cite[p.~12]{TypeScriptBook:Syed:2017}:
 \begin{JsCode}[numbers=none]
 let num = 1;
-num = 'foo';
+num = "foo";
 \end{JsCode}
 The code above shows the resulting JavaScript program, even though the compiler detected a type error.
 
@@ -90,7 +90,7 @@ Type assertions are a way to provide TypeScript with type information, which is 
 \end{quote}
 It is the developer that has to take care of performing sufficient checks when using a type assertion. Because of the possibility to use any existing JavaScript library with TypeScript, situations where the compiler does not have any type information of the external package available may occur. Type assertion can be a solution to prevent compile time type errors in such cases:
 \begin{JsCode}[numbers=none]
-import RandomName from 'random-name';
+import RandomName from "random-name";
 let name: string = (RandomName as any).getName();
 \end{JsCode}
 In the sample from above, the default export from the library \texttt{random-name} was imported as \texttt{RandomName}. This package is neither written in TypeScript nor does it have type definitions available. However, the library has a callable \texttt{getName} property, returning a string. As the compiler is not aware of the package's properties and their return types, it is necessary to tell it which type to assert. \texttt{RandomName} was casted to \texttt{any}, allowing property access independently of their existence. Again, because of type assertions (or type casts) not performing any special checking, the solution from above may lead to errors if the author of the package decides to change its API\footnote{TODO: Explain API}. Therefore manually checking for if \texttt{RandomName} has a callable \texttt{getName} property and is actually returning a string may be recommended here.
@@ -376,12 +376,12 @@ function sum(arr) {
 \begin{JsCode}
 function sum(arr) {
   if (!Array.isArray(arr)) {
-    throw new TypeError('array expected');
+    throw new TypeError("array expected");
   }
   
   return arr.reduce((a, b) => {
-    if (typeof b !== 'number') {
-      throw new TypeError('number expected');
+    if (typeof b !== "number") {
+      throw new TypeError("number expected");
     }
     
     return a + b;
@@ -406,7 +406,7 @@ The solution used in~\cite{DecoratorTypeChecks}, that makes use of decorators, a
 to add them to the source code manually. Furthermore only primitive types and instances can be checked automatically. Structural type checks---e.g.\ for custom objects or interfaces---have
 to be provided by the developer.
 
-As runtime type checks are of importance for an application to be robust, the operators \texttt{typeof} and \texttt{instanceof} are often used to verify a value's type, which according to \citeauthor{DynamicTypeChecks:Rauschmayer:2017} is ``[...] less than ideal, because [it requires] to keep the difference between primitive values and objects in mind~\cite{DynamicTypeChecks:Rauschmayer:2017}''. Program~\ref{prog:runtime-checks-hasInstance} shows a technique to enable \texttt{instanceof} checks for primitive values, such as strings. He further refers to using a library for checking types at runtime, and outlines two ECMAScript proposals that are related to runtime validations~\cite{DynamicTypeChecks:Rauschmayer:2017}, which are shown in program~\ref{prog:runtime-checks-pattern-match} and~\ref{prog:runtime-checks-builtin}.
+As runtime type checks are of importance for an application to be robust, the operators \texttt{typeof} and \texttt{instanceof} are often used to verify a value's type, which according to \citeauthor{DynamicTypeChecks:Rauschmayer:2017} is ``[...] less than ideal, because [it requires] to keep the difference between primitive values and objects in mind~\cite{DynamicTypeChecks:Rauschmayer:2017}''. Program~\ref{prog:runtime-checks-hasInstance} shows a technique to enable \texttt{instanceof} checks also for primitive values, such as strings. He further refers to using a library for checking types at runtime, and outlines two ECMAScript proposals that are related to runtime validations~\cite{DynamicTypeChecks:Rauschmayer:2017}, which are shown in program~\ref{prog:runtime-checks-pattern-match} and~\ref{prog:runtime-checks-builtin}.
 
 \begin{program}
 \caption{The following code overwrites the default \texttt{instanceof} behavior for the given class.~\cites{DynamicTypeChecks:Rauschmayer:2017, DynamicTypeChecks:hasInstance}}
@@ -414,7 +414,7 @@ As runtime type checks are of importance for an application to be robust, the op
 \begin{JsCode}
 class PrimitiveNumber {
   static [Symbol.hasInstance](x) {
-    return typeof x === 'number';
+    return typeof x === "number";
   }
 }
 
@@ -446,11 +446,8 @@ Builtin.typeOf(new MyArray()); // "Array"
 \end{JsCode}
 \end{program}
 
-% TODO: add info from new article
-
 % All of these approaches have in common, that it requires developers to manually add checks, resulting in increased development effort.
 
-% TODO: move some contents from "runtime-type-checks" and "runtime-type-system"?
 \section{Generated Runtime Type Checks}
 \label{sec:existing-projects}
 
