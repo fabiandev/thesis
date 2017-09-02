@@ -302,16 +302,22 @@ Alternatively the library \emph{flow-remove-types\footnote{\url{https://github.c
 \subsection{Others}
 \label{sec:other-supersets}
 
-Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, some of them being supersets, with different purposes. The \emph{CoffeeScript\footnote{\url{https://github.com/jashkenas/coffeescript}}} project collected an extensive list, containing the following maintained languages they refer to as supersets~\cite{LanguagesToJavaScript}:
+%There are a multitude of extensions available for JavaScript. In \cite{LanguagesThatCompileToJS:CoffeeScript:2017} an extensive list of languages that compile to JavaScript, JavaScript supersets, parsers and compilers can be found. That list includes \emph{CoffeeScript\footnote{\url{http://coffeescript.org}}}---a ``[...] language that compiles into JavaScript''~\cite{CoffeeScript}---as well as the static type checkers \emph{TypeScript\footnote{\url{https://www.typescriptlang.org}}} and \emph{Flow\footnote{\url{https://flow.org}}}. Languages that have packages available for transforming its code to JavaScript include, but are not limited to, \emph{Ruby}, \emph{Python}, \emph{Java}, \emph{Scala} and \emph{C\texttt{\#}}.
+%
+%In~\cite{LanguagesThatCompileToJS:CoffeeScript:2017} an extensive list can be found, 
+
+%Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, some of them being supersets, with different purposes. The \emph{CoffeeScript\footnote{\url{https://github.com/jashkenas/coffeescript}}} project collected an extensive list, containing the following maintained languages they refer to as supersets~\cite{LanguagesToJavaScript}:
+
+Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript with different purposes. In~\cite{LanguagesThatCompileToJS:CoffeeScript} an extensive list of JavaScript supersets, parsers, and compilers can be found, containing the following maintained languages they refer to as superset:
 \begin{itemize}
   \item \textbf{JavaScript\texttt{++}:} Supports classes, type checking, and other features.
   \item \textbf{Objective-J:} Same relationship to JavaScript as \emph{Objective-C} to \emph{C}.
   %\item \textbf{Six:} Supports features from the 6th edition of ECMAScript through a transpiler
   %\item \textbf{Latte JS:} Similar to CoffeeScript with JavaScript syntax
-  \item \textbf{JSX:} Adds XML-like syntax to represent HTML elements.
+  \item \textbf{JSX:} Adds XML-like syntax to represent HTML elements in JavaScript.
   \item \textbf{oj:} Objective-C inspired superset with an experimental type checker.
 \end{itemize}
-The collection also contains languages like \emph{Scala.js\footnote{\url{http://www.scala-js.org}}}, which compiles \emph{Scala\footnote{\url{http://scala-lang.org}}} code to JavaScript, or \emph{Opal\footnote{\url{http://opalrb.org}}}, a \emph{Ruby\footnote{\url{https://www.ruby-lang.org}}} to JavaScript compiler~\cite{LanguagesToJavaScript}.
+The collection also contains languages like \emph{Scala.js\footnote{\url{http://www.scala-js.org}}}, which compiles \emph{Scala\footnote{\url{http://scala-lang.org}}} code to JavaScript, or \emph{Opal\footnote{\url{http://opalrb.org}}}, a \emph{Ruby\footnote{\url{https://www.ruby-lang.org}}} to JavaScript compiler.
 
 \section{Runtime Type Checks}
 \label{sec:runtime-type-checks}
