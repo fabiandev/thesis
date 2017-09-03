@@ -284,7 +284,7 @@
 			\vskip 15mm%
 			{\Large\uppercase{\@addspaces{Master's} \@addspaces{Thesis}}}%
 			\vskip 4mm%
-			{\large filed at the} \vskip 1mm {University of Applied Sciences Master's Program}%
+			{\large filed at the} \vskip 1mm {University of Applied Sciences Degree Program}%
 			\vskip 4mm%
 			{\large\@programname}%
 			\vskip 4mm%
