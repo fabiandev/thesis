@@ -267,7 +267,6 @@
 
 \newcommand{\@mastertitle}{%
 \begin{titlepage}%
-	\begin{german}
 		\rule{0mm}{1mm}
 		\vspace*{0mm}
 		\begin{center}%
@@ -283,20 +282,52 @@
 			\vskip 15mm%
 			\makelogo%
 			\vskip 15mm%
-			{\Large\uppercase{\@addspaces{Masterarbeit}}}%
+			{\Large\uppercase{\@addspaces{Master's} \@addspaces{Thesis}}}%
 			\vskip 4mm%
-			{\large eingereicht am} \vskip 1mm {Fachhochschul-Masterstudiengang}%
+			{\large filed at the} \vskip 1mm {University of Applied Sciences Master's Program}%
 			\vskip 4mm%
 			{\large\@programname}%
 			\vskip 4mm%
-			{\large in \@placeofstudy}%
+			{\large{in \@placeofstudy}}%
 			\vskip 16mm%
-			{\large im \monthname[\value{@monthofsubmission}] \arabic{@yearofsubmission}}%
+			{\large{\monthname[\value{@monthofsubmission}] \arabic{@yearofsubmission}}}%
 		\end{center}%
 		\vfil%
-	\end{german}
 \end{titlepage}%
 }
+
+%\newcommand{\@mastertitle}{%
+%\begin{titlepage}%
+%	\begin{german}
+%		\rule{0mm}{1mm}
+%		\vspace*{0mm}
+%		\begin{center}%
+%			\@titlepagefont %\normalfont
+%			\setlength{\unitlength}{1cm}
+%			\parbox[c][5cm][c]{12cm}{%
+%				\centering\LARGE\bfseries%%
+%				\setlength{\baselineskip}{25pt}%
+%				\@title%
+%			}
+%			\vskip 15mm%
+%			{\large\@author}%{\large\scshape\@author}%
+%			\vskip 15mm%
+%			\makelogo%
+%			\vskip 15mm%
+%			{\Large\uppercase{\@addspaces{Masterarbeit}}}%
+%			\vskip 4mm%
+%			{\large eingereicht am} \vskip 1mm {Fachhochschul-Masterstudiengang}%
+%			\vskip 4mm%
+%			{\large\@programname}%
+%			\vskip 4mm%
+%			{\large in \@placeofstudy}%
+%			\vskip 16mm%
+%			{\large im \monthname[\value{@monthofsubmission}] \arabic{@yearofsubmission}}%
+%		\end{center}%
+%		\vfil%
+%	\end{german}
+%\end{titlepage}%
+%}
 
 \newcommand{\@diplomatitle}{%
 \begin{titlepage}%
