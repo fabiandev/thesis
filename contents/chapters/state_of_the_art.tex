@@ -24,7 +24,7 @@ Like many major languages, TypeScript defines some basic types, that overlap wit
 \begin{itemize}
   \item \emph{Tuple} is a special kind of an array, only allowing a fixed number of elements.
   \item \emph{Enum} may already be known from other programming languages, like Java, and is useful to define a set of numeric values.
-  \item \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available. It also allows e.g. access to any property on an object, whether it does exist or not.
+  \item \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available. It also allows e.g., access to any property on an object, whether it does exist or not.
   \item \emph{Void} is the counterpart to Any. Again, it is used in other languages, for example to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} will be accepted as value.
   \item \emph{Never} for instance is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back~\cite{TypeScriptHandbook:BasicTypes}.
 \end{itemize}
@@ -80,7 +80,7 @@ However, this \emph{angle-bracket} syntax is not supported when using TypeScript
 \subsubsection{Ambient Type Declarations}
 \label{sec:ts-ambient-type-declarations}
 
-In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g.\ classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, that was not written in TypeScript and there are no type definitions for it available. In the previous section type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g.\ a variable, class, namespace or enum with the \texttt{declare} keyword, makes them ambient and will be treated by the compiler as if they were part of the code:
+In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g., classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, that was not written in TypeScript and there are no type definitions for it available. In the previous section type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g., a variable, class, namespace or enum with the \texttt{declare} keyword, makes them ambient and will be treated by the compiler as if they were part of the code:
 \begin{JsCode}[numbers=none]
 declare const RandomName: any;
 \end{JsCode}
@@ -381,7 +381,7 @@ having a specific type~\cites[pp.~102--105]{MasteringTypeScript:Rozentals:2015}[
 Another mechanism is to use \textit{decorators\footnote{\url{https://tc39.github.io/proposal-decorators}}},
 a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like \emph{Babel\footnote{\url{https://babeljs.io}}}~\cite{TypeScriptHandbook:Decorators, Babel:Plugins:Decorators}.
 The solution used in~\cite{DecoratorTypeChecks}, that makes use of decorators, again requires
-to add them to the source code manually. Furthermore only primitive types and instances can be checked automatically. Structural type checks---e.g.\ for custom objects or interfaces---have
+to add them to the source code manually. Furthermore only primitive types and instances can be checked automatically. Structural type checks---e.g., for custom objects or interfaces---have
 to be provided by the developer.
 
 As runtime type checks are of importance for an application to be robust, the operators \texttt{typeof} and \texttt{instanceof} are often used to verify a value's type, which according to \citeauthor{DynamicTypeChecks:Rauschmayer:2017} is ``[...] less than ideal, because [it requires] to keep the difference between primitive values and objects in mind~\cite{DynamicTypeChecks:Rauschmayer:2017}''. Program~\ref{prog:runtime-checks-hasInstance} shows a technique to enable \texttt{instanceof} checks also for primitive values, such as strings. He further refers to using a library for checking types at runtime, and outlines two ECMAScript proposals that are related to runtime validations~\cite{DynamicTypeChecks:Rauschmayer:2017}, which are shown in Program~\ref{prog:runtime-checks-pattern-match} and~\ref{prog:runtime-checks-builtin}.

@@ -43,7 +43,7 @@ The abstract syntax tree, created during the compilation of a TypeScript project
 
 \subsubsection{Syntax Kind}
 
-The TypeScript API exposes an enum, named \emph{SyntaxKind}, which maps a numeric value to an AST node type (e.g.\ \emph{InterfaceDeclaration}). As every syntax tree node defines a \texttt{kind} property, containing a number from the \emph{SyntaxKind} enumeration, it is possible to always determine the type of a node.
+The TypeScript API exposes an enum, named \emph{SyntaxKind}, which maps a numeric value to an AST node type (e.g., \emph{InterfaceDeclaration}). As every syntax tree node defines a \texttt{kind} property, containing a number from the \emph{SyntaxKind} enumeration, it is possible to always determine the type of a node.
 
 \subsubsection{Symbol}
 
@@ -473,7 +473,7 @@ As the native JavaScript runtime engine should throw an error, if a constant var
 
 \subsection{Factory}
 
-A reference to the factory could already be noticed in the mutators, which is created by the mutation context, described in the next section. It can recursively create reflections for a type node of the abstract syntax tree, while keeping track of its state. For every type node kind, there exists a method that can come up with a runtime description, e.g.\ \texttt{literalTypeReflection}, \texttt{arrayTypeReflection}, or \texttt{typeReferenceReflection}. If the kind of a node is not determined in advance, the method \texttt{typeReflection} can be called, which invokes the suitable reflection function. The following syntax kinds are supported:
+A reference to the factory could already be noticed in the mutators, which is created by the mutation context, described in the next section. It can recursively create reflections for a type node of the abstract syntax tree, while keeping track of its state. For every type node kind, there exists a method that can come up with a runtime description, e.g., \texttt{literalTypeReflection}, \texttt{arrayTypeReflection}, or \texttt{typeReferenceReflection}. If the kind of a node is not determined in advance, the method \texttt{typeReflection} can be called, which invokes the suitable reflection function. The following syntax kinds are supported:
 \begin{itemize}
   \item \textbf{Keywords:} Any, Boolean, Never, Null, Number, Object, String, Symbol, Undefined, Void
   \item \textbf{Types:} Array, Constructor, Function, Intersection, Literal, Parenthesized, This, Tuple, Union
@@ -528,15 +528,15 @@ All of these queries require a link to the TypeScript API or the scanner compone
 
 \subsection{Utility}
 
-The utility component is global to all parts of the project. It can be imported and utilized without any dependencies. It provides a collection of functions, that are used throughout \emph{ts-runtime}, to not introduce duplicated code. While the full API will not be presented at this point, it includes methods for determining whether a node is a type parameter of a given type node (e.g.\ a class, interface or function declaration), or to extract the extends clause from a class declaration node.
+The utility component is global to all parts of the project. It can be imported and utilized without any dependencies. It provides a collection of functions, that are used throughout \emph{ts-runtime}, to not introduce duplicated code. While the full API will not be presented at this point, it includes methods for determining whether a node is a type parameter of a given type node (e.g., a class, interface or function declaration), or to extract the extends clause from a class declaration node.
 
 \subsection{Event Bus}
 
-The event bus (i.e., bus) is a lightweight wrapper around the built in \emph{EventEmitter} of Node.js~\cite{Node:API:Events}, and includes some predefined events that can be obtained from anywhere in the project. It is used to indicate changes of the state of the program (e.g.\ start of the transformation), or to notify subscribers about other important events, such as warnings and errors.
+The event bus (i.e., bus) is a lightweight wrapper around the built in \emph{EventEmitter} of Node.js~\cite{Node:API:Events}, and includes some predefined events that can be obtained from anywhere in the project. It is used to indicate changes of the state of the program (e.g., start of the transformation), or to notify subscribers about other important events, such as warnings and errors.
 
 \subsection{Scanner}
 
-This component is a key part of \emph{ts-runtime}. It is instantiated by the core, before the actual transformations take place. It visits every node of the AST from each source file, whereas only those will be processed, that may point to a type declaration, or its type reflection may be needed later. This includes identifiers, type references and function declarations, besides a multitude of other syntax kinds. Also the scanner saves the text of every identifier of the project to be processed, to prevent naming conflicts by variables introduced by the mutators. Most importantly, for nodes that are inspected by the scanner, an object is created, that holds information about a variety of things, including the node's symbol, source files and connected declarations, in case of e.g.\ an interface or class. The extraction of this details enables the scanner to determine, whether the scanned node is an ambient or external declaration. In case of such a declaration, the entity is stored, alongside the hashed name of the source file. The transformer can then obtain the list of these nodes, to create a file with this declarations:
+This component is a key part of \emph{ts-runtime}. It is instantiated by the core, before the actual transformations take place. It visits every node of the AST from each source file, whereas only those will be processed, that may point to a type declaration, or its type reflection may be needed later. This includes identifiers, type references and function declarations, besides a multitude of other syntax kinds. Also the scanner saves the text of every identifier of the project to be processed, to prevent naming conflicts by variables introduced by the mutators. Most importantly, for nodes that are inspected by the scanner, an object is created, that holds information about a variety of things, including the node's symbol, source files and connected declarations, in case of e.g., an interface or class. The extraction of this details enables the scanner to determine, whether the scanned node is an ambient or external declaration. In case of such a declaration, the entity is stored, alongside the hashed name of the source file. The transformer can then obtain the list of these nodes, to create a file with this declarations:
 \begin{JsCode}[numbers=none]
 declare class Person {
   name: string;
@@ -585,7 +585,7 @@ interface Options {
   \item \textbf{force:} The processing would be aborted if the TypeScript compiler detects errors for both, syntactics and semantics. By setting this flag to \texttt{true}, transformations will be performed, even if semantic errors exist.
   \item \textbf{log:} By default, warnings, errors and other messages will be printed to the console. To disable the output, this option can be set to \texttt{false}.
   \item \textbf{noAnnotate:} Functions and classes are annotated with their type reflection, which can be disabled. The type checking library will try to infer the type as accurately as possible from the value available at runtime.
-  \item \textbf{libDeclarations:} Specific functionality is available globally in a running JavaScript program, based on its execution context (e.g.\ Node.js or a browser). These globals won't be reflected by default.
+  \item \textbf{libDeclarations:} Specific functionality is available globally in a running JavaScript program, based on its execution context (e.g., Node.js or a browser). These globals won't be reflected by default.
   \item \textbf{declarationFileName:} The scanner collects all ambient and external declarations, which are then written to a separate file. The name for this file can be set via this option.
   \item \textbf{excludeDeclarationFile:} The file that holds the collection of global declarations is imported in every entry file of the target code, which may be changed.
   \item \textbf{excludeLib:} The runtime type checking library is not only loaded in every entry file, but in every single module that includes some kind of type reflection or assertion, the package is imported.

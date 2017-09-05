@@ -15,7 +15,7 @@ There are various situations the static type analysis of TypeScript cannot detec
 
 \subsection{Compiler Analysis Circumvention}
 
-In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:ts-type-assertions}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g.\ \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If a variable is annotated or asserted with the \emph{any} type, type checking and type inference will be disabled. The TypeScript documentation describes this type as 
+In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:ts-type-assertions}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If a variable is annotated or asserted with the \emph{any} type, type checking and type inference will be disabled. The TypeScript documentation describes this type as 
 \begin{quote}
    [...] a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.~\cite{TypeScriptHandbook:BasicTypes}
 \end{quote}

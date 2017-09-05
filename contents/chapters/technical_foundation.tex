@@ -20,12 +20,12 @@ He further equates \emph{type system} with \emph{static type system} and also \c
 \begin{quote}
   [l]anguages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}.
 \end{quote}
-A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g.\ in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g.\ in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
+A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g., in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g., in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
 
 \subsection{Explicitly and Implicitly Typed}
 \label{sec:explicitly-implicitly-typed}
 
-If types are part of the syntax of a language (e.g.\ Java) it is explicitly typed, whereas in implicitly typed languages, type annotations are assigned automatically by the type system~\cite[pp.~2--3]{TypeSystems:Cardelli:2004}. Some languages, however, make use of a mixture, allowing developers to omit type annotations in various scenarios, where the type can be inferred by the compiler~\cite[p.~10]{TypesAndProgrammingLanguages:Pierce:2002} as shown in the C\texttt{\#} code below:
+If types are part of the syntax of a language (e.g., Java) it is explicitly typed, whereas in implicitly typed languages, type annotations are assigned automatically by the type system~\cite[pp.~2--3]{TypeSystems:Cardelli:2004}. Some languages, however, make use of a mixture, allowing developers to omit type annotations in various scenarios, where the type can be inferred by the compiler~\cite[p.~10]{TypesAndProgrammingLanguages:Pierce:2002} as shown in the C\texttt{\#} code below:
 \begin{CsCode}[numbers=none]
 var implicitNum = 10; // implicitly typed as integer
 int explicitNum = 10; // explicitly typed as integer
@@ -294,7 +294,7 @@ A more comprehensive overview of possible type conversions, summarized by \citea
   \end{tabular}
   \begin{tablenotes}
     \footnotesize
-    \item (\romannum{1}) For situations, where converting a value to an object does not throw a TypeError, a new object of the value's type is returned. E.g.\ for the value \texttt{"Hello world!"}, \texttt{new String("Hello world!")} is returned~\cite[p.~44]{ES6Spec:Ecma:2015}.
+    \item (\romannum{1}) For situations, where converting a value to an object does not throw a TypeError, a new object of the value's type is returned. E.g., for the value \texttt{"Hello world!"}, \texttt{new String("Hello world!")} is returned~\cite[p.~44]{ES6Spec:Ecma:2015}.
     \item \footnotesize(\romannum{2}) When converting an object to a string, JavaScript tries to call the \texttt{toString} or \texttt{valueOf} method on the object and converts the returned value to a string. If no primitive value can be obtained from either of these methods, a TypeError is thrown~\cite[p.~50]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.
     \item \footnotesize(\romannum{3}) The same steps as in \footnotesize(\romannum{2}) are performed with the difference, that \texttt{valueOf} will be preferred over \texttt{toString}.
     \item \footnotesize(\romannum{4}) The toString method of the Array object joins the array separated by a comma, which would result in \texttt{["a","b","c"]} being converted to \texttt{"a,b,c"}~\cite{ArrayPrototypeToString:MDN:2017}.
@@ -371,7 +371,7 @@ Until and including the fifth edition of ECMAScript (i.e., ES5), the only declar
 \begin{quote}
   [...] the set of rules that govern how the engine can look up a variable by its identifier name and find it, either in the current scope, or in any of the nested scopes it’s contained within~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}.
 \end{quote}
-JavaScript makes use of a \emph{lexical scope} model, which is based on where variables and scope blocks (e.g. functions) are written in the code~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}. This means that 
+JavaScript makes use of a \emph{lexical scope} model, which is based on where variables and scope blocks (e.g., functions) are written in the code~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}. This means that 
 \begin{quote}
   [n]o matter \emph{where} a function is invoked from, or even \emph{how} it is invoked, its lexical scope is \emph{only} defined by where the function was declared~\cite[p.~16]{YDKJS:ScopesAndClosures:Simpson:2014}.
 \end{quote}
@@ -444,7 +444,7 @@ The \texttt{const} keyword behaves exactly the same as \texttt{let}, with the on
 const a = 1;
 a = 2; // TypeError
 \end{JsCode}
-However, this does not affect e.g.\ properties of an object assigned to a constant variable, unless the property itself is marked as not writeable.
+However, this does not affect e.g., properties of an object assigned to a constant variable, unless the property itself is marked as not writeable.
 \begin{JsCode}[numbers=none]
 const b = { name: "Foo" };
 b.name = "Bar";
@@ -594,7 +594,7 @@ This section handled the most important concepts of JavaScript with a focus on t
 An \emph{abstract syntax tree} (i.e., \emph{AST}) is the representation of a source program, created for analyzation purposes~\cite[p.~19]{CompilersAndInterpreters:Kenneth:2004}, containing only the indispensable parts of the code~\cite[p.~12]{FormaleSprachenAbstrakteAutomatenUndCompiler:Wagenknecht:2014} for the most parts. A syntax tree---or abstract syntax tree---is usually created by the compiler at an early stage. More specifically it is usually the second out of five compilation phases~\cite[pp.~2--3]{CompilersAndInterpreters:Kenneth:2004}: 
 \begin{enumerate}
   \item The \emph{scanner} or \emph{lexical analyzer}, reads and tokenizes the source code, where a token is typically a keyword, an identifier or a literal.
-  \item In the next step the \emph{parser}, also called \emph{syntactic analyzer}, combines multiple tokens to e.g.\ an expression, a statement or a declaration. The result of the parser is the abstract syntax tree.
+  \item In the next step the \emph{parser}, also called \emph{syntactic analyzer}, combines multiple tokens to e.g., an expression, a statement or a declaration. The result of the parser is the abstract syntax tree.
   \item The \emph{semantic analyzer} performs, among other things, type checks and range checking.
   \item In the fourth step of a typical compiler, the \emph{optimizer} creates intermediate code and applies code improvement algorithms.
   \item The \emph{code generator} is the last step, where the final target code of a program is generated.
