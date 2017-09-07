@@ -9,8 +9,7 @@
 *.log
 *.out
 *.run.xml
-*.synctex
-*.synctex.gz
+*.synctex*
 *.toc
 *.tps
 *.sta
