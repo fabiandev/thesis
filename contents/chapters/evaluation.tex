@@ -1,12 +1,12 @@
 \chapter{Evaluation}
 \label{cha:evaluation}
 
-In this chapter, the implemented project of this thesis will be tested and evaluated. Different methods will be used to measure and verify the quality and functionality of \emph{ts-runtime}. This should assure that all components work as intended and the resulting transformations align with the expected outcome. Furthermore it should highlight that the implementation was carried out carefully, while also pointing out potential compromises when making use of the library.
+In this chapter the implemented thesis project is tested and evaluated. Different methods are used to measure and verify the quality and functionality of \emph{ts-runtime}. This should assure that all components work as intended and the resulting transformations align with the expected outcome. Furthermore, it should highlight that the implementation was carried out carefully, while also pointing out potential compromises when making use of the library.
 
 \section{Automated Unit Tests}
 \label{sec:automated-unit-tests}
 
-To ensure the correctness of the source code transformations applied to a TypeScript project, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android} [...] to verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests should raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when utilized at runtime. If such a change is intended, the corresponding tests have to be updated as well. The tests not only cover the mutators itself, but also the project's components are tested extensively. In total 456 tests have been written with a code coverage\footnote{``Code coverage is the percentage of code which is covered by automated tests.~\cite{CodeCoverage:Atlassian}''} of almost 91\%. Table~\ref{tab:code-coverage} shows a detailed summary of the project's coverage.
+To ensure that the result of the source code transformations, applied to a TypeScript project, aligns with the expected result, a series of unit tests\footnote{``A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way~\cite{UnitTests:Android} [...] to verify that the logic of individual units is correct.~\cite{UnitTests:Android}''} are provided, which should be run after modifications were made to the project's source code. These tests raise errors, if a mutation changes unexpectedly, possibly resulting in wrong behavior when used at runtime. If such a change is intended, the corresponding tests have to be updated as well. The tests do not only cover the mutators itself, but also the project's components. In total 456 tests have been written with a code coverage\footnote{``Code coverage is the percentage of code which is covered by automated tests.~\cite{CodeCoverage:Atlassian}''} of almost 91\%. Table~\ref{tab:code-coverage} shows a detailed summary of the project's coverage.
 \begin{table}
 \caption{Code coverage summary.}
 \label{tab:code-coverage}
@@ -19,12 +19,12 @@ To ensure the correctness of the source code transformations applied to a TypeSc
     & \emph{Statements} & \emph{Branches} & \emph{Functions} & \emph{Lines} \\
     \hline
     \hline
-    Components & 93.02\% & 82.62\% & 94.90\% & 93.38\% \\
+    \emph{Components} & 93.02\% & 82.62\% & 94.90\% & 93.38\% \\
     \hline
-    Mutators & 97.14\% & 91.30\% & 98.18\% & 96.76\% \\
+    \emph{Mutators} & 97.14\% & 91.30\% & 98.18\% & 96.76\% \\
     \hline
     \hline
-    \multicolumn{1}{|r||}{\multirow{2}{*}{Total}} & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\
+    \multicolumn{1}{|r||}{\multirow{2}{*}{\emph{Total}}} & 93.76\% & 84.15\% & 95.34\% & 93.96\% \\
     \cline{2-5}
     \multicolumn{1}{|c||}{} & 2012/2146 & 881/1047 & 389/408 & 1866/1986 \\
     \hline
@@ -35,7 +35,7 @@ To ensure the correctness of the source code transformations applied to a TypeSc
 %    \hline
   \end{tabular}
 \end{table}
-It gives an overview of the total statements executed, the amount of branches---such as \emph{else} statements or \emph{case} clauses---visited, the percentage of functions that are executed, as well as the number of relevant lines covered in the tests. For the unit tests itself the testing framework \emph{Mocha}\footnote{\url{https://mochajs.org}} was used, while the library \emph{Istanbul}\footnote{\url{https://istanbul.js.org}} was utilized to extract the code coverage report.
+It gives an overview of the total statements executed, the amount of branches---such as \emph{else} statements or \emph{case} clauses---visited, the percentage of functions that are executed, as well as the number of relevant lines covered in the tests. For the unit tests itself the framework \emph{Mocha}\footnote{\url{https://mochajs.org}} was used, while the library \emph{Istanbul}\footnote{\url{https://istanbul.js.org}} extracts the code coverage report.
 
 \section{Continuous Integration}
 \label{sec:continuous-integration}
@@ -44,20 +44,20 @@ The \emph{ts-runtime} project takes advantage of the continuous integration (i.e
 \begin{quote}
   [...] a development practice where developers integrate code into a shared repository frequently, [which] can then be verified by an automated build and automated tests.~\cite{ContinuousIntegration:Codeship}% While automated testing is not strictly part of CI it is typically implied.
 \end{quote}
-This eliminates the risk of introducing errors to the library accidentally. When pushing changes to the remote repository, hosted on GitHub\footnote{\url{https://github.com/fabiandev/ts-runtime}}, the source code is built automatically by the continuous integration platform \emph{Travis CI\footnote{\url{https://travis-ci.org}}}, where the state of each build is publicly visible\footnote{\url{https://travis-ci.org/fabiandev/ts-runtime}}. The following steps are performed when invoking a CI build:
+This reduces the risk of introducing errors to the library accidentally. When pushing changes to the remote repository\footnote{\url{https://github.com/fabiandev/ts-runtime}}, the source code is built automatically by the continuous integration platform \emph{Travis CI\footnote{\url{https://travis-ci.org}}}, where the state of each build is publicly visible\footnote{\url{https://travis-ci.org/fabiandev/ts-runtime}}. The following steps are performed when invoking a CI build:
 \begin{enumerate}
   \item Build the project with the native TypeScript compiler.
   \item Build the project again with \emph{ts-runtime} with the result of step one.
   \item Run the unit tests for all components and mutators.
   \item Execute the command line interface from the build of step two.
 \end{enumerate}
-If one of the steps from above is not successful, the build is considered as failed, which is transparently indicated on the repository website of the project. In this case all issues should be addressed before releasing a new version of the library to the node package manager registry. If a build was successful, the code coverage statistics are transmitted to \emph{Coveralls\footnote{\url{https://coveralls.io}}}, a web service that keeps track of them over time, providing an interface to explore coverage for individual files, alongside determining if code coverage increased or decreased. Again, these insights are available to the public\footnote{\url{https://coveralls.io/github/fabiandev/ts-runtime}} and shown on the repository page of \emph{ts-runtime}.
+If one of the steps from above is not successful, the build is considered as failed, which is transparently indicated on the repository website of the project. In this case all issues should be addressed before releasing a new version of the library to the node package manager registry. If a build was successful, the code coverage statistics are transmitted to \emph{Coveralls\footnote{\url{https://coveralls.io}}}, a web service that keeps track of them over time, providing an interface to explore coverage for individual files, alongside determining if code coverage increased or decreased in comparison to the previous build. Again, these insights are available to the public\footnote{\url{https://coveralls.io/github/fabiandev/ts-runtime}} and shown on the repository website of \emph{ts-runtime}.
 
 % Application Test, Project Application, Operational Test, Operation Test, Utilization Test, Project Utilization
 \section{Operational Test}
 \label{sec:operational-test}
 
-After the project of this thesis has been tested, using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the trending TypeScript project \emph{pretty-algorithms\footnote{\url{https://github.com/jiayihu/pretty-algorithms}}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{\url{https://github.com/trending/typescript}} was used, which was on top of the list on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. Unsurprisingly no errors were reported and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. When building with generated runtime type checks, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between testing the original project and with runtime type checks added. Figure~\ref{fig:operational-test} depicts the time required to run the unit tests with the three different builds. As the increase in execution time is given by the runtime type system, provided by \emph{flow-runtime}, that is utilized to enable runtime type reflections and assertions, the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in Table~\ref{tab:build-time}. On average, a \emph{ts-runtime} build is 0.8 seconds slower, reaching around 71\% of the performance of a native TypeScript compiler build, while also considering its supplementary functionality. 
+After the project of this thesis has been tested using automated unit tests, and its code coverage has been revealed, it should also be verified by applying transformations to a random library. For this purpose the TypeScript project \emph{pretty-algorithms\footnote{\url{https://github.com/jiayihu/pretty-algorithms}}}---containing ``[p]retty, common and useful algorithms with modern [JavaScript] and beautiful tests~\cite{Evaluation:pretty-algorithms}''---from GitHub\footnote{\url{https://github.com/trending/typescript}} was used, which was the most trending TypeScript repository on GitHub on the day of testing~\cite{GitHub:Trending:Archive}. The package was built locally and its tests were run against the original code base. Subsequently, it was built using the \emph{ts-runtime} CLI and the unit tests were executed again. No errors were reported with the build of the native TypeScript compiler, and the average time required to execute a total of 52 unit tests after 25 runs was 2.17 seconds. With the build of the thesis project, three tests were failing due to type incompatibility, with an average execution time of 2.38 seconds. After resolving the failing tests, the median time to complete the test suites was again 2.38 seconds, meaning that there was a difference of 0.21 seconds between running the unit tests against the two different builds. Figure~\ref{fig:operational-test} depicts the time required to run the unit tests with the three different builds. As the increase in execution time is given by the runtime type system provided by \emph{flow-runtime}---which is utilized to enable runtime type reflections and assertions---the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in Table~\ref{tab:build-time}. On average, a \emph{ts-runtime} build was 0.8 seconds slower, reaching around 71\% of the performance of a native TypeScript compiler build, while also considering its supplementary functionality. 
 \begin{table}
 \caption{The average time required in seconds to build \emph{pretty-algorithms} with the native TypeScript API, as well as the \emph{ts-runtime} API and CLI. While a standard TypeScript build creates a JavaScript application out of TypeScript code, the \emph{ts-runtime} builds also take care of generating and including runtime type checks.}
 \label{tab:build-time}
@@ -70,28 +70,28 @@ After the project of this thesis has been tested, using automated unit tests, an
     & \emph{Average Build Time} \\
     \hline
     \hline
-    TypeScript CLI & 1.94s \\
+    \emph{TypeScript CLI} & 1.94s \\
     \hline
-    ts-runtime CLI & 2.72s \\
+    \emph{ts-runtime CLI} & 2.72s \\
     \hline
-    ts-runtime API & 2.71s \\
+    \emph{ts-runtime API} & 2.71s \\
     \hline
   \end{tabular}
 \end{table}
-The detailed results, that could be examined in this section, can further be found in Section~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running MacOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
+The detailed results, that could be examined in this section, can further be found in Section~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running macOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/operational-test}
-\caption{Comparison of unit test execution times of the library \emph{pretty-algorithms}. The label \emph{standard} refers to a build without any modifications, while \emph{ts-runtime} refers to a build with generated runtime type checks with the project of this thesis, and \emph{ts-runtime (fixed)} denotes a build, where the type incompatibilities of the previous build were resolved. The dashed lines indicate the average of all iterations of a given build.}
+\caption{Comparison of unit test execution times of the library \emph{pretty-algorithms}. The label \emph{standard} refers to a build with the native TypeScript compiler, while \emph{ts-runtime} refers to a build with generated runtime type checks with the project of this thesis, and \emph{ts-runtime (fixed)} denotes a build where the type incompatibilities of the previous build were resolved. The dashed lines indicate the average of all iterations of a given build.}
 \label{fig:operational-test}
 \end{figure}
 
 \section{Performance Analyzation}
 \label{sec:performance-analyzation}
 
-In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pretty-algorithms} in a Node.js environment, the library was also compared in a browser with \emph{Benchmark.js\footnote{\url{https://github.com/bestiejs/benchmark.js}}}, ``[a] robust benchmarking library that supports high-resolution timers [and] returns statistically significant results~\cite{Evaluation:benchmarkjs}''. For graphically representing the results, \emph{Astrobench\footnote{\url{https://github.com/kupriyanenko/astrobench}}} was utilized. As including runtime type checks to a project also means, that a representation of a type system is required, it was to be expected, that the original build will outperform \emph{ts-runtime}. Anyway, it may be of advantage to gain knowledge of the performance impact. When running the benchmarks, the original library could reach 56,564,588 operations per second on average, while the \emph{ts-runtime} build scored 14,234 operations per second, meaning that it reached 0.025\% of its performance. The closest result of the two builds was 21,462 operations per seconds with generated runtime type checks, compared to 1,648,386 operations per second from the original package, which is about 77 times faster. When comparing results of a primitive type check, as well as a type compatibility verification of a class and an interface, \emph{ts-runtime} could accomplish its best result of 79,935 versus 338,363 operations per second, which is almost 24\% of the performance of the JavaScript code with handwritten type checks. The entire dataset can be found in Section~\ref{app:sec:benchmark-results}, while Table~\ref{tab:benchmarks} provides an overview of the test results not related to \emph{pretty-algorithms}. The benchmarks were captured on the same system as in Section~\ref{sec:operational-test}, with the 64-bit browser \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} version 60.0.3112.113.
+In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pretty-algorithms} in a Node.js environment, the library was also compared in a browser with \emph{Benchmark.js\footnote{\url{https://github.com/bestiejs/benchmark.js}}}, ``[a] robust benchmarking library that supports high-resolution timers [and] returns statistically significant results~\cite{Evaluation:benchmarkjs}''. For graphically representing the results, \emph{Astrobench\footnote{\url{https://github.com/kupriyanenko/astrobench}}} was used. As including runtime type checks to a project also means that a representation of a type system is required, it was to be expected, that the original build will outperform \emph{ts-runtime}. Anyway, it may be of advantage to gain knowledge of the performance impact. When running the benchmarks, the original library could reach 56,564,588 operations per second on average, while the \emph{ts-runtime} build scored 14,234 operations per second, meaning that it reached 0.025\% of its performance. The closest result of the two builds was 21,462 operations per seconds with generated runtime type checks, compared to 1,648,386 operations per second from with the original package, which is about 77 times faster. When comparing results of a primitive type check, as well as a type compatibility verification of a class and an interface, \emph{ts-runtime} could accomplish its best result of 79,935 versus 338,363 operations per second, which is almost 24\% of the performance of the JavaScript code with handwritten type checks. The entire dataset of the benchmarks regarding \emph{pretty-algorithms} can be found in Section~\ref{app:sec:benchmark-results}, whereas Tab.~\ref{tab:benchmarks} provides an overview of test results not related to this library. The benchmarks were captured on the same system as in Section~\ref{sec:operational-test}, with the 64-bit web-browser \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} version 60.0.3112.113.
 \begin{table}[ht]
-  \caption{In Table~\ref{tab:benchmarks:primitive}, a value was verified for being a string with the \texttt{typeof} operator for the manual check and with \emph{ts-runtime} for the generated checks. Similarly, the \texttt{instanceof} operator was used for the manual verification in Table~\ref{tab:benchmarks:class}, while for the results in Table~\ref{tab:benchmarks:interface}, every property was examined individually.}
+  \caption{The results for the \emph{generated checks} denote the runtime benchmarks for a build with the thesis project, for all of the tables below. For the \emph{manual checks}, the \texttt{typeof} operator was used for the results of Tab.~\ref{tab:benchmarks:primitive}, the \texttt{instanceof} operator for the benchmarks of Tab.~\ref{tab:benchmarks:class}, and \texttt{Object.hasOwnProperty} for Tab.~\ref{tab:benchmarks:interface}.}
   \label{tab:benchmarks}
   \setlength{\tabcolsep}{5mm}
   \def\arraystretch{1.25}
@@ -106,13 +106,13 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       & \emph{Manual Checks} & \emph{Generated Checks} \\
       \hline
       \hline
-      Iterations/Cycle & 43,234,495 & 69,510 \\
+      \emph{Iterations/Cycle} & 43,234,495 & 69,510 \\
       \hline
-      Samples (Cycles) & 92 & 89 \\
+      \emph{Samples (Cycles)} & 92 & 89 \\
       \hline
-      Operations/Second & 791,979,841 & 1,275,061 \\
+      \emph{Operations/Second} & 791,979,841 & 1,275,061 \\
       \hline
-      Margin of Error & 0.75\% & 1.03\% \\
+      \emph{Margin of Error} & 0.75\% & 1.03\% \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for being a string.}
@@ -128,13 +128,13 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       & \emph{Manual Checks} & \emph{Generated Checks} \\
       \hline
       \hline
-      Iterations/Cycle & 27,266 & 5,139 \\
+      \emph{Iterations/Cycle} & 27,266 & 5,139 \\
       \hline
-      Samples (Cycles) & 65 & 81 \\
+      \emph{Samples (Cycles)} & 65 & 81 \\
       \hline
-      Operations/Second & 338,363 & 79,935 \\
+      \emph{Operations/Second} & 338,363 & 79,935 \\
       \hline
-      Margin of Error & 3.90\% & 4.74\% \\
+      \emph{Margin of Error} & 3.90\% & 4.74\% \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for being an instance of a class.}
@@ -150,13 +150,13 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       & \emph{Manual Checks} & \emph{Generated Checks} \\
       \hline
       \hline
-      Iterations/Cycle & 1,800,557 & 3,140 \\
+      \emph{Iterations/Cycle} & 1,800,557 & 3,140 \\
       \hline
-      Samples (Cycles) & 86 & 90 \\
+      \emph{Samples (Cycles)} & 86 & 90 \\
       \hline
-      Operations/Second & 31,744,772 & 58,404 \\
+      \emph{Operations/Second} & 31,744,772 & 58,404 \\
       \hline
-      Margin of Error & 1.04\% & 1.09\% \\
+      \emph{Margin of Error} & 1.04\% & 1.09\% \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for compatibility to an interface.}
@@ -167,4 +167,4 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
 \section{Summary}
 \label{sec:evaluation-summary}
 
-The evaluation results could reveal, that a project built with \emph{ts-runtime} does not get close to the performance of a standard TypeScript build. This is due to the inclusion of a runtime type system, that is capable of reflecting and verifying complex data structures. While this overhead is added by the library \emph{flow-runtime}, that is being used for the runtime type checks itself, the performance of building a package with the project of this thesis performs close to building with the native TypeScript compiler, when considering the additional tasks that have to be performed. Furthermore, different testing environments may influence the results. To reproduce the tests of this chapter, the package \emph{ts-runtime-test\footnote{\url{https://github.com/fabiandev/ts-runtime-test}}} has been published to GitHub. While results may vary throughout operating systems and testing environments, the unit tests of Section~\ref{sec:operational-test} can be executed, as well as the benchmark tests from Section~\ref{sec:performance-analyzation} can be run locally. Furthermore a detailed overview of the evaluation results can be found in Section~\ref{app:evaluation}.
+The evaluation results could reveal, that a project built with \emph{ts-runtime} does not get close to the performance of a standard TypeScript build. This is due to the inclusion of a runtime type system, that is capable of reflecting and verifying complex data structures. While this overhead is added by the library \emph{flow-runtime}, which is used for the runtime type checks itself, the performance of building a package with the thesis project performs close to building with the native TypeScript compiler, when considering the additional tasks that have to be performed. Furthermore, different testing environments may influence the results. To reproduce the tests of this chapter, the package \emph{ts-runtime-test\footnote{\url{https://github.com/fabiandev/ts-runtime-test}}} is available on GitHub. While results may vary throughout operating systems and testing environments, the unit tests of Section~\ref{sec:operational-test} can be executed, as well as the benchmark tests from Section~\ref{sec:performance-analyzation} can be run locally. Furthermore a detailed overview of the evaluation results can be found in Section~\ref{app:evaluation}.
