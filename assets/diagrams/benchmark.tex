@@ -1,0 +1,65 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning,patterns,fit}
+
+\begin{document}
+  \begin{tikzpicture}[
+    font=\footnotesize,
+    text centered,
+    ]
+
+  \pgfplotsset{compat=newest}
+
+  \centering
+  \begin{axis}[
+    use as bounding box,
+    ylabel style={overlay},
+    yticklabel style={overlay},
+    tick label style={font=\scriptsize},
+      ybar,
+    x=2cm,
+      bar width=1cm,
+    enlarge x limits={abs=1.2cm},
+      enlarge y limits=false,
+      ymin=0,
+      xtick=data,
+      symbolic x coords={A,B},
+    every node append/.style={/pgf/number format/.cd,%
+      scaled y ticks = false,
+      set thousands separator={,}
+    },
+    y tick label style={/pgf/number format/.cd,%
+      scaled y ticks = false,
+      set thousands separator={,}
+    },
+    ytick={100000,200000,300000},
+      axis lines*=left,
+      clip=false
+      ]
+    
+  \addplot [
+      draw=black,
+      fill=white,
+      error bars/.cd,
+          y dir=both,
+          y explicit
+      ] coordinates{
+      (A,338363)+-(13196,13196) (B,79935)+-(3789,3789)
+    };
+
+    \node[] at (axis cs: A,372000) {$3.38\cdot 10^5$};
+    \node[] at (axis cs: B,104000) {$0.80\cdot 10^5$};
+
+  \end{axis}
+    
+    \node[
+        draw=none,
+        %minimum width=\textwidth,
+        fit=(current bounding box.north west) (current bounding box.south east),
+      inner xsep=4em,
+      ]at (current bounding box.center){};
+    
+  \end{tikzpicture}
+\end{document}
