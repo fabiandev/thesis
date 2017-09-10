@@ -224,13 +224,13 @@ After all contents of the project are available it should be determined, if the 
 
 In order to perform special checks and transformations to the original code, abstracting the source will be beneficial. A suitable data structure may be an abstract syntax tree (i.e., AST), as described in Section~\ref{sec:ast}. Performing modifications on the input directly via string modifications is much more error prone, and semantic connections between parts of the code cannot be extracted easily.
 
-\subsection{Static Type Checks}
-
-Another important aspect is to already perform static type checks, and to reject the input from further processing, if type incompatibilities can be detected. This has the advantage of flagging issues to developers early. If static type analysis can already find possible violations, the target code may not behave correctly. Anyway, as it is possible to provide incorrect type declarations for accurate implementations, there should be the possibility to force the process to proceed and to solely rely on type compatibility checks at runtime. Warnings should be generated at compile time in this case, to clearly indicate that unexpected results may be a consequence.
-
 \subsection{Scan Abstraction}
 
 Once the provided source files can be considered syntactically correct and are represented in an abstract data structure, the type information has to be extracted for future modifications to the code. It should not only be possible to obtain the explicitly set type of an AST node, but to also receive the implicitly inferred type. In addition it should be practicable to follow a type reference's type, for further processing. To ensure that important data---e.g., type information, AST node relations, and declared identifiers---is not becoming inaccessible during the transformations, the abstract syntax tree may be scanned ahead of changing its nodes.
+
+\subsection{Static Type Checks}
+
+Another important aspect is to already perform static type checks, and to reject the input from further processing, if type incompatibilities can be detected. This has the advantage of flagging issues to developers early. If static type analysis can already find possible violations, the target code may not behave correctly. Anyway, as it is possible to provide incorrect type declarations for accurate implementations, there should be the possibility to force the process to proceed and to solely rely on type compatibility checks at runtime. Warnings should be generated at compile time in this case, to clearly indicate that unexpected results may be a consequence.
 
 \subsection{Transformations}
 

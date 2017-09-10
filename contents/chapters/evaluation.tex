@@ -78,7 +78,7 @@ After the project of this thesis has been tested using automated unit tests, and
     \hline
   \end{tabular}
 \end{table}
-The detailed results, that could be examined in this section, can further be found in Section~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running macOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
+The detailed results, which could be examined in this section, can further be found in Section~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running macOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/operational-test}
@@ -89,9 +89,16 @@ The detailed results, that could be examined in this section, can further be fou
 \section{Performance Analyzation}
 \label{sec:performance-analyzation}
 
-In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pretty-algorithms} in a Node.js environment, the library was also compared in a browser with \emph{Benchmark.js\footnote{\url{https://github.com/bestiejs/benchmark.js}}}, ``[a] robust benchmarking library that supports high-resolution timers [and] returns statistically significant results~\cite{Evaluation:benchmarkjs}''. For graphically representing the results, \emph{Astrobench\footnote{\url{https://github.com/kupriyanenko/astrobench}}} was used. As including runtime type checks to a project also means that a representation of a type system is required, it was to be expected, that the original build will outperform \emph{ts-runtime}. Anyway, it may be of advantage to gain knowledge of the performance impact. When running the benchmarks, the original library could reach 56,564,588 operations per second on average, while the \emph{ts-runtime} build scored 14,234 operations per second, meaning that it reached 0.025\% of its performance. The closest result of the two builds was 21,462 operations per seconds with generated runtime type checks, compared to 1,648,386 operations per second from with the original package, which is about 77 times faster. When comparing results of a primitive type check, as well as a type compatibility verification of a class and an interface, \emph{ts-runtime} could accomplish its best result of 79,935 versus 338,363 operations per second, which is almost 24\% of the performance of the JavaScript code with handwritten type checks. The entire dataset of the benchmarks regarding \emph{pretty-algorithms} can be found in Section~\ref{app:sec:benchmark-results}, whereas Tab.~\ref{tab:benchmarks} provides an overview of test results not related to this library. The benchmarks were captured on the same system as in Section~\ref{sec:operational-test}, with the 64-bit web-browser \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} version 60.0.3112.113.
+In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pretty-algorithms} in a Node.js environment, the library was also compared in a browser with \emph{Benchmark.js\footnote{\url{https://github.com/bestiejs/benchmark.js}}}, ``[a] robust benchmarking library that supports high-resolution timers [and] returns statistically significant results~\cite{Evaluation:benchmarkjs}''. For graphically representing the results, \emph{Astrobench\footnote{\url{https://github.com/kupriyanenko/astrobench}}} was used. As including runtime type checks to a project also means that a representation of a type system is required, it was to be expected, that the original build will outperform \emph{ts-runtime}. Anyway, it may be of advantage to gain knowledge of the performance impact. When running the benchmarks, the original library could reach 56,564,588 operations per second on average, while the \emph{ts-runtime} build scored 14,234 operations per second, meaning that it reached 0.025\% of its performance. The closest result of the two builds was 21,462 operations per second with generated runtime type checks, compared to 1,648,386 operations per second with the original package, which is about 77 times faster. When comparing results of a primitive type check, as well as a type compatibility verification of a class and an interface, \emph{ts-runtime} could accomplish its best result of 79,935 versus 338,363 operations per second (see Fig.~\ref{fig:benchmark}), which is almost 24\% of the performance of the JavaScript code with handwritten type checks.
+\begin{figure}
+\centering
+\includestandalone{assets/diagrams/benchmark}
+\caption{This diagram shows the benchmark results of checking a class for type compatibility in a web-browser, in operations per second. $A$ displays the outcome of verifying the type manually, while $B$ shows the score when making use of generated runtime type checks.}
+\label{fig:benchmark}
+\end{figure}
+The entire dataset of the benchmarks regarding \emph{pretty-algorithms} can be found in Section~\ref{app:sec:benchmark-results}, whereas Tab.~\ref{tab:benchmarks} provides an overview of test results not related to this library. The benchmarks were captured on the same system as in Section~\ref{sec:operational-test}, with the 64-bit web-browser \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} version 60.0.3112.113.
 \begin{table}[ht]
-  \caption{The results for the \emph{generated checks} denote the runtime benchmarks for a build with the thesis project, for all of the tables below. For the \emph{manual checks}, the \texttt{typeof} operator was used for the results of Tab.~\ref{tab:benchmarks:primitive}, the \texttt{instanceof} operator for the benchmarks of Tab.~\ref{tab:benchmarks:class}, and \texttt{Object.hasOwnProperty} for Tab.~\ref{tab:benchmarks:interface}.}
+  \caption{The results for the \emph{generated checks} denote the runtime benchmarks for a build with the thesis project, for all of the tables below. For the \emph{manual checks}, the \texttt{typeof} operator was used for the results of Tab.~\ref{tab:benchmarks:primitive}, the \texttt{instanceof} operator for the benchmarks of Tab.~\ref{tab:benchmarks:class}, and \texttt{Object.hasOwnProperty}, as well as the strict equality operater (i.e., \texttt{===}), for Tab.~\ref{tab:benchmarks:interface}.}
   \label{tab:benchmarks}
   \setlength{\tabcolsep}{5mm}
   \def\arraystretch{1.25}
@@ -112,7 +119,7 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       \hline
       \emph{Operations/Second} & 791,979,841 & 1,275,061 \\
       \hline
-      \emph{Margin of Error} & 0.75\% & 1.03\% \\
+      \emph{Margin of Error} & $\pm 0.75\%$ & $\pm 1.03\%$ \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for being a string.}
@@ -134,7 +141,7 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       \hline
       \emph{Operations/Second} & 338,363 & 79,935 \\
       \hline
-      \emph{Margin of Error} & 3.90\% & 4.74\% \\
+      \emph{Margin of Error} & $\pm 3.90\%$ & $\pm 4.74\%$ \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for being an instance of a class.}
@@ -156,7 +163,7 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
       \hline
       \emph{Operations/Second} & 31,744,772 & 58,404 \\
       \hline
-      \emph{Margin of Error} & 1.04\% & 1.09\% \\
+      \emph{Margin of Error} & $\pm 1.04\%$ & $\pm 1.09\%$ \\
       \hline
     \end{tabular}
     \caption{Results for checking a value for compatibility to an interface.}
@@ -167,4 +174,4 @@ In addition to running the unit tests with a \emph{ts-runtime} build of \emph{pr
 \section{Summary}
 \label{sec:evaluation-summary}
 
-The evaluation results could reveal, that a project built with \emph{ts-runtime} does not get close to the performance of a standard TypeScript build. This is due to the inclusion of a runtime type system, that is capable of reflecting and verifying complex data structures. While this overhead is added by the library \emph{flow-runtime}, which is used for the runtime type checks itself, the performance of building a package with the thesis project performs close to building with the native TypeScript compiler, when considering the additional tasks that have to be performed. Furthermore, different testing environments may influence the results. To reproduce the tests of this chapter, the package \emph{ts-runtime-test\footnote{\url{https://github.com/fabiandev/ts-runtime-test}}} is available on GitHub. While results may vary throughout operating systems and testing environments, the unit tests of Section~\ref{sec:operational-test} can be executed, as well as the benchmark tests from Section~\ref{sec:performance-analyzation} can be run locally. Furthermore a detailed overview of the evaluation results can be found in Section~\ref{app:evaluation}.
+The evaluation results could reveal, that a project built with \emph{ts-runtime} does not get close to the performance of a standard TypeScript build. This is due to the inclusion of a runtime type system, which is capable of reflecting and verifying complex data structures. While this overhead is added by the library \emph{flow-runtime}, which is used for the runtime type checks itself, the performance of building a package with the thesis project performs close to building with the native TypeScript compiler, while also considering the additional tasks that have to be performed. Furthermore, different testing environments may influence the results. To reproduce the tests of this chapter, the package \emph{ts-runtime-test\footnote{\url{https://github.com/fabiandev/ts-runtime-test}}} is available on GitHub. While results may vary throughout operating systems and testing environments, the unit tests of Section~\ref{sec:operational-test} can be executed, as well as the benchmark tests from Section~\ref{sec:performance-analyzation} can be run locally. Furthermore a detailed overview of the evaluation results can be found in Section~\ref{app:evaluation}.
