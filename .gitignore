@@ -6,13 +6,16 @@
 *.fdb
 *.fdb_latexmk
 *.fls
+*.glo
+*.hd
+*.idx
 *.log
 *.out
 *.run.xml
+*.sta
 *.synctex*
 *.toc
 *.tps
-*.sta
 .texpadtmp
 assets/diagrams/*.sty
 assets/diagrams/*.pdf
