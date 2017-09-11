@@ -15,3 +15,4 @@
 *.sta
 .texpadtmp
 assets/diagrams/*.sty
+assets/diagrams/*.pdf
