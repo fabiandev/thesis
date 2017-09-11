@@ -135,20 +135,26 @@ As already stated, the central element (i.e., core) of the application controls 
 \label{sec:structure}
 
 The following directory structure is used for \emph{ts-runtime}, which at the same time shows the most important files and folders of the project:
+\begin{center}
+\begin{varwidth}{\textwidth}
+\hspace*{-1.2em}\begin{minipage}[t]{1.0\textwidth}
 \dirtree{%
 .1 /src.
-.2 bin\DTcomment{Command Line Interface}.
-.2 lib\DTcomment{Runtime Type Checking Library}.
-.2 mutators\DTcomment{AST Node Transformers}.
-.2 bus.ts\DTcomment{Event Bus}.
-.2 context.ts\DTcomment{Mutation Context}.
-.2 index.ts\DTcomment{API Exposure}.
-.2 factory.ts\DTcomment{Common AST Node Transformations}.
-.2 options.ts\DTcomment{Default Options}.
-.2 scanner.ts\DTcomment{AST Scanner}.
-.2 transform.ts\DTcomment{Application Core}.
-.2 util.ts\DTcomment{Miscellaneous Utilities}.
-}
+.2 bin \DTcomment{Command Line Interface}.
+.2 lib \DTcomment{Runtime Type Checking Library}.
+.2 mutators \DTcomment{AST Node Transformers}.
+.2 bus.ts \DTcomment{Event Bus}.
+.2 context.ts \DTcomment{Mutation Context}.
+.2 index.ts \DTcomment{API Exposure}.
+.2 factory.ts \DTcomment{Common AST Node Transformations}.
+.2 options.ts \DTcomment{Default Options}.
+.2 scanner.ts \DTcomment{AST Scanner}.
+.2 transform.ts \DTcomment{Application Core}.
+.2 util.ts \DTcomment{Miscellaneous Utilities}.
+}%
+\end{minipage}
+\end{varwidth}
+\end{center}
 
 \section{Components}
 \label{sec:components}
@@ -158,7 +164,7 @@ In this section the implementation of the core of the project, as well as the ap
 
 \subsection{Transformer}
 
-The \emph{Transformer}---located in \texttt{src/transformer.ts}---is the core of the thesis project and exposes three methods, which may be used via the project's API:
+The transformer---located in \texttt{src/transformer.ts}---is the core of the thesis project and exposes three methods, which may be used via the project's API:
 \begin{itemize}
   \item \texttt{\textbf{getOptions:}} This function accepts an object as parameter, which aligns with the \emph{Options} interface, described later in this section. It then merges the passed object with the default settings, and returns the result. This ensures that all required options are contained in the resulting object.
   \item \texttt{\textbf{transform:}} By calling this method a transformation process is initiated. It is required to pass at least a list of entry file names. Optionally, an \emph{Options} object may be passed. The compiled JavaScript files are written to disk, according to the TypeScript compiler options, if no errors occurred.
