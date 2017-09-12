@@ -19,7 +19,7 @@ In TypeScript it is possible to perform a special kind of type cast, called \emp
 \begin{quote}
    [...] a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.~\cite{TypeScriptHandbook:BasicTypes}
 \end{quote}
-It seems legitimate to use \emph{any} alongside third-party libraries or in situations where the flexibility of JavaScript's loose typing (see Sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused. The following code outlines a situation where compilation passes, but an error is thrown at runtime:
+It seems legitimate to use \emph{any} alongside third party libraries or in situations where the flexibility of JavaScript's loose typing (see Sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused. The following code outlines a situation where compilation passes, but an error is thrown at runtime:
 \begin{JsCode}[numbers=none]
 let foo: any = "bar";
 foo.getNumber();

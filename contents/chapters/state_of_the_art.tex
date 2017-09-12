@@ -24,7 +24,7 @@ Like many major languages, TypeScript defines some basic types, which overlap wi
 \begin{itemize}
   \item \emph{Tuple} is a special kind of an array, only allowing a fixed number of elements.
   \item \emph{Enum} may already be known from other programming languages, like Java, and is useful to define a set of values.
-  \item \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third-party-libraries where no type definitions are available.
+  \item \emph{Any} results in type checking not being performed by the compiler. This is useful when using TypeScript alongside third party libraries where no type definitions are available.
   \item \emph{Void} is the counterpart to \emph{Any}. Again, it is used in other languages, for example to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} will be accepted as value.
   \item \emph{Never}, for instance, is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back~\cite{TypeScriptHandbook:BasicTypes}.
 \end{itemize}
@@ -80,7 +80,7 @@ However, this \emph{angle-bracket} syntax is not supported when using TypeScript
 \subsubsection{Ambient Type Declarations}
 \label{sec:ts-ambient-type-declarations}
 
-In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g., classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third-party package, which is not written in TypeScript, and no type definitions are available for the library. In the previous section, type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g., a variable, class, namespace, or enum with the \texttt{declare} keyword, results in the declaration being ambient:
+In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while e.g., classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, which is not written in TypeScript, and no type definitions are available for the library. In the previous section, type casting was used to circumvent this issue. While this is a possibility, it may not be suitable, if the library is used frequently in a project. Prepending e.g., a variable, class, namespace, or enum with the \texttt{declare} keyword, results in the declaration being ambient:
 \begin{JsCode}[numbers=none]
 declare const RandomName: any;
 \end{JsCode}
