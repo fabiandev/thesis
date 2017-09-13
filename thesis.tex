@@ -5,11 +5,19 @@
 
 \input{lib/setup}
 
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{silence}
+
+\WarningFilter[footmisc]{latex}{Command \@makecol has changed}
+
 \documentclass[master,english]{hgbthesis}
 
-\RequirePackage[utf8]{inputenc}
+\ActivateWarningFilters[footmisc]
+\usepackage[bottom]{footmisc}
+\DeactivateWarningFilters[footmisc]
 
 \usepackage[subpreambles=true]{standalone}
+\usepackage[defaultlines=4,all]{nowidow}
 \usepackage{romannum}
 \usepackage{url}
 \usepackage{dirtree}
@@ -27,17 +35,17 @@
 
 \addbibresource{contents/references.bib}
 
-% TODO: General:
-% Check hyphenation
-% utilize => use, leverage
-% the running of the program => program execution;
-% that/which
-% Check tenses: was/were/is/will be/have been/should
-% Check commas
-% Use since instead of as sometimes
-% "compiled JavaScript" or "compiled TypeScript"?
-% from above/below => above/below
-% Program => Prog., Section => Sec., Chapter => Ch., Table => Tab., Figure => Fig.
+%% TODO: General:
+%% Check hyphenation
+%% utilize => use, leverage
+%% the running of the program => program execution;
+%% that/which
+%% Check tenses: was/were/is/will be/have been/should
+%% Check commas
+%% Use since instead of as sometimes
+%% "compiled JavaScript" or "compiled TypeScript"?
+%% from above/below => above/below
+%% Program => Prog., Section => Sec., Chapter => Ch., Table => Tab., Figure => Fig.
 
 \title{Generating Runtime Type Validations for JavaScript from the Static Type Information of its Superset TypeScript}
 \author{Fabian Pirklbauer}
@@ -45,8 +53,8 @@
 \placeofstudy{Hagenberg}
 \dateofsubmission{2017}{09}{15}
 
-% Do not hyphenate the following words
-\hyphenation{block-like ClassDeclaration JavaScript SourceFile TypeScript}
+%% hyphenation rules
+\hyphenation{ClassDeclaration JavaScript SourceFile TypeScript}
 
 %%%----------------------------------------------------------
 \begin{document}
@@ -87,6 +95,7 @@
 
 %%% special page for checking print size --------------------
 \include{contents/back/printbox}
+%%%----------------------------------------------------------
 
 %%%----------------------------------------------------------
 \end{document}
