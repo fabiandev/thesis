@@ -15,7 +15,7 @@ This means that every program that is valid in JavaScript is also legal in a Jav
 \subsection{TypeScript}
 \label{sec:typescript}
 
-TypeScript was created by Anders Hejlsberg---the designer of C\texttt{\#}---at Microsoft~\cite[p.~10]{MasteringTypeScript:Rozentals:2017} and was released in 2012 under the \emph{Apache\footnote{\url{https://www.apache.org}}} open source license version 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}~\cite[p.~xix]{ProTypeScript:Fenton:2014}. The most important aspect of TypeScript is that it includes a compilation step where static type checking is performed~\cite[p.~11]{MasteringTypeScript:Rozentals:2017}. Type annotations are optional and the compiler will infer type information where possible~\cite[p.~10]{TypeScriptBook:Syed:2017}. TypeScript also introduces concepts known from other programming languages, such as interfaces and enumerations (i.e., enums). Not only it is possible to develop a program in the TypeScript syntax, but also to add type annotations to existing JavaScript projects~\cite[p.~13]{MasteringTypeScript:Rozentals:2017}. The most significant particularities and features are be explored in this section.
+TypeScript was created by Anders Hejlsberg---the designer of C\texttt{\#}---at Microsoft~\cite[p.~10]{MasteringTypeScript:Rozentals:2017} and was released in 2012 under the \emph{Apache}\footnote{\url{https://www.apache.org}} open source license version 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}~\cite[p.~xix]{ProTypeScript:Fenton:2014}. The most important aspect of TypeScript is that it includes a compilation step where static type checking is performed~\cite[p.~11]{MasteringTypeScript:Rozentals:2017}. Type annotations are optional and the compiler will infer type information where possible~\cite[p.~10]{TypeScriptBook:Syed:2017}. TypeScript also introduces concepts known from other programming languages, such as interfaces and enumerations (i.e., enums). Not only it is possible to develop a program in the TypeScript syntax, but also to add type annotations to existing JavaScript projects~\cite[p.~13]{MasteringTypeScript:Rozentals:2017}. The most significant particularities and features are be explored in this section.
 
 \subsubsection{Basic Types}
 \label{sec:ts-basic-types}
@@ -75,7 +75,7 @@ As an alternative to the type casting syntax with the \texttt{as} keyword, the f
 \begin{JsCode}[numbers=none]
 let name: string = (<any>RandomName).getName();
 \end{JsCode}
-However, the \emph{angle-bracket} syntax is not supported when using TypeScript with \emph{JSX\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
+However, the \emph{angle-bracket} syntax is not supported when using TypeScript with \emph{JSX}\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
 
 \subsubsection{Ambient Type Declarations}
 \label{sec:ts-ambient-type-declarations}
@@ -228,11 +228,11 @@ As the pattern is not part of the fifth edition of ECMAScript~\cite{ES5Spec:Ecma
 \subsection{Flow}
 \label{sec:flow}
 
-\emph{Flow\footnote{\url{https://flow.org}}} is an open source static type checker for JavaScript, developed by \emph{Facebook\footnote{\url{https://code.facebook.com}}}~\cite{FacebookCode:Flow}. The most noticeable difference to TypeScript is the lack of an extensive compiler provided by the project itself. Instead, Flow relies on \emph{Babel\footnote{\url{https://babeljs.io}}}, a compiler for JavaScript~\cite{BabelWebsite}, which
+\emph{Flow}\footnote{\url{https://flow.org}} is an open source static type checker for JavaScript, developed by \emph{Facebook}\footnote{\url{https://code.facebook.com}}~\cite{FacebookCode:Flow}. The most noticeable difference to TypeScript is the lack of an extensive compiler provided by the project itself. Instead, Flow relies on \emph{Babel}\footnote{\url{https://babeljs.io}}, a compiler for JavaScript~\cite{BabelWebsite}, which
 \begin{quote}
   [...] will take [...] Flow code and strip out any type annotations.~\cite{FlowDocs:Install}
 \end{quote}
-Alternatively the library \emph{flow-remove-types\footnote{\url{https://github.com/flowtype/flow-remove-types}}} can be used~\cite{FlowDocs:Install}.
+Alternatively the library \emph{flow-remove-types}\footnote{\url{https://github.com/flowtype/flow-remove-types}} can be used~\cite{FlowDocs:Install}.
 
 Another difference between the two JavaScript supersets are their design goals. While TypeScript's goal is not to ``[a]pply a sound or "provably correct" type system [but to] strike a balance between correctness and productivity.~\cite{TypeScriptWiki:DesignGoals}'', Flow's type system ``tries to be as sound and complete as possible~\cite{FlowDocs:TypesAndExpressions}''. The syntax itself is mostly identical to the one of TypeScript~\cite{FlowDocs:TypesAnnotations}. Brzóska sums up the differences between the two languages, as shown in Table~\ref{tab:typescript-flow}.
 %\begin{table}
@@ -314,10 +314,10 @@ Apart from TypeScript and Flow, a multitude of languages exist that compile to J
   \item \textbf{Objective-J:} This language has the same relationship to JavaScript, as \emph{Objective-C} to \emph{C}.
   %\item \textbf{Six:} Supports features from the 6th edition of ECMAScript through a transpiler
   %\item \textbf{Latte JS:} Similar to CoffeeScript with JavaScript syntax
-  \item \textbf{JSX:} JSX got popular with the React\footnote{\url{https://facebook.github.io/react/}} framework~\cite{TypeScriptHandbook:JSX} and adds XML-like syntax to represent HTML elements in JavaScript.
+  \item \textbf{JSX:} JSX got popular with the \emph{React}\footnote{\url{https://facebook.github.io/react/}} framework~\cite{TypeScriptHandbook:JSX} and adds XML-like syntax to represent HTML elements in JavaScript.
   \item \textbf{oj:} This is an \emph{Objective-C} inspired superset with an experimental type checker.
 \end{itemize}
-The collection also contains languages like \emph{Scala.js\footnote{\url{http://www.scala-js.org}}}, which compiles \emph{Scala\footnote{\url{http://scala-lang.org}}} code to JavaScript, or \emph{Opal\footnote{\url{http://opalrb.org}}}, a \emph{Ruby\footnote{\url{https://www.ruby-lang.org}}} to JavaScript compiler.
+The collection also contains languages like \emph{Scala.js}\footnote{\url{http://www.scala-js.org}}, which compiles \emph{Scala}\footnote{\url{http://scala-lang.org}} code to JavaScript, or \emph{Opal}\footnote{\url{http://opalrb.org}}, a \emph{Ruby}\footnote{\url{https://www.ruby-lang.org}} to JavaScript compiler.
 
 \section{Runtime Type Checks}
 \label{sec:runtime-type-checks}
@@ -374,7 +374,7 @@ some information about the object, which can be accessed. It might, for instance
 as being of a type, if specified properties exist on it~\cites[pp.~101--102]{MasteringTypeScript:Rozentals:2015}[pp.~18--20]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. If, for example, a constructor function \emph{Person} is given, which defines a \emph{getName} property on its prototype, an arbitrary object could be considered as \emph{Person}, if it also provides a \emph{getName} property. This gets already closer to TypeScript's structural types (see Sec.~\ref{sec:ts-structural-types}).
   \item \textbf{Interface checking with generics:} This concept requires the definition of a class for every interface, which holds the property names to identify an object as having a specific type~\cites[pp.~102--105]{MasteringTypeScript:Rozentals:2015}[pp.~17--19]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. This solution is similar to the previous approach, but it introduces a pattern, which is more readable and maintainable.
 \end{itemize}
-Another mechanism is to use \textit{decorators\footnote{\url{https://tc39.github.io/proposal-decorators}}},
+Another mechanism is to use \textit{decorators}\footnote{\url{https://tc39.github.io/proposal-decorators}},
 a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like Babel~\cite{TypeScriptHandbook:Decorators, Babel:Plugins:Decorators}.
 The solution used in~\cite{DecoratorTypeChecks}, which makes use of decorators, again requires
 to add them to the source code manually. Furthermore, only primitive types and instances can be checked automatically. Structural type checks---e.g., for custom objects or interfaces---have
@@ -425,4 +425,4 @@ Builtin.typeOf(new MyArray()); // "Array"
 \section{Generated Runtime Type Checks}
 \label{sec:existing-projects}
 
-During research, no libraries could be found which automatically generate runtime type checks from TypeScript code, and validations have to be implemented manually, as described in the previous section. However, there are libraries which aim to provide a runtime type system, which are explored in Section~\ref{sec:runtime-type-system}. While those packages are supportive in describing and validating data structures in JavaScript, few projects concentrate on automatically generating them. As it may not be feasible to create checks without the data provided by a static type system or some kind of supportive information---such as type annotations---also no libraries could be discovered which can provide runtime validations from native JavaScript code. However, the Babel plugins \emph{babel-plugin-tcomb\footnote{\url{https://github.com/gcanti/babel-plugin-tcomb}}} and \emph{babel-plugin-flow-runtime\footnote{\url{https://github.com/codemix/flow-runtime/tree/master/packages/babel-plugin-flow-runtime}}} can generate runtime validations for Flow syntax~\cites{RuntimeTypeSystem:tcomb:babel, RuntimeTypeSystem:flow-runtime:babel}. Furthermore, a future release of Babel will support TypeScript syntax~\cite{Babel:TypeScript}, which could make it possible to adapt the plugins to also transform TypeScript code.
+During research, no libraries could be found which automatically generate runtime type checks from TypeScript code, and validations have to be implemented manually, as described in the previous section. However, there are libraries which aim to provide a runtime type system, which are explored in Section~\ref{sec:runtime-type-system}. While those packages are supportive in describing and validating data structures in JavaScript, few projects concentrate on automatically generating them. As it may not be feasible to create checks without the data provided by a static type system or some kind of supportive information---such as type annotations---also no libraries could be discovered which can provide runtime validations from native JavaScript code. However, the Babel plugins \emph{babel-plugin-tcomb}\footnote{\url{https://github.com/gcanti/babel-plugin-tcomb}} and \emph{babel-plugin-flow-runtime}\footnote{\url{https://github.com/codemix/flow-runtime/tree/master/packages/babel-plugin-flow-runtime}} can generate runtime validations for Flow syntax~\cites{RuntimeTypeSystem:tcomb:babel, RuntimeTypeSystem:flow-runtime:babel}. Furthermore, a future release of Babel will support TypeScript syntax~\cite{Babel:TypeScript}, which could make it possible to adapt the plugins to also transform TypeScript code.

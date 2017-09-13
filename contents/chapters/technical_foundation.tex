@@ -8,7 +8,7 @@ This chapter gives an overview of the technical knowledge required for this thes
 
 There are different kinds of programming languages with different characteristics and specifications. An essential part of a language is its type system, which has a great impact on the behavior of a program and may influence the syntax a program is written in.
 In general a programming language can be categorized as typed or untyped, where untyped languages do not have a static type system at all, or have a single type, which can hold any value~\cite[p.~2]{TypeSystems:Cardelli:2004}. More precisely a language is considered typed independently of types being part of the syntax, but simply by the existence of a (static) type system~\cite[p.~2]{TypeSystems:Cardelli:2004}.
-According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research\footnote{\url{https://www.microsoft.com/research/}}} a type system is
+According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research}\footnote{\url{https://www.microsoft.com/research/}} a type system is
 \begin{quote}
   [a] collection of type rules for a typed programming language~\cite[p.~38]{TypeSystems:Cardelli:2004}
 \end{quote}
@@ -62,9 +62,9 @@ To ensure that a program follows the specified rules of its type system and to g
 \section{JavaScript}
 \label{sec:javascript}
 
-JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.}} submitted the language to \emph{Ecma International}\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'', and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub\footnote{\url{https://github.com}}} it was the most popular language on its platform by opened \emph{Pull Requests\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.}} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see Sec.~\ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Requests by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
+JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape}\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.} submitted the language to \emph{Ecma International}\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'', and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub}\footnote{\url{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests}\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see Sec.~\ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Requests by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
 
-While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js\footnote{\url{https://nodejs.org}}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine\footnote{\url{https://developers.google.com/v8/}}}, also used in the popular \emph{Chrome\footnote{\url{https://www.google.com/chrome/}}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
+While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js}\footnote{\url{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}\footnote{\url{https://developers.google.com/v8/}}, also used in the popular \emph{Chrome}\footnote{\url{https://www.google.com/chrome/}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
 The following sections give an overview of the language JavaScript, outlining its most important and interesting concepts. As it would go beyond the scope of this thesis not all cases---especially the numerous exceptions---are described.
 
@@ -96,7 +96,7 @@ A major difference to a (statically) typed language is, that in JavaScript only 
 let num = 10;
 typeof num; // "number"
 \end{JsCode}
-The string that is returned by the \texttt{typeof} operator does not reflect the previously mentioned value types completely. As shown in Tab.~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature, \texttt{"function"} is returned, and \texttt{"object"} otherwise. For a value of type \emph{Null}, the result is also \texttt{"object"}. A proposal to change the specification and to correct this issue---erroneously indicating that \texttt{null} is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
+The string that is returned by the \texttt{typeof} operator does not reflect the previously mentioned value types completely. As shown in Table~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature, \texttt{"function"} is returned, and \texttt{"object"} otherwise. For a value of type \emph{Null}, the result is also \texttt{"object"}. A proposal to change the specification and to correct this issue---erroneously indicating that \texttt{null} is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
 
 \begin{table}
 \caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
@@ -129,7 +129,7 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 \subsection{Type Conversion}
 \label{sec:type-conversion}
 
-In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
+In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Table~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
 \begin{table}
 \caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}
 \centering
@@ -159,7 +159,7 @@ Again, even a slight change to the code means an entirely different outcome:
 \begin{JsCode}[numbers=none]
 "2" + 3 + "Hello" // "23Hello"
 \end{JsCode}
-A more comprehensive overview of possible type conversions---summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with \emph{Symbol} type conversions as of the ECMAScript 2015 specification---can be found in Tab.~\ref{tab:conversions}, which also highlights situations where type conversions are not possible or lead to an error.
+A more comprehensive overview of possible type conversions---summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with \emph{Symbol} type conversions as of the ECMAScript 2015 specification---can be found in Table~\ref{tab:conversions}, which also highlights situations where type conversions are not possible or lead to an error.
 
 \begin{table}
 \caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}.}\label{tab:conversions}
@@ -417,10 +417,10 @@ var a = 1; /+\label{line:let-over-var1}+/
 
 console.log(a); // 1
 \end{JsCode}
-While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. Anyway, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Prog.~\ref{prog:scopes} to Prog.~\ref{prog:scopes-let}.
+While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. Anyway, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Program~\ref{prog:scopes} to Program~\ref{prog:scopes-let}.
 
 \begin{program}
-\caption{In Prog.~\ref{prog:scopes} the usage of the declaration keyword \texttt{var} on line~\ref{prog:scopes:declaration} results in an infinite loop, due to the variable being scoped to its enclosing function. In the example below, the only difference to Program~\ref{prog:scopes} is that \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}. This causes the variable \texttt{i} being block scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment in \texttt{bar} on line~\ref{prog:scopes-let:declaration2} won't change the value of \texttt{i} from line~\ref{prog:scopes-let:declaration}, and the loop is called exactly ten times.}
+\caption{In Program~\ref{prog:scopes} the usage of the declaration keyword \texttt{var} on line~\ref{prog:scopes:declaration} results in an infinite loop, due to the variable being scoped to its enclosing function. In the example below, the only difference to Program~\ref{prog:scopes} is that \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}. This causes the variable \texttt{i} being block scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment in \texttt{bar} on line~\ref{prog:scopes-let:declaration2} won't change the value of \texttt{i} from line~\ref{prog:scopes-let:declaration}, and the loop is called exactly ten times.}
 \label{prog:scopes-let}
 \begin{JsCode}
 function foo() {
@@ -493,7 +493,7 @@ It is possible to write the function even shorter. If only one parameter is give
 \begin{JsCode}[numbers=none]
 const foo = a => a;
 \end{JsCode}
-The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Prog.~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.
+The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Program~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.
 \begin{program}
 \caption{Unlike in Program~\ref{prog:this-function}, where line~\ref{prog:this-function:window} and~\ref{prog:this-function:object} logged different objects to the console, in this example, both log the global \texttt{window} object, due to the lexical binding of the arrow function, defined on line~\ref{prog:this-arrow-function:declaration}.}
 \label{prog:this-arrow-function}
@@ -599,7 +599,7 @@ An abstract syntax tree (i.e., AST) is the representation of a source program, c
   \item In the fourth step of a typical compiler the \emph{optimizer} creates intermediate code and applies code improvement algorithms.
   \item The \emph{code generator} is the last step where the final target code of a program is generated.
 \end{enumerate}
-To demonstrate how an abstract syntax tree may look like for TypeScript, a variable declaration was inserted in the online editor \emph{AST explorer\footnote{\url{https://astexplorer.net}}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, as well as CSS (i.e., Cascading Style Sheets) and HTML (i.e., Hypertext Markup Language)~\cite{ASTExplorer}. The resulting syntax tree is illustrated in Figure~\ref{fig:ast}.
+To demonstrate how an abstract syntax tree may look like for TypeScript, a variable declaration was inserted in the online editor \emph{AST explorer}\footnote{\url{https://astexplorer.net}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, as well as CSS (i.e., Cascading Style Sheets) and HTML (i.e., Hypertext Markup Language)~\cite{ASTExplorer}. The resulting syntax tree is illustrated in Figure~\ref{fig:ast}.
 
 \begin{figure}
 \centering

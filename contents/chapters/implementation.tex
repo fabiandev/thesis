@@ -60,23 +60,23 @@ A multitude of libraries are available, which aim to provide a runtime type syst
 
 \subsubsection{ObjectModel}
 
-\emph{ObjectModel\footnote{\url{https://github.com/sylvainpolletvillard/ObjectModel}}} is an extensive type system, which ``[...] intends to bring strong dynamic type checking to [JavaScript] web applications~\cite{RuntimeTypeSystem:ObjectModel}''. While being actively maintained and a detailed documentation is available, this library makes use of a technique that requires the replacement of parts of the JavaScript code---e.g., object literals---to perform validations on them~\cite{RuntimeTypeSystem:ObjectModel}, which makes it not entirely suitable for the use with the project of this thesis.
+\emph{ObjectModel}\footnote{\url{https://github.com/sylvainpolletvillard/ObjectModel}} is an extensive type system, which ``[...] intends to bring strong dynamic type checking to [JavaScript] web applications~\cite{RuntimeTypeSystem:ObjectModel}''. While being actively maintained and a detailed documentation is available, this library makes use of a technique that requires the replacement of parts of the JavaScript code---e.g., object literals---to perform validations on them~\cite{RuntimeTypeSystem:ObjectModel}, which makes it not entirely suitable for the use with the project of this thesis.
 
 \subsubsection{tcomb}
 
-The project \emph{tcomb\footnote{\url{https://github.com/gcanti/tcomb}}} argues to ``[...] check the types of JavaScript values at runtime~\cite{RuntimeTypeSystem:tcomb}''. While probably being one of the most famous runtime type checking libraries for JavaScript---with more than 1300 stars on GitHub~\cite{RuntimeTypeSystem:tcomb}---it is again intended to be used for JavaScript code. Special considerations for TypeScript are not part of this package.
+The project \emph{tcomb}\footnote{\url{https://github.com/gcanti/tcomb}} argues to ``[...] check the types of JavaScript values at runtime~\cite{RuntimeTypeSystem:tcomb}''. While probably being one of the most famous runtime type checking libraries for JavaScript---with more than 1300 stars on GitHub~\cite{RuntimeTypeSystem:tcomb}---it is again intended to be used for JavaScript code. Special considerations for TypeScript are not part of this package.
 
 \subsubsection{io-ts}
 
-Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a ``TypeScript compatible runtime type system [...]~\cite{RuntimeTypeSystem:io-ts}''. While it did look promising to be used, some aspects did not meet the expectations. For example being able to define the type reflection of a class alongside the class declaration itself is not provided by the library, as well as being able to retrieve a type reference with type parameters (i.e., generics) is not possible. However, as \emph{io-ts\footnote{\url{https://github.com/gcanti/io-ts}}} may evolve over time, a transition of \emph{ts-runtime} to use it at a later point is possible.
+Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a ``TypeScript compatible runtime type system [...]~\cite{RuntimeTypeSystem:io-ts}''. While it did look promising to be used, some aspects did not meet the expectations. For example being able to define the type reflection of a class alongside the class declaration itself is not provided by the library, as well as being able to retrieve a type reference with type parameters (i.e., generics) is not possible. However, as \emph{io-ts}\footnote{\url{https://github.com/gcanti/io-ts}} may evolve over time, a transition of \emph{ts-runtime} to use it at a later point is possible.
 
 \subsubsection{runtypes}
 
-The \emph{runtypes\footnote{\url{https://github.com/pelotom/runtypes}}} library is a fairly young project, which intends to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see Sec.~\ref{sec:value-types}) is used, which cannot compare the function's signature, including parameters and the return type.
+The \emph{runtypes}\footnote{\url{https://github.com/pelotom/runtypes}} library is a fairly young project, which intends to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see Sec.~\ref{sec:value-types}) is used, which cannot compare the function's signature, including parameters and the return type.
 
 \subsubsection{flow-runtime}
 
-The \emph{flow-runtime\footnote{\url{https://github.com/codemix/flow-runtime}}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features, this library seems to be most suitable to reflect the static type system of TypeScript as close as possible. Additionally, \emph{flow-runtime} provides a package which generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, indicating that a multitude of cases for Flow syntax, and therefore also for TypeScript, are implemented in this library.
+The \emph{flow-runtime}\footnote{\url{https://github.com/codemix/flow-runtime}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features, this library seems to be most suitable to reflect the static type system of TypeScript as close as possible. Additionally, \emph{flow-runtime} provides a package which generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, indicating that a multitude of cases for Flow syntax, and therefore also for TypeScript, are implemented in this library.
 
 \pagebreak[4]
 
@@ -271,7 +271,7 @@ Alongside changing the arrow function's body, it is also annotated. This means t
 \begin{JsCode}[numbers=none]
 (): string => "bar";
 \end{JsCode}
-Also the arrow function mutator itself is shown in Prog.~\ref{prog:mutator:arrow-function}, as it is relatively small compared to other mutators, while the call to \texttt{mutateFunctionBody} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
+Also the arrow function mutator itself is shown in Program~\ref{prog:mutator:arrow-function}, as it is relatively small compared to other mutators, while the call to \texttt{mutateFunctionBody} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
 \begin{JsCode}[numbers=none]
 () => {
   const _returnType = t.return(t.string());
@@ -344,7 +344,7 @@ The class declaration mutator is one of the most complex mutators. It has to con
   \item \textbf{Type Parameters:} All type parameters are initialized in the constructor, making them accessible to the entire class.
   \item \textbf{Interfaces:} If the class should align with one or more interfaces, type compatibility is checked when the class is instantiated.
 \end{enumerate}
-Prog.~\ref{prog:before-transformation:class} shows a class in TypeScript, where several of these cases are met.
+Program~\ref{prog:before-transformation:class} shows a class in TypeScript, where several of these cases are met.
 \begin{program}
 \caption{A class in TypeScript, which extends a base class and implements a single interface. Furthermore, a \emph{readonly} property is defined, and the method \texttt{convert} is overloaded. The result, after being processed by \emph{ts-runtime}, is shown in Program~\ref{prog:transformation:class}.}
 \label{prog:before-transformation:class}
@@ -368,7 +368,7 @@ class NumberConverter extends Singleton implements Converter {
 \end{program}
 The result after being processed by \emph{ts-runtime} is shown in Program~\ref{prog:transformation:class}.
 \begin{program}
-\caption{The resulting JavaScript code after the transformation of the class from Prog.~\ref{prog:before-transformation:class}.}
+\caption{The resulting JavaScript code after the transformation of the class from Program~\ref{prog:before-transformation:class}.}
 \label{prog:transformation:class}
 \begin{JsCode}
 @t.annotate(t.class("NumberConverter", t.extends(t.ref(Singleton)),
@@ -688,7 +688,7 @@ A diagram depicting the most significant parts of this process can also be found
 \section{Usage}
 \label{sec:usage}
 
-In order to make use of the implemented project, Node.js version 6.0 or above needs to be installed on the system. Also npm---which comes with Node.js---or \emph{yarn\footnote{\url{https://yarnpkg.com}}} is required to install \emph{ts-runtime} from the npm registry. The following command can be used with yarn, to add the package as a dependency to a project via the command line:
+In order to make use of the implemented project, Node.js version 6.0 or above needs to be installed on the system. Also npm---which comes with Node.js---or \emph{yarn}\footnote{\url{https://yarnpkg.com}} is required to install \emph{ts-runtime} from the npm registry. The following command can be used with yarn, to add the package as a dependency to a project via the command line:
 \begin{GenericCode}[numbers=none]
 yarn add ts-runtime
 \end{GenericCode}

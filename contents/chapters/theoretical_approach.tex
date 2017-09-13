@@ -65,7 +65,7 @@ While static type checks are successful, the compiled JavaScript code will fail 
 
 \subsection{Untyped JavaScript Libraries}
 
-If a JavaScript project is written in native syntax, TypeScript cannot infer the type information needed to perform sufficient static type analysis. In this cases type declarations may be provided manually, as discussed in the following section. \emph{DefinitelyTyped\footnote{http://definitelytyped.org}} provides a collection of such type definitions for JavaScript libraries~\cite{DefinitelyTyped}. Anyway, not all packages have definitions available, especially small projects. A practice often used in such a situation is to declare the package name, to stop complaints from the TypeScript compiler about not finding the import:
+If a JavaScript project is written in native syntax, TypeScript cannot infer the type information needed to perform sufficient static type analysis. In this cases type declarations may be provided manually, as discussed in the following section. \emph{DefinitelyTyped}\footnote{\url{http://definitelytyped.org}} provides a collection of such type definitions for JavaScript libraries~\cite{DefinitelyTyped}. Anyway, not all packages have definitions available, especially small projects. A practice often used in such a situation is to declare the package name, to stop complaints from the TypeScript compiler about not finding the import:
 \begin{JsCode}[numbers=none]
 declare module "MyModule"
 \end{JsCode}
@@ -161,7 +161,7 @@ var MyEnum;
 })(MyEnum || (MyEnum = {}));
 \end{JsCode}
 \end{program}
-To enable type checks for the runtime, the enum has to be described with its members.%, which in the case of Prog.~\ref{prog:enum-compiled} is one member with the value of the number zero.
+To enable type checks for the runtime, the enum has to be described with its members.%, which in the case of Program~\ref{prog:enum-compiled} is one member with the value of the number zero.
 
 \subsection{Classes}
 
@@ -210,7 +210,7 @@ These steps are described in more detail in the following sections. While giving
 \subsection{Configuration}
 \label{sec:steps-configuration}
 
-As different projects have different requirements regarding the result of the JavaScript target code, configurations for the transformation process have to be set in advance. This includes the settings for the TypeScript compiler itself\footnote{https://www.typescriptlang.org/docs/handbook/compiler-options.html}, as well as adjustments for \emph{ts-runtime}. While the project of this thesis is not intended to be a replacement of the TypeScript compiler, it should still honor the options of the development environment. These settings include, among others, the ECMAScript version of the resulting program, the module system to use, as well as the write location of the output~\cite{TypeScriptHandbook:CompilerOptions}.
+As different projects have different requirements regarding the result of the JavaScript target code, configurations for the transformation process have to be set in advance. This includes the settings for the TypeScript compiler\footnote{\url{https://www.typescriptlang.org/docs/handbook/compiler-options.html}} itself, as well as adjustments for \emph{ts-runtime}. While the project of this thesis is not intended to be a replacement of the TypeScript compiler, it should still honor the options of the development environment. These settings include, among others, the ECMAScript version of the resulting program, the module system to use, as well as the write location of the output~\cite{TypeScriptHandbook:CompilerOptions}.
 
 \subsection{Read Source Files}
 
