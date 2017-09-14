@@ -200,8 +200,6 @@ function log(message, logger) {
 \end{JsCode}
 If the parameter \texttt{logger} equals \texttt{undefined}, which is the value being returned by \texttt{void 0}\footnote{The void operator can be used to retrieve the value \texttt{undefined} by calling \texttt{void(0)}, which is equivalent to \texttt{void 0}~\cite{void:MDN:2017}.}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
 
-% enums, namespaces, decorators, (abstract) class (visibility/inheritance/implements), default value for parameter, readonly
-
 \subsubsection{Future JavaScript}
 
 While the TypeScript compiler can target different JavaScript versions---such as ES3, ES5, and ES2015---it does also support future ECMAScript proposals, like decorators and asynchronous functions~\cites{TypeScriptHandbook:CompilerOptions, TypeScriptWebsite}. This allows for the usage of features, which are not yet implemented by browsers. This is achieved by changing parts of the source, or by including additional code that mimics the behavior of a certain feature and delivers the same result. The code below uses a pattern, referred to as \emph{destructuring assignment}~\cite{DestructuringAssignment:Mozilla:2015}, to assign the values \texttt{1} and \texttt{2} to the identifiers \texttt{foo} and \texttt{bar}, respectively:

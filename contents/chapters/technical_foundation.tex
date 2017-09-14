@@ -361,9 +361,9 @@ If no property \emph{speak} would exist on the prototype neither, JavaScript wou
 \end{figure}
 
 \subsection{Latest Improvements}
-JavaScript is improving rapidly with a number of major and minor changes and improvements to the language's standard. Some additions improve readability and reduce the amount of lines of code needed to accomplish the same outcome in previous versions. Others add completely new functionality and concepts to JavaScript. The following sections give an overview of additions to the sixth edition of ECMAScript---called \emph{ECMAScript 2015}---that make it most distinctive to the standard's previous version.
-
 \label{sec:latest-improvements}
+
+JavaScript is improving rapidly with a number of major and minor changes and improvements to the language's standard. Some additions improve readability and reduce the amount of lines of code needed to accomplish the same outcome in previous versions. Others add completely new functionality and concepts to JavaScript. The following sections give an overview of additions to the sixth edition of ECMAScript---called \emph{ECMAScript 2015}---that make it most distinctive to the standard's previous version.
 
 \subsubsection{Declaration Keywords}
 
@@ -417,7 +417,7 @@ var a = 1; /+\label{line:let-over-var1}+/
 
 console.log(a); // 1
 \end{JsCode}
-While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. Anyway, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Program~\ref{prog:scopes} to Program~\ref{prog:scopes-let}.
+While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. However, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Program~\ref{prog:scopes} to Program~\ref{prog:scopes-let}.
 
 \begin{program}
 \caption{In Program~\ref{prog:scopes} the usage of the declaration keyword \texttt{var} on line~\ref{prog:scopes:declaration} results in an infinite loop, due to the variable being scoped to its enclosing function. In the example below, the only difference to Program~\ref{prog:scopes} is that \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}. This causes the variable \texttt{i} being block scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment in \texttt{bar} on line~\ref{prog:scopes-let:declaration2} won't change the value of \texttt{i} from line~\ref{prog:scopes-let:declaration}, and the loop is called exactly ten times.}
@@ -449,10 +449,6 @@ However, this does not affect, e.g., properties of an object assigned to a const
 const b = { name: "Foo" };
 b.name = "Bar";
 \end{JsCode}
-
-%Variable \texttt{a} is created and initialized with \texttt{1} in the global scope. The function \texttt{foo} creates its own scope, taking a parameter \texttt{num}. Within the function a new variable is created, called \texttt{b}, and variable \texttt{a} from the global scope is reassigned. Because JavaScript could not find an identifier \texttt{b} in the scope of \texttt{foo}, it looks at its parent scope. After calling function \texttt{foo}, the variable \texttt{a} has the value \texttt{2}, whereas when trying to access \texttt{b}, a \emph{ReferenceError} is thrown, as no such variable could be found in the current or any enclosing scope.
-
-% var, let const, TDZ, TypeError/undefined
 
 \subsubsection{Arrow Functions}
 
@@ -576,12 +572,6 @@ The result of all the previously shown concatenation techniques is identical.
 \subsubsection{Beyond ECMAScript 2015}
 
 The development of JavaScript is dependent on its specification, defined by ECMAScript, and new editions were not released regularly~\cite{ECMA262Archive:Ecma}. Version 5.1 was published in 2011~\cite{ESSpecOnline:Ecma:2011}, from where it took four years until the sixth edition was published in June 2015~\cite{ES2015SpecOnline:Ecma:2015}. Starting with ECMAScript 2015, a new specification will be released yearly~\cite{ECMAScriptNextSupportInMozilla:Mozilla:2017}.
-%, with the seventh edition of ECMAScript from 2016 being the latest~\cites{ECMA262:Ecma:2016}{ES2016SpecOnline:Ecma:2016}.
-
-%\subsection{Extensions}
-%\label{sec:javascript-extensions}
-%
-%There are a multitude of extensions available for JavaScript. In \cite{LanguagesThatCompileToJS:CoffeeScript:2017} an extensive list of languages that compile to JavaScript, JavaScript supersets, parsers and compilers can be found. That list includes \emph{CoffeeScript\footnote{\url{http://coffeescript.org}}}---a ``[...] language that compiles into JavaScript''~\cite{CoffeeScript}---as well as the static type checkers \emph{TypeScript\footnote{\url{https://www.typescriptlang.org}}} and \emph{Flow\footnote{\url{https://flow.org}}}. Languages that have packages available for transforming its code to JavaScript include, but are not limited to, \emph{Ruby}, \emph{Python}, \emph{Java}, \emph{Scala} and \emph{C\texttt{\#}}.
 
 \subsection{Further Reading}
 \label{sec:further reading}

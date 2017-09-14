@@ -632,37 +632,9 @@ While it is possible to provide settings to the transformer, it is not required 
 \end{JsCode}
 \end{program}
 
-%\section{Transformation Results}
-%\label{sec:transformation-results}
-%
-%\subsection{SourceFile}
-%
-%\subsection{Variables}
-%
-%\subsection{Type Assertions}
-%
-%\subsection{Functions}
-%
-%\subsection{Type Queries}
-%
-%\subsection{Enumerations}
-%
-%\subsection{Type Aliases}
-%
-%\subsection{Interfaces}
-%
-%\subsection{Classes}
-%
-%\subsection{Method Overloads}
-%
-%\subsection{Generics}
-%
-%\subsection{Externals}
-%
-%\subsection{Ambient Declarations}
-
-\section{Transformation Procedure} % Program Flow/Application Flow/Program Procedure/Transformation Procedure
+\section{Transformation Procedure}
 \label{sec:transformation-process}
+
 A variety of elements work together to achieve the desired result of the thesis project, which have been pictured in this chapter. While they have been described with a certain level of detail, not all characteristics of every component could be highlighted. To better illustrate the procedure of the program, and the interconnections of the different components, the steps performed by the transformer are described:
 \begin{enumerate}
   \item The transformer obtains a complete set of options by requesting the default settings for \emph{ts-runtime} and the TypeScript compiler, which can then be merged with the settings passed. If the options are not valid the transformation is stopped.

@@ -5,15 +5,11 @@ After defining the terminology for this thesis, as well as giving an overview of
 
 \section{Undetectable Errors}
 \label{sec:undetectable-errors}
-%
-%This section is dedicated to point out, why runtime type checks are of importance. Also current approaches and solutions are discovered, to get an overview of the techniques available and steps required to make a TypeScript project more resistant to failure.
-%
-%\subsection{Undetectable Errors}
-%\label{sec:undetectable-errors}
 
 There are various situations where the static type analysis of TypeScript cannot detect conditions that may lead to errors at runtime. Either a project is written in TypeScript, and the compiler can infer the type information needed, or type definition files are provided for untyped JavaScript libraries. In both cases it is possible to introduce errors, which may cause the type checker to make wrong assumptions about type compatibility. Also particular programming techniques can result in errors not already being trapped during compilation.
 
 \subsection{Compiler Analysis Circumvention}
+\label{sec:compiler-analysis-circumvention}
 
 In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:typescript}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If, e.g., a variable is annotated or asserted with the \emph{Any} type, type checking and type inference will be disabled for this part of the code. The TypeScript documentation describes this type as 
 \begin{quote}
@@ -93,12 +89,6 @@ The file containing the type declaration for class \texttt{Foo} does not reflect
 
 When making use of an external API, the response should be of a given structure, which should be known to the consuming program. An interface may be created to describe the receiving object and to statically check its usage. However, if the format of the response changes unexpectedly, it is not possible to reveal this change at compile time, since the type checker relies on the interface provided. Runtime checks have to be added manually to ensure that the response conforms to the expected structure. Otherwise an error may be raised during program execution, or its behavior may be different than expected.
 
-%\subsection{Source Code Manipulation}
-%\label{sec:source-code-manipulation}
-
-%\section{Method Principle}
-%\label{sec:method-principle}
-
 \section{Desired Result}
 \label{sec:desired-result}
 
@@ -136,8 +126,6 @@ If a variable was declared it also has a type bound to it during compile time. T
 
 Type assertions are comparable to type casts in other languages, with the difference that no special checks or conversions are performed (see Sec.~\ref{sec:typescript}). To inspect if an assertion is valid, the same checks should be performed as for variable assignments. Values asserted as \emph{any}, as discussed in Section~\ref{sec:undetectable-errors}, can be ignored, as they would always pass.
 
-% As discussed in section~\ref{sec:undetectable-errors}, it is possible to opt out of compile time checks by asserting a value as \emph{any}. To detect situations, 
-
 \subsection{Functions}
 
 There are different types of functions, which need to be distinguished: regular function declarations, function expressions, and arrow functions (see Sec.~\ref{sec:latest-improvements}). For any of these types, the function has to be reflected to enable type comparison. The runtime description has to include its parameters---which can also be optional---and its return type. If the function is called, the parameters passed, as well as the returned value, have to be checked. Additionally, a function can make use of generics to define parameter or return types~\cite{TypeScriptHandbook:Generics}, as shown below:
@@ -161,13 +149,11 @@ var MyEnum;
 })(MyEnum || (MyEnum = {}));
 \end{JsCode}
 \end{program}
-To enable type checks for the runtime, the enum has to be described with its members.%, which in the case of Program~\ref{prog:enum-compiled} is one member with the value of the number zero.
+To enable type checks for the runtime, the enum has to be described with its members.
 
 \subsection{Classes}
 
 For classes a multitude of cases requiring runtime reflection and checks have to be considered. Most importantly the entire class---including type parameters (i.e., generics), its members, extending classes, and implemented interfaces---has to be reflected to use it as type reference at other places of the program. Methods can be checked the same way as functions, with the difference that they may also use class type parameters as type annotations. Furthermore, when instantiating a class sufficient checks should be performed to ensure that it correctly implements its interfaces.
-
-% reflection, methods, instance members, overloading, extending, implementing interfaces, generics
 
 \subsection{Type Queries}
 
@@ -250,87 +236,3 @@ To achieve automatically generated runtime type reflections and checks, a series
 \caption{Conceptual procedure of applying transformations to a TypeScript project.}
 \label{fig:theoretical-approach}
 \end{figure}
-
-% honor TS compiler options
-% drop in replacement
-% read
-% analyze
-% get type info
-% modify/transform
-% write
-% verify
-
-%\section{Concept}
-%\label{sec:concept}
-%
-%After having clarified the current situation and pointed out conditions where type reflections and assertions should take place, a concept for the actual project---further referred to as \emph{ts-runtime} (i.e., \emph{typescript-runtime}) or \emph{tsr}---can be elaborated. This includes an identification of the steps required to achieve the desired result of automated runtime type check generation. Also various parts of the program will already be suggested.
-
-%\subsection{Obtaining Type Information}
-%\label{sec:obtaining-type-information}
-
-%\subsection{Components}
-
-% Itemize
-% Components figure
-
-% honor TS compiler options
-% drop in replacement
-
-% read
-% analyze
-% get type info
-% modify/transform
-% write
-% verify
-
-%\subsubsection{Transformer}
-%
-%\subsubsection{Event Bus}
-%
-%\subsubsection{Scanner}
-%
-%\subsubsection{Factory}
-%
-%\subsubsection{Mutators}
-%
-%\subsection{Runtime Library}
-%
-%\subsection{Executable Binary}
-
-%\subsection{Procedure}
-
-%\subsection{Operation}
-%
-%\subsubsection{Configuration}
-%
-%\subsubsection{Initialization}
-%
-%\subsubsection{Procedure}
-
-%\subsection{Components}
-%
-%\subsection{Procedure}
-%
-%\subsection{Operation}
-
-
-
-% how to acheive the desired result
-
-%\subsection{Type Check Situations}
-%\label{sec:type-check-situations}
-
-%\section{Type Check Situations}
-%\label{sec:type-check-situations}
-%
-%\subsection{Main Cases}
-%\label{sec:main-cases}
-%
-%\subsection{Edge Cases}
-%\label{sec:edge-cases}
-%
-%\subsection{Exceptions}
-%\label{sec:exceptions}
-%
-%\subsection{Procedure}
-%\label{sec:procedure}
