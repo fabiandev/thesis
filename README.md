@@ -7,7 +7,7 @@
 **Course of Studies:** [Interactive Media](https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/)  
   
 Download the [PDF](https://github.com/fabiandev/thesis/raw/master/thesis.pdf) or [LaTeX](https://github.com/fabiandev/thesis/archive/master.zip) source, or read it online on 
-[Overleaf](https://www.overleaf.com/read/jxkrbfsdqjzw).
+[Overleaf](https://www.overleaf.com/read/zdkjpzmxqxkk).
 
 ## Abstract
 
