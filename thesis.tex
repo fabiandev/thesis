@@ -4,20 +4,11 @@
 % !BIB program = biber
 
 \input{lib/setup}
-
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{silence}
-
-\WarningFilter[footmisc]{latex}{Command \@makecol has changed}
-
 \documentclass[master,english]{hgbthesis}
-
-\ActivateWarningFilters[footmisc]
-\usepackage[bottom]{footmisc}
-\DeactivateWarningFilters[footmisc]
 
 \usepackage[subpreambles=true]{standalone}
 \usepackage[defaultlines=4,all]{nowidow}
+\usepackage{footnotebackref}
 \usepackage{romannum}
 \usepackage{url}
 \usepackage{dirtree}

@@ -60,6 +60,17 @@
   \RequirePackage[hyphenbreaks]{breakurl} % allows line breaks in URLs without pdflatex (DIV, PS, PDF)
 \fi	
 
+%% silence Setup --------------------------------------------------------------
+
+\RequirePackage{silence}
+
+\WarningFilter[footmisc]{latex}{Command \@makecol has changed}
+
+%% footmisc Setup -------------------------------------------------------------
+
+\ActivateWarningFilters[footmisc]
+\RequirePackage[bottom]{footmisc}
+\DeactivateWarningFilters[footmisc]
 
 %% hyperref Setup -------------------------------------------------------------
 
