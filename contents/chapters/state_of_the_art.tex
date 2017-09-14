@@ -18,7 +18,6 @@ This means that every program that is valid in JavaScript is also legal in a Jav
 TypeScript was created by Anders Hejlsberg---the designer of C\texttt{\#}---at Microsoft~\cite[p.~10]{MasteringTypeScript:Rozentals:2017} and was released in 2012 under the \emph{Apache}\footnote{\url{https://www.apache.org}} open source license version 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}~\cite[p.~xix]{ProTypeScript:Fenton:2014}. The most important aspect of TypeScript is that it includes a compilation step where static type checking is performed~\cite[p.~11]{MasteringTypeScript:Rozentals:2017}. Type annotations are optional and the compiler will infer type information where possible~\cite[p.~10]{TypeScriptBook:Syed:2017}. TypeScript also introduces concepts known from other programming languages, such as interfaces and enumerations (i.e., enums). Not only it is possible to develop a program in the TypeScript syntax, but also to add type annotations to existing JavaScript projects~\cite[p.~13]{MasteringTypeScript:Rozentals:2017}. The most significant particularities and features are be explored in this section.
 
 \subsubsection{Basic Types}
-\label{sec:ts-basic-types}
 
 TypeScript defines as set of basic types, which overlap with JavaScript's types, listed in Section~\ref{sec:value-types}, while also introducing several new ones, as listed below ~\cite{TypeScriptHandbook:BasicTypes}:
 \begin{itemize}
@@ -31,7 +30,6 @@ TypeScript defines as set of basic types, which overlap with JavaScript's types,
 While other types, such as \emph{Function}, or more advanced structures are also available, the ones listed above in combination with those already defined in JavaScript (i.e., \emph{Undefined}, \emph{Null}, \emph{Boolean}, \emph{String}, \emph{Symbol}, \emph{Number}, and \emph{Object}) are frequently seen in TypeScript projects.
 
 \subsubsection{Type Inference}
-\label{sec:ts-type-inference}
 
 As already mentioned, TypeScript tries to infer the type if no type annotation is provided. The example below shows a variable declaration in JavaScript (or TypeScript), where the TypeScript compiler can automatically infer the type \emph{Number} from the declaration:
 \begin{JsCode}[numbers=none]
@@ -49,7 +47,6 @@ num = "foo";
 The code above shows the compiled result, even though the compiler detected a type error.
 
 \subsubsection{Type Annotations}
-\label{sec:ts-type-annotations}
 
 While type inference can be useful in some situations, others require types to be set explicitly, as shown below:
 \begin{JsCode}[numbers=none]
@@ -59,7 +56,6 @@ num = 1;
 The variable \texttt{num} is declared, but not initialized, requiring  a type annotation in order to be treated as a number by TypeScript. Omitting the explicit type information, the compiler would infer the \emph{Any} type, allowing arbitrary assignments to the variable.
 
 \subsubsection{Type Assertions}
-\label{sec:ts-type-assertions}
 
 Type assertions are a way to provide TypeScript with type information, which is not available to the compiler. They are like
 \begin{quote}
@@ -78,7 +74,6 @@ let name: string = (<any>RandomName).getName();
 However, the \emph{angle-bracket} syntax shown above is not supported when using TypeScript with \emph{JSX}\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
 
 \subsubsection{Ambient Type Declarations}
-\label{sec:ts-ambient-type-declarations}
 
 In TypeScript either existing structures---such as classes and basic types---can be used as type annotation, or they can be defined via interfaces or type aliases. The latter are not part of the code after compilation, while, e.g., classes or enums remain in the JavaScript code. Anyway, it is also possible to declare, among others, a class or variable as ambient in TypeScript. This may be useful when consuming a third party package, which is not written in TypeScript, and no type definitions are available for the library. In the previous section type casting was used to circumvent this issue. While this is a possibility, it may not be suitable if the library is used frequently in a project. Prepending, e.g., a variable, class, namespace, or an enum with the \texttt{declare} keyword, results in the declaration being ambient:
 \begin{JsCode}[numbers=none]
@@ -93,7 +88,6 @@ declare const RandomName: {
 From now on the TypeScript compiler can obtain the information of the import having a callable property \texttt{getName}, which returns a string. However, the declaration will not be part of the compiled JavaScript program.
 
 \subsubsection{Structural Types}
-\label{sec:ts-structural-types}
 
 Types in TypeScript are structural~\cite[p.~11]{TypeScriptBook:Syed:2017}, meaning that the type checker looks at the members of an object, or more specifically its type signature, to ensure type compatibility, while other major languages, such as C\texttt{\#} or Java, use nominal type systems~\cite{TypeScriptHandbook:TypeCompatibility}. Program~\ref{prog:structural-typing} gives an example, which would fail in a nominally typed language, but is possible in the structurally typed language TypeScript.
 
@@ -115,7 +109,6 @@ p = new Person(); /+\label{prog:structural-typing:instance}+/
 \end{program}
 
 \subsubsection{Classes}
-\label{sec:ts-classes}
 
 TypeScript not only enables static type checking for JavaScript applications, but it also adds language features. While EcmaScript 2015 introduced classes, TypeScript provides the enhancement to also define them as abstract, and to add visibility modifiers and interfaces to them, as shown below:
 \begin{JsCode}[numbers=none]
@@ -141,7 +134,6 @@ class Person {
 Consequently, it is technically possible to assign an arbitrary value to \texttt{id} property of a \texttt{Person} instance at runtime.
 
 \subsubsection{Enums}
-\label{sec:ts-enums}
 
 Enumerations are beneficial for defining a set of values. The TypeScript compiler takes enum declarations and transforms them into runnable JavaScript code. Given is the following enum in TypeScript syntax:
 \begin{JsCode}[numbers=none]
@@ -166,7 +158,6 @@ HairColor[0] // "Black"
 However, if the enumeration is declared as constant, the compiler will look up the numeric value and will insert it directly into the source code, before entirely removing its definition~\cite{TypeScriptHandbook:Enums}, unless the compiler option \emph{preserveConstEnums} is used~\cite{TypeScriptHandbook:CompilerOptions}.
 
 \subsubsection{Namespaces}
-\label{sec:ts-namespaces}
 
 In TypeScript, namespaces provide a possibility to encapsulate code. They were previously referred to as \emph{internal modules}, but have since been renamed to avoid confusion with native \emph{modules} of the EcmaScript standard, previously denoted as \emph{external modules} in TypeScript~\cite{TypeScriptHandbook:Namespaces}. Code within a namespace only expose explicitly exported parts:
 \begin{JsCode}[numbers=none]
@@ -193,7 +184,6 @@ A variable with the name of the namespace is declared and an empty object is ass
 remain exclusively accessible from within the self-executing function itself.
 
 \subsubsection{Parameter Default Values}
-\label{sec:ts-parameter-default-values}
 
 Another useful feature is the possibility to define default values for parameters in TypeScript. This gives developers the ability to avoid parameters being \texttt{undefined} if not passed, and can be useful in various other scenarios.
 \begin{JsCode}[numbers=none]
@@ -213,7 +203,6 @@ If the parameter \texttt{logger} equals \texttt{undefined}, which is the value b
 % enums, namespaces, decorators, (abstract) class (visibility/inheritance/implements), default value for parameter, readonly
 
 \subsubsection{Future JavaScript}
-\label{sec:ts-future-javascript}
 
 While the TypeScript compiler can target different JavaScript versions---such as ES3, ES5, and ES2015---it does also support future ECMAScript proposals, like decorators and asynchronous functions~\cites{TypeScriptHandbook:CompilerOptions, TypeScriptWebsite}. This allows for the usage of features, which are not yet implemented by browsers. This is achieved by changing parts of the source, or by including additional code that mimics the behavior of a certain feature and delivers the same result. The code below uses a pattern, referred to as \emph{destructuring assignment}~\cite{DestructuringAssignment:Mozilla:2015}, to assign the values \texttt{1} and \texttt{2} to the identifiers \texttt{foo} and \texttt{bar}, respectively:
 \begin{JsCode}[numbers=none]
@@ -371,7 +360,7 @@ While these examples outline the verification of primitive types, like a number 
   \item \textbf{Reflection:} The prototype of a JavaScript object holds 
 some information about the object, which can be accessed. It might, for instance, contain the name of the constructor function, used to create the object. Limitations apply, since various information is only available from ECMAScript 5.1, or may not be available at all~\cite[pp.~98--100]{MasteringTypeScript:Rozentals:2015}. Also the name of a constructor is not always suitable to categorize an object as a type, as the same name may also be used for a different constructor function, while anonymous functions do not have a name at all. Simply obtaining the name is also not sufficient to check for implemented interfaces, or type aliases, as they are compiled away by TypeScript.
   \item \textbf{Checking an object for a property:} An object could be considered 
-as being of a type, if specified properties exist on it~\cites[pp.~101--102]{MasteringTypeScript:Rozentals:2015}[pp.~18--20]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. If, for example, a constructor function \emph{Person} is given, which defines a \emph{getName} property on its prototype, an arbitrary object could be considered as \emph{Person}, if it also provides a \emph{getName} property. This gets already closer to TypeScript's structural types (see Sec.~\ref{sec:ts-structural-types}).
+as being of a type, if specified properties exist on it~\cites[pp.~101--102]{MasteringTypeScript:Rozentals:2015}[pp.~18--20]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. If, for example, a constructor function \emph{Person} is given, which defines a \emph{getName} property on its prototype, an arbitrary object could be considered as \emph{Person}, if it also provides a \emph{getName} property. This gets already closer to TypeScript's structural types (see Sec.~\ref{sec:typescript}).
   \item \textbf{Interface checking with generics:} This concept requires the definition of a class for every interface, which holds the property names to identify an object as having a specific type~\cites[pp.~102--105]{MasteringTypeScript:Rozentals:2015}[pp.~17--19]{ProJavaScriptDesignPatterns:HarmesDiaz:2008}. This solution is similar to the previous approach, but it introduces a pattern, which is more readable and maintainable.
 \end{itemize}
 Another mechanism is to use \textit{decorators}\footnote{\url{https://tc39.github.io/proposal-decorators}},

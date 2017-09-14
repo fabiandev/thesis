@@ -15,7 +15,7 @@ There are various situations where the static type analysis of TypeScript cannot
 
 \subsection{Compiler Analysis Circumvention}
 
-In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:ts-type-assertions}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If, e.g., a variable is annotated or asserted with the \emph{Any} type, type checking and type inference will be disabled for this part of the code. The TypeScript documentation describes this type as 
+In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:typescript}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If, e.g., a variable is annotated or asserted with the \emph{Any} type, type checking and type inference will be disabled for this part of the code. The TypeScript documentation describes this type as 
 \begin{quote}
    [...] a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.~\cite{TypeScriptHandbook:BasicTypes}
 \end{quote}
@@ -134,7 +134,7 @@ If a variable was declared it also has a type bound to it during compile time. T
 
 \subsection{Type Assertions}
 
-Type assertions are comparable to type casts in other languages, with the difference that no special checks or conversions are performed (see Sec.~\ref{sec:ts-type-assertions}). To inspect if an assertion is valid, the same checks should be performed as for variable assignments. Values asserted as \emph{any}, as discussed in Section~\ref{sec:undetectable-errors}, can be ignored, as they would always pass.
+Type assertions are comparable to type casts in other languages, with the difference that no special checks or conversions are performed (see Sec.~\ref{sec:typescript}). To inspect if an assertion is valid, the same checks should be performed as for variable assignments. Values asserted as \emph{any}, as discussed in Section~\ref{sec:undetectable-errors}, can be ignored, as they would always pass.
 
 % As discussed in section~\ref{sec:undetectable-errors}, it is possible to opt out of compile time checks by asserting a value as \emph{any}. To detect situations, 
 
@@ -150,7 +150,7 @@ Whatever type the parameter \texttt{bar}---passed to function \texttt{foo}---has
 
 \subsection{Enums}
 
-Enumerations (see Sec.~\ref{sec:ts-enums}) are compiled to self executing functions, which initialize a corresponding object~\cite{TypeScriptHandbook:Enums} (see Prog.~\ref{prog:enum-compiled}).
+Enumerations (see Sec.~\ref{sec:typescript}) are compiled to self executing functions, which initialize a corresponding object~\cite{TypeScriptHandbook:Enums} (see Prog.~\ref{prog:enum-compiled}).
 \begin{program}
 \caption{The enum \texttt{MyEnum \{ A \}} compiled to JavaScript.~\cite{TypeScriptHandbook:Enums}}
 \label{prog:enum-compiled}
