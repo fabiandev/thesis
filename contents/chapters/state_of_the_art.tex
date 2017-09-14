@@ -75,7 +75,7 @@ As an alternative to the type casting syntax with the \texttt{as} keyword, the f
 \begin{JsCode}[numbers=none]
 let name: string = (<any>RandomName).getName();
 \end{JsCode}
-However, the \emph{angle-bracket} syntax is not supported when using TypeScript with \emph{JSX}\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
+However, the \emph{angle-bracket} syntax shown above is not supported when using TypeScript with \emph{JSX}\footnote{``JSX is an embeddable XML-like syntax [...] meant to be transformed into valid JavaScript [which] came to popularity with the React framework, but has since seen other applications as well.''~\cite{TypeScriptHandbook:JSX}}~\cite{TypeScriptHandbook:BasicTypes}, making the \texttt{as} syntax preferable.
 
 \subsubsection{Ambient Type Declarations}
 \label{sec:ts-ambient-type-declarations}
@@ -308,7 +308,7 @@ Another difference between the two JavaScript supersets are their design goals. 
 
 %Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, some of them being supersets, with different purposes. The \emph{CoffeeScript\footnote{\url{https://github.com/jashkenas/coffeescript}}} project collected an extensive list, containing the following maintained languages they refer to as supersets~\cite{LanguagesToJavaScript}:
 
-Apart from TypeScript and Flow, a multitude of languages exist that compile to JavaScript, with different purposes. In~\cite{LanguagesThatCompileToJS:CoffeeScript} an extensive list of JavaScript supersets, parsers, and compilers can be found, containing the following maintained languages they refer to as superset:
+Apart from TypeScript and Flow, there are a variety of other languages that compile to JavaScript for different purposes. In~\cite{LanguagesThatCompileToJS:CoffeeScript} an extensive list of JavaScript supersets, parsers, and compilers can be found, containing the following maintained languages they refer to as superset:
 \begin{itemize}
   \item \textbf{JavaScript\texttt{++}:} This superset supports classes, type checking, and other features.
   \item \textbf{Objective-J:} This language has the same relationship to JavaScript, as \emph{Objective-C} to \emph{C}.
