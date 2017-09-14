@@ -17,5 +17,6 @@
 *.toc
 *.tps
 .texpadtmp
+.DS_Store
 assets/diagrams/*.sty
 assets/diagrams/*.pdf
