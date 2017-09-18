@@ -36,7 +36,6 @@ To ensure that the result of the source code transformations, applied to a TypeS
   \end{tabular}
 \end{table}
 
-%TODO:2
 \pagebreak
 \noindent
 It gives an overview of the total statements executed, the amount of branches---such as \emph{else} statements or \emph{case} clauses---visited, the percentage of functions executed, as well as the number of relevant lines covered in the tests. For the unit tests itself the framework \emph{Mocha}\footnote{\url{https://mochajs.org}} is utilized, while the library \emph{Istanbul}\footnote{\url{https://istanbul.js.org}} extracts the code coverage report.
@@ -64,7 +63,6 @@ After the project of this thesis has been tested using automated unit tests, and
 As the increase in execution time is given by the runtime type system provided by \emph{flow-runtime}---which is utilized to enable runtime type reflections and assertions---the time required to build a project with \emph{ts-runtime} is more meaningful to emphasize the performance of the thesis project, which is outlined in Tab.~\ref{tab:build-time}. On average, a \emph{ts-runtime} build was 0.8 seconds slower, reaching around 71\% of the performance of a native TypeScript compiler build, despite its supplementary functionality.
 The detailed results, which could be examined in this section, can further be found in Sec.~\ref{app:sec:build-time} and~\ref{app:sec:test-results}. All data was gathered on a system running macOS 10.12.6 with a 2.5 GHz Intel Core i7 processor, 16 GB of 1600 MHz DDR3 memory and Node.js version 6.11.2.
 
-%TODO:2
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/operational-test}

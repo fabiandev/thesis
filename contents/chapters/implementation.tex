@@ -131,7 +131,6 @@ After the main parts of the program have been defined, it is possible to draw co
 \end{figure}
 As already stated, the central element (i.e., core) of the application controls the program flow, therefore having knowledge and access to all components of \emph{ts-runtime}. It evaluates the options, creates a TypeScript compiler program (see Sec.~\ref{sec:typescript-compiler}), and triggers the scanning and transforming of the syntax tree, before emitting a compiled JavaScript project with inserted runtime type checks. 
 
-%TODO:2
 \pagebreak
 \section{Application Structure}
 \label{sec:structure}
@@ -270,7 +269,6 @@ export class ArrowFunctionMutator extends Mutator {
 \end{program}
 Alongside changing the arrow function's body, it is also annotated. This means that a reflection of the function, including its parameter types and its return type, will be added to the function object to retrieve it in other places of the running program.
 
-%TODO:2
 \pagebreak
 \noindent
 To better describe how the result of a transformation may look like, the following arrow function is given:
@@ -618,8 +616,7 @@ interface Options {
   \item \textbf{libNamespace:} If a prefix for the library identifier is desired it can be set with this option.
   \item \textbf{declarationPrefix:} In some situations new variable declarations are introduced by the mutators. To easily distinguish generated identifiers from others, a prefix can be set.
 \end{itemize}
-While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings (see Prog.~\ref{prog:options-defaults}) that will be used for every option that is not specified.%
-%TODO:2
+While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings (see Prog.~\ref{prog:options-defaults}) that will be used for every option that is not specified.
 \begin{program}[h]
 \caption{The default options for \emph{ts-runtime}.}
 \label{prog:options-defaults}

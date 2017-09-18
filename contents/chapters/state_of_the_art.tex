@@ -25,7 +25,7 @@ TypeScript defines a set of basic types, which overlap with JavaScript's types, 
   \item \emph{Enum} may already be known from other programming languages, like Java, and is useful to define a set of values.
   \item \emph{Any} results in type checking not being performed by the compiler. This can be of advantage when using TypeScript alongside third party libraries where no type definitions are available.
   \item \emph{Void} is the counterpart to \emph{Any}. Again, it is used in other languages, e.g., to annotate functions that do not return a value. In TypeScript also variables may be typed as \texttt{void}, meaning that only \texttt{undefined} or \texttt{null} are accepted as value.
-  \item \emph{Never}, for instance, is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back~\cite{TypeScriptHandbook:BasicTypes}.
+  \item \emph{Never}, for instance, is useful for functions that always throw an error or result in an infinite loop, as no value will ever come back.
 \end{itemize}
 While other types, such as \emph{Function}, or more advanced structures are also available, the ones listed above in combination with those already defined in JavaScript (i.e., \emph{Undefined}, \emph{Null}, \emph{Boolean}, \emph{String}, \emph{Symbol}, \emph{Number}, and \emph{Object}) are frequently seen in TypeScript projects.
 
@@ -46,7 +46,6 @@ num = "foo";
 \end{JsCode}
 The code above shows the compiled result, even though the compiler detected a type error.
 
-%TODO:2
 \enlargethispage{1\baselineskip}
 \subsubsection{Type Annotations}
 
@@ -55,8 +54,6 @@ While type inference can be useful in some situations, others require types to b
 let num: number;
 num = 1;
 \end{JsCode}
-% TODO: enlargethispage
-%\enlargethispage{1\baselineskip}
 The variable \texttt{num} is declared, but not initialized, requiring  a type annotation in order to be treated as a number by TypeScript. Omitting the explicit type information, the compiler would infer the \emph{Any} type, allowing arbitrary assignments to the variable.
 
 \subsubsection{Type Assertions}
@@ -83,7 +80,6 @@ In TypeScript either existing structures---such as classes and basic types---can
 \begin{JsCode}[numbers=none]
 declare const RandomName: any;
 \end{JsCode}
-%TODO:2
 \pagebreak
 Alternatively the imported package may be described more detailed:
 \begin{JsCode}[numbers=none]
@@ -93,13 +89,11 @@ declare const RandomName: {
 \end{JsCode}
 From now on the TypeScript compiler can obtain the information of the import having a callable property \texttt{getName}, which returns a string. However, the declaration will not be part of the compiled JavaScript program.
 
-%TODO:2
 \enlargethispage{1\baselineskip}
 \subsubsection{Structural Types}
 
 Types in TypeScript are structural~\cite[p.~11]{TypeScriptBook:Syed:2017}, meaning that the type checker looks at the members of an object, or more specifically its type signature, to ensure type compatibility, while other major languages, such as C\texttt{\#} or Java, use nominal type systems~\cite{TypeScriptHandbook:TypeCompatibility}. Prog.~\ref{prog:structural-typing} gives an example, which would fail in a nominally typed language, but is possible in the structurally typed language TypeScript.
 
-%TODO:2
 \begin{program}[h]
 \caption{An instance of \texttt{Person} can be assigned to a variable with type \texttt{Named} on line~\ref{prog:structural-typing:instance}, because of TypeScript's structural type system. In languages with a nominal type system the class \texttt{Person} would need to implement the interface \texttt{Named} in their corresponding syntax, for this example to be valid.~\cite{TypeScriptHandbook:TypeCompatibility}}
 \label{prog:structural-typing}
@@ -126,10 +120,7 @@ class Person implements Human {
   private age: number;
 }
 \end{JsCode}
-The keywords \texttt{public}, \texttt{protected} and \texttt{private} may be used for class members and methods.
-% TODO: pagebreak
-%\pagebreak[4]
-Also it is possible to define members and to provide default values outside of the constructor, as well as to mark properties as \texttt{readonly}, which prohibits reassignments at compile time:
+The keywords \texttt{public}, \texttt{protected} and \texttt{private} may be used for class members and methods. Also it is possible to define members and to provide default values outside of the constructor, as well as to mark properties as \texttt{readonly}, which prohibits reassignments at compile time:
 \begin{JsCode}[numbers=none]
 class Person implements Human {
   public readonly id = uid();
@@ -169,17 +160,10 @@ HairColor[0] // "Black"
 \end{JsCode}
 However, if the enumeration is declared as constant, the compiler will look up the numeric value and will insert it directly into the source code, before entirely removing its definition~\cite{TypeScriptHandbook:Enums}, unless the compiler option \emph{preserveConstEnums} is used~\cite{TypeScriptHandbook:CompilerOptions}.
 
-%TODO:2
 \enlargethispage{2\baselineskip}
 \subsubsection{Namespaces}
 
 In TypeScript, namespaces provide a possibility to encapsulate code. They were previously referred to as \emph{internal modules}, but have since been renamed to avoid confusion with native \emph{modules} of the EcmaScript standard, previously denoted as \emph{external modules} in TypeScript~\cite{TypeScriptHandbook:Namespaces}.
-%\noclub[2]
-%\pagebreak[4]
-%\noindent
-% TODO: noclub
-% TODO: noindent
-% TODO: pagebreak
 Code within a namespace only exposes its explicitly exported parts:
 \begin{JsCode}[numbers=none]
 namespace Capsule {
@@ -219,9 +203,8 @@ function log(message, logger) {
     logger.log(message);
 }
 \end{JsCode}
-If the parameter \texttt{logger} equals \texttt{undefined}, which is the value being returned by \texttt{void 0}\footnote{The void operator can be used to retrieve the value \texttt{undefined} by calling \texttt{void(0)}, which is equivalent to \texttt{void 0}~\cite{void:MDN:2017}.}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
+If the parameter \texttt{logger} equals \texttt{undefined}, which is the value that is returned by \mbox{\texttt{void 0}}\footnote{The void operator can be used to retrieve the value \texttt{undefined} by calling \texttt{void(0)}, which is equivalent to \texttt{void 0}~\cite{void:MDN:2017}.}, the global variable \texttt{console} will be assigned to it. Otherwise the parameter passed to the function \texttt{log} will be used as is.
 
-%TODO:2
 \enlargethispage{1\baselineskip}
 \subsubsection{Future JavaScript}
 
@@ -240,7 +223,7 @@ As the pattern is not part of the fifth edition of ECMAScript~\cite{ES5Spec:Ecma
 
 \emph{Flow}\footnote{\url{https://flow.org}} is an open source static type checker for JavaScript, developed by \emph{Facebook}\footnote{\url{https://code.facebook.com}}~\cite{FacebookCode:Flow}. The most noticeable difference to TypeScript is the lack of an extensive compiler provided by the project itself. Instead, Flow relies on \emph{Babel}\footnote{\url{https://babeljs.io}}, a compiler for JavaScript~\cite{BabelWebsite}, which ``[...] will take [...] Flow code and strip out any type annotations''~\cite{FlowDocs:Install}. Alternatively the library \emph{flow-remove-types}\footnote{\url{https://github.com/flowtype/flow-remove-types}} can be used~\cite{FlowDocs:Install}.
 
-Another difference between the two JavaScript supersets are their design goals. While TypeScript's goal is not to ``[a]pply a sound or "provably correct" type system [but to] strike a balance between correctness and productivity.~\cite{TypeScriptWiki:DesignGoals}'', Flow's type system ``tries to be as sound and complete as possible~\cite{FlowDocs:TypesAndExpressions}''. The syntax itself is mostly identical to the one of TypeScript~\cite{FlowDocs:TypesAnnotations}. Brzóska sums up the differences between the two languages, as shown in Tab.~\ref{tab:typescript-flow}.
+Another difference between the two JavaScript supersets are their design goals. While TypeScript's goal is not to ``apply a sound or "provably correct" type system [but to] strike a balance between correctness and productivity''~\cite{TypeScriptWiki:DesignGoals}, Flow's type system ``[...] tries to be as sound and complete as possible''~\cite{FlowDocs:TypesAndExpressions}. The syntax itself is mostly identical to the one of TypeScript~\cite{FlowDocs:TypesAnnotations}. Brzóska sums up the differences between the two languages, as shown in Tab.~\ref{tab:typescript-flow}.
 %\begin{table}
 %\caption{Differences between TypeScript and Flow.~\cite{TypeScriptVsFlow}}
 %\label{tab:typescript-flow}
@@ -262,7 +245,6 @@ Another difference between the two JavaScript supersets are their design goals. 
 %\hline
 %\end{tabular}
 %\end{table}
-%TODO: h
 \begin{table}[h]
 \caption{Differences between TypeScript and Flow.~\cite{TypeScriptVsFlow}}
 \label{tab:typescript-flow}
@@ -306,8 +288,6 @@ Another difference between the two JavaScript supersets are their design goals. 
   \end{tabular}
 \end{table}
 
-%TODO:2
-%\pagebreak
 \subsection{Others}
 \label{sec:other-supersets}
 
@@ -348,7 +328,6 @@ checks, in the TypeScript community~\cites{TypeScriptIssue:RuntimeTypeChecking, 
 for TypeScript~\cite{TypeScriptIssue:RuntimeTypeChecking:Comment:OutOfScope, TypeScriptIssue:EmitTypeArguments:Comment:OutOfScope}.
 Currently, manually added type checks are required to identify and to easily trace errors during development. Prog.~\ref{prog:js-without-typechecks} shows a JavaScript function, which only takes up three lines of code, while Prog.~\ref{prog:js-with-typechecks} outlines a function---also in native JavaScript---with the same outcome but with added type checks, which now requires 13 lines of code.
 
-%TODO:2
 \begin{program}[h]
 \caption{A JavaScript function without type checks.}
 \label{prog:js-without-typechecks}
@@ -381,7 +360,6 @@ function sum(arr) {
 \noindent
 While these examples outline the verification of primitive types, like a number or an array, inspecting an object is more complex. Instances may be checked with the \texttt{instanceof} operator, which ``[...] tests whether an object in its prototype chain has the prototype property of a constructor''~\cite{instanceof:MDN:2017}, however, interfaces and type alias are removed by the TypeScript compiler, therefore this kind of verification method is not possible for such cases.
 
-%TODO:2
 \pagebreak
 \noindent
 To get around this issue, \citeauthor{MasteringTypeScript:Rozentals:2015} describes three different techniques to employ type checks for the runtime environment:
@@ -396,13 +374,9 @@ as being of a type, if specified properties exist on it~\cites[pp.~101--102]{Mas
 \noindent
 Another mechanism is to use \textit{decorators}\footnote{\url{https://tc39.github.io/proposal-decorators}}, a JavaScript language feature proposal, which is currently at stage two~\cite{DecoratorsProposalRepo}, meaning that it is still a draft and not yet in the specification~\cite{EcmaScriptProposalProcess}. They can, however, already be used with TypeScript or tools like Babel~\cite{TypeScriptHandbook:Decorators, Babel:Plugins:Decorators}. The solution used in~\cite{DecoratorTypeChecks}, which makes use of decorators, again requires to add them to the source code manually. Furthermore, only primitive types and instances can be checked automatically. Structural type checks---e.g., for custom objects or interfaces---have to be provided by the developer.
 
-%TODO: 2
-\enlargethispage{1\baselineskip}
-
 \noindent
 As runtime type checks are of importance for an application to be robust, the operators \texttt{typeof} and \texttt{instanceof} are often used to verify a value's type, which according to \citeauthor{DynamicTypeChecks:Rauschmayer:2017} is ``[...] less than ideal, because [it requires] to keep the difference between primitive values and objects in mind''~\cite{DynamicTypeChecks:Rauschmayer:2017}. Prog.~\ref{prog:runtime-checks-hasInstance} shows a technique to enable \texttt{instanceof} checks also for primitive values, such as strings. He further refers to using a library for checking types at runtime, and outlines two ECMAScript proposals that are related to runtime validations~\cite{DynamicTypeChecks:Rauschmayer:2017}, which are shown in Prog.~\ref{prog:runtime-checks-pattern-match} and Prog.~\ref{prog:runtime-checks-builtin}.
 
-%TODO:2
 \begin{program}[t]
 \caption{The following code overwrites the default \texttt{instanceof} behavior for the given class.~\cites{DynamicTypeChecks:Rauschmayer:2017, DynamicTypeChecks:hasInstance}}
 \label{prog:runtime-checks-hasInstance}
@@ -417,7 +391,7 @@ class PrimitiveNumber {
 \end{JsCode}
 \end{program}
 \begin{program}[t]
-\caption{The ECMAScript proposal for pattern matching would add a sophisticated validation pattern in JavaScript.~\cites{DynamicTypeChecks:Rauschmayer:2017, PatternMatchingProposalRepo}}
+\caption{The ECMAScript proposal for pattern matching\protect\footnotemark{} would add a sophisticated validation pattern in JavaScript.~\cites{DynamicTypeChecks:Rauschmayer:2017, PatternMatchingProposalRepo}}
 \label{prog:runtime-checks-pattern-match}
 \begin{JsCode}
 match (obj) {
@@ -428,8 +402,9 @@ match (obj) {
 }
 \end{JsCode}
 \end{program}
+\footnotetext{\url{https://github.com/tc39/proposal-pattern-matching}}
 \begin{program}[t]
-\caption{The code below shows an ECMAScript proposal for \texttt{Builtin.is} and \texttt{Builtin.of}, where the former command determines if two values point to the same built-in constructor, and the latter can obtain the type of primitive and built-in values, in contrast to the existing \texttt{typeof} operator which can get the primitive type only.~\cites{DynamicTypeChecks:Rauschmayer:2017}}
+\caption{The code below shows an ECMAScript proposal for \texttt{Builtin.is} and \texttt{Builtin.typeOf}\protect\footnotemark{}, where the former command determines if two values point to the same built-in constructor, and the latter can obtain the type of primitive and built-in values, in contrast to the existing \texttt{typeof} operator which can get the primitive type only.~\cites{DynamicTypeChecks:Rauschmayer:2017, BuiltinProposalRepo}}
 \label{prog:runtime-checks-builtin}
 \begin{JsCode}
 Builtin.is(Date, Date); // true
@@ -438,6 +413,7 @@ class MyArray extends Array { }
 Builtin.typeOf(new MyArray()); // "Array"
 \end{JsCode}
 \end{program}
+\footnotetext{\url{https://github.com/jasnell/proposal-istypes}}
 
 % All of these approaches have in common, that it requires developers to manually add checks, resulting in increased development effort.
 

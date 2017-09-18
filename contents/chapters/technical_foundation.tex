@@ -3,10 +3,6 @@
 
 This chapter provides an overview of the technical knowledge required for this thesis. It gives an exposure to the different type systems, the programming language JavaScript and JavaScript supersets. Also terminology used throughout this paper is specified, since standards differ across sources~\cite[p.~97-1]{TypeSystems:Cardelli:2004}.
 
-%TODO:2
-%\setnowidow[3]
-%\setnoclub[3]
-
 \section{Type Systems}
 \label{sec:type-systems}
 
@@ -19,11 +15,6 @@ He further equates \emph{type system} with \emph{static type system} and also \c
 \end{quote}
 A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g., in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g., in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like
 \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~97-1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
-% TODO:2 nowidow
-
-%TODO:2
-%\setnowidow[4]
-%\setnoclub[4]
 
 \subsection{Explicitly and Implicitly Typed}
 \label{sec:explicitly-implicitly-typed}
@@ -69,7 +60,6 @@ JavaScript dates back to 1996, where its creator Brendan Eich from the company \
 
 While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js}\footnote{\url{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}\footnote{\url{https://developers.google.com/v8/}}, which is also used in the popular \emph{Chrome}\footnote{\url{https://www.google.com/chrome/}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
-% TODO:2 noindent
 \noindent
 The following sections give an overview of the language JavaScript, outlining its most important and interesting concepts. As it would go beyond the scope of this thesis not all cases---especially the numerous exceptions---are described.
 
@@ -105,7 +95,6 @@ typeof num; // "number"
 \noindent
 The string that is returned by the \texttt{typeof} operator does not reflect the previously mentioned value types completely. As shown in Tab.~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature, \texttt{"function"}\footnote{Code sequences that are set in quotation marks denote a string, whereas, e.g., identifiers, keywords, and operators---such as \texttt{typeof}---are not quoted. If it is explicitly pointed out that a given code is a string, the quotation marks may be omitted.} is returned, and \texttt{"object"} otherwise. For a value of type \emph{Null} the result is \texttt{"object"} as well. A proposal to change the specification and to correct this issue---erroneously indicating that \texttt{null} is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
 
-%TODO:2
 \begin{table}[h]
 \caption{Result of the \texttt{typeof} operator by a value's type.~\cite[p.~164]{ES6Spec:Ecma:2015}}
 \label{tab:typeof}
@@ -139,7 +128,6 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 
 In JavaScript ``any [...] value can be converted to a boolean value''~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
 
-%TODO:2
 \begin{table}[h]
 \caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value.~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}}
 \label{tab:truthy-falsy}
@@ -174,7 +162,6 @@ Again, even a slight change to the code means an entirely different outcome:
 \end{JsCode}
 A more comprehensive overview of possible type conversions---summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with \emph{Symbol} type conversions as of the ECMAScript 2015 specification---can be found in Tab.~\ref{tab:conversions}, which also highlights situations where type conversions are not possible or lead to an error.
 
-%TODO:2
 \begin{table}[t]
 \caption{Type conversions in JavaScript.~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}}\label{tab:conversions}
 \centering
@@ -320,8 +307,6 @@ A more comprehensive overview of possible type conversions---summarized by \cite
 \label{sec:value-comparison}
 
 In Sec.~\ref{sec:type-conversion} the flexibility of JavaScript has already been outlined. Types are converted (i.e., casted) to another type if required and possible.  The same is true when comparing values. JavaScript tries to implicitly convert a value to another value if it cannot perform a comparison at first. Comparing a string that holds a numerical value to an actual number gives the same result as comparing two values of type \emph{Number}, since the interpreter implicitly casts the string to a number:
-%\nowidow[2]
-% TODO: nowidow
 \begin{JsCode}[numbers=none]
 "5" > 2 // true
 "2" == 2 // true
@@ -357,8 +342,6 @@ function Person(name) {
   this.name = name;
 }
 \end{JsCode}
-% TODO: pagebreak
-%\pagebreak
 On the other hand, if properties are defined on the function's prototype, they are shared across all instances of \emph{Person}:
 \begin{JsCode}[numbers=none]
 Person.prototype.speak = function speak() {
@@ -396,7 +379,6 @@ JavaScript makes use of a \emph{lexical scope} model, which is based on where va
 \end{quote}
 Prog.~\ref{prog:scopes} gives an example of how scopes behave in JavaScript and also shows the importance to be aware of it. While there are ways to get around lexical scoping in JavaScript, those mechanisms are considered bad practice~\cite[p.~14]{YDKJS:ScopesAndClosures:Simpson:2014} and come with performance issues~\cite[p.~21]{YDKJS:ScopesAndClosures:Simpson:2014}, hence won't be covered here.
 
-% TODO:2
 \begin{program}[h]
 \caption{Variable \texttt{i} is declared on line~\ref{prog:scopes:declaration} as counter for a for loop. When function \texttt{bar} is called from within the loop, the identifier \texttt{i} exists in the scope of \texttt{bar}, or rather in its enclosing scope \texttt{foo}, and \texttt{i} is assigned the value \texttt{2}. This results in an infinite loop, as it will never reach its condition to stop of \texttt{i} being equal to or greater than \texttt{10}~\cite[p.~26]{YDKJS:ScopesAndClosures:Simpson:2014}.}
 \label{prog:scopes}
@@ -417,7 +399,6 @@ foo();
 \end{JsCode}
 \end{program}
 
-% TODO:2
 \noindent
 Before \texttt{let} and \texttt{const} were introduced, the easiest way to create a scope was a function~\cite[p.~7]{YDKJS:ES6AndBeyond:Simpson:2015}. Other programming languages, like Java, support block scope~\cite[p.~7]{YDKJS:ScopesAndClosures:Simpson:2014}, which means that variables are scoped by any block that is created, including loops. JavaScript, however, makes use of a function scope, as shown previously in Prog.~\ref{prog:scopes}. As of ES6 the declaration keyword \texttt{let} can be used to block-scope variables, whereas \texttt{var} leads to the variable being scoped to its parent function or the global scope if no enclosing function exists. The code below demonstrates that creating a simple block in combination with a \texttt{var} declaration does not scope the identifier to that block~\cite[p.~8]{YDKJS:ES6AndBeyond:Simpson:2015}:
 \begin{JsCode}
@@ -430,10 +411,6 @@ var a = 1;
 console.log(a); // 2
 \end{JsCode}
 
-% TODO:2
-\enlargethispage{2\baselineskip}
-
-% TODO:2
 \noindent
 On the other hand, when declaring \texttt{a} on line~\ref{line:let-over-var2} with the \texttt{let} keyword, the variable is scoped to its enclosing block:
 \begin{JsCode}
@@ -446,7 +423,6 @@ var a = 1; /+\label{line:let-over-var1}+/
 console.log(a); // 1
 \end{JsCode}
 While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. However, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Prog.~\ref{prog:scopes} to Prog.~\ref{prog:scopes-let}.
-% TODO:2
 \begin{program}[h]
 \caption{In this program \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}, compared to Prog.~\ref{prog:scopes}. This causes variable \texttt{i} being scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment on line~\ref{prog:scopes-let:declaration2} does not change the value of \texttt{i}, and the loop is called exactly ten times.}
 \label{prog:scopes-let}
@@ -466,6 +442,8 @@ function foo() {
 foo();
 \end{JsCode}
 \end{program}
+
+\enlargethispage{2\baselineskip}
 
 \noindent
 The \texttt{const} keyword behaves exactly the same as \texttt{let}, with the only difference that it is a constant, meaning that its value is fixed and cannot be changed. An attempt to reassign a constant identifier results in an error~\cite[p.~39]{YDKJS:ScopesAndClosures:Simpson:2014}:
@@ -518,8 +496,7 @@ It is possible to write the function even shorter. If only one parameter is give
 \begin{JsCode}[numbers=none]
 const foo = a => a;
 \end{JsCode}
-The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Prog.~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.%
-%TODO:2
+The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Prog.~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.
 \begin{program}[h]
 \caption{Unlike in Prog.~\ref{prog:this-function}, where line~\ref{prog:this-function:window} and~\ref{prog:this-function:object} logged different objects to the console, in this example, both log the global \texttt{window} object, due to the lexical binding of the arrow function, defined on line~\ref{prog:this-arrow-function:declaration}.}
 \label{prog:this-arrow-function}
@@ -571,8 +548,6 @@ Foo.prototype.bar = function() {
 }
 \end{JsCode}
 \end{program}
-% TODO: baselineskip
-%\enlargethispage{1\baselineskip}
 Both variants are valid in ES6 and can be used in the same way, as follows:
 \begin{JsCode}[numbers=none]
 const foo = new Foo(1, 2);
