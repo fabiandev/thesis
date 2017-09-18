@@ -68,9 +68,11 @@
 
 %% footmisc Setup -------------------------------------------------------------
 
-\ActivateWarningFilters[footmisc]
-\RequirePackage[bottom]{footmisc}
-\DeactivateWarningFilters[footmisc]
+\ifbool{footnotesbottom}{%
+	\ActivateWarningFilters[footmisc]
+	\RequirePackage[bottom]{footmisc}
+	\DeactivateWarningFilters[footmisc]
+}{}
 
 %% hyperref Setup -------------------------------------------------------------
 

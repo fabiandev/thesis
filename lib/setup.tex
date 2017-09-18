@@ -1,7 +1,15 @@
 \RequirePackage[utf8]{inputenc}
+\RequirePackage{etoolbox}
 
+\newbool{footnotesbottom}
+
+%% place footnotes at the very bottom
 \makeatletter
-  %% command to append a path to the input paths
+  \newcommand{\footnotesbottom}{
+    \ifbool{footnotesbottom}{}{\global\booltrue{footnotesbottom}}
+  }
+  
+  %% append a path to the input paths
   \newcommand{\addlibpath}[1]{
     %% see https://tex.stackexchange.com/a/79060/122215
     \providecommand*{\input@path}{}
