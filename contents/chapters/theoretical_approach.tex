@@ -1,3 +1,4 @@
+\addtocontents{toc}{\protect\newpage}
 \chapter{Theoretical Approach}
 \label{cha:theoretical-approach}
 
@@ -11,11 +12,16 @@ There are various situations where the static type analysis of TypeScript cannot
 \subsection{Compiler Analysis Circumvention}
 \label{sec:compiler-analysis-circumvention}
 
-In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Section~\ref{sec:typescript}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If, e.g., a variable is annotated or asserted with the \emph{Any} type, type checking and type inference will be disabled for this part of the code. The TypeScript documentation describes this type as 
+In TypeScript it is possible to perform a special kind of type cast, called \emph{type assertion}, as described in Sec.~\ref{sec:typescript}. While the compiler will trigger an error, when trying to assert an incompatible type---e.g., \text{asserting} a string as a number---there exists a special case to bypass static type checks for a given variable or value entirely. If, e.g., a variable is annotated or asserted with the \emph{Any} type, type checking and type inference will be disabled for this part of the code. The TypeScript documentation describes this as 
 \begin{quote}
    [...] a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.~\cite{TypeScriptHandbook:BasicTypes}
 \end{quote}
-It seems legitimate to use \texttt{any} alongside third party libraries or in situations where the flexibility of JavaScript's loose typing (see Sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused. The following code outlines a situation where compilation passes, but an error is thrown at runtime:
+It seems legitimate to use \texttt{any} alongside third party libraries or in situations where the flexibility of JavaScript's loose typing (see Sec.~\ref{sec:untyped-loosely-typed}) is required. However, opening the possibility to opt-out of type checks can have a negative impact for projects depending on libraries where this technique is misused.
+
+%TODO:2
+\pagebreak
+\noindent
+The following code outlines a situation where compilation passes, but an error is thrown at runtime:
 \begin{JsCode}[numbers=none]
 let foo: any = "bar";
 foo.getNumber();
@@ -92,7 +98,7 @@ When making use of an external API, the response should be of a given structure,
 \section{Desired Result}
 \label{sec:desired-result}
 
-The situations discussed in the previous section of this chapter raised the concern of negligently or unknowingly opting out of static type checks for specific parts of the code, or providing insufficient or wrong type declaration, which may cause the compiler to miss incompatible types. These situation may be discoverable at runtime, if runtime type checks would be employed alongside compile time checks. Information about types are already available in a TypeScript development environment. Either it is provided through explicit type annotations, or the compiler tries to infer the type, which leads to the assumption that this metadata can be used to reflect types and generate representations for the runnable JavaScript code. This representations may then be used to verify if an object conforms to a type based on its structure. Below is a type alias declaration of its simplest form in TypeScript:
+The situations discussed in the previous section of this chapter raised the concern of negligently or unknowingly opting out of static type checks for specific parts of the code, or providing insufficient or wrong type declaration, which may cause the compiler to miss incompatible types. These situations may be discoverable at runtime, if runtime type checks would be employed alongside compile time checks. Information about types are already available in a TypeScript development environment. Either it is provided through explicit type annotations, or the compiler tries to infer the type, which leads to the assumption that this metadata can be used to reflect types and generate representations for the runnable JavaScript code. This representations may then be used to verify if an object conforms to a type based on its structure. Below is a type alias declaration of its simplest form in TypeScript:
 \begin{JsCode}[numbers=none]
 type MyString = string;
 let foo: MyString = 10 as any;
@@ -112,7 +118,7 @@ Before the number is assigned, it should be passed to the type representation of
 \section{Definition of Cases}
 \label{sec:type-check-situations}
 
-The current situation for TypeScript projects, as discussed in Section~\ref{sec:existing-projects}, observed that runtime type checks cannot be generated automatically at this time. Additional effort is required to integrate code safety features for the compiled program. This means that situations may be missed where checks would be of advantage. In order to achieve a development environment where as many undetectable errors (see Sec.~\ref{sec:undetectable-errors}) as possible are reported during execution time, it may be beneficial to automate the inclusion of runtime validations. In order to provide generated runtime type checks for a TypeScript project, cases have to be collected where such verifications have to be performed.
+The current situation for TypeScript projects, as discussed in Sec.~\ref{sec:existing-projects}, observed that runtime type checks cannot be generated automatically at this time. Additional effort is required to integrate code safety features for the compiled program. This means that situations may be missed where checks would be of advantage. In order to achieve a development environment where as many undetectable errors (see Sec.~\ref{sec:undetectable-errors}) as possible are reported during execution time, it may be beneficial to automate the inclusion of runtime validations. In order to provide generated runtime type checks for a TypeScript project, cases have to be collected where such verifications have to be performed.
 
 \subsection{Interfaces and Type Aliases}
 
@@ -124,11 +130,11 @@ If a variable was declared it also has a type bound to it during compile time. T
 
 \subsection{Type Assertions}
 
-Type assertions are comparable to type casts in other languages, with the difference that no special checks or conversions are performed (see Sec.~\ref{sec:typescript}). To inspect if an assertion is valid, the same checks should be performed as for variable assignments. Values asserted as \emph{any}, as discussed in Section~\ref{sec:undetectable-errors}, can be ignored, as they would always pass.
+Type assertions are comparable to type casts in other languages, with the difference that no special checks or conversions are performed (see Sec.~\ref{sec:typescript}). To inspect if an assertion is valid, the same checks should be performed as for variable assignments. Values asserted as \emph{any}, as discussed in Sec.~\ref{sec:undetectable-errors}, can be ignored, as they would always pass.
 
 \subsection{Functions}
 
-There are different types of functions, which need to be distinguished: regular function declarations, function expressions, and arrow functions (see Sec.~\ref{sec:latest-improvements}). For any of these types, the function has to be reflected to enable type comparison. The runtime description has to include its parameters---which can also be optional---and its return type. If the function is called, the parameters passed, as well as the returned value, have to be checked. Additionally, a function can make use of generics to define parameter or return types~\cite{TypeScriptHandbook:Generics}, as shown below:
+There are different types of functions, which need to be distinguished: \emph{function declarations}, \emph{function expressions}, and \emph{arrow functions} (see Sec.~\ref{sec:latest-improvements}). For any of these types the function has to be reflected to enable type comparison. The runtime description has to include its parameters---which can also be optional---and its return type. If the function is called, the parameters passed, as well as the returned value, have to be checked. Additionally, a function can make use of generics to define parameter or return types~\cite{TypeScriptHandbook:Generics}, as shown below:
 \begin{JsCode}[numbers=none]
 function foo<T>(bar: T): T {
   return bar;
@@ -208,7 +214,7 @@ After all contents of the project are available it should be determined, if the 
 
 \subsection{Abstraction}
 
-In order to perform special checks and transformations to the original code, abstracting the source is beneficial. A suitable data structure may be an abstract syntax tree (i.e., AST), as described in Section~\ref{sec:ast}. Performing modifications on the input directly via string modifications is much more error prone, and semantic connections between parts of the code cannot be extracted easily.
+In order to perform special checks and transformations to the original code, abstracting the source is beneficial. A suitable data structure may be an abstract syntax tree (i.e., AST), as described in Sec.~\ref{sec:ast}. Performing modifications on the input directly via string modifications is much more error prone, and semantic connections between parts of the code cannot be extracted easily.
 
 \subsection{Scan Abstraction}
 
@@ -220,7 +226,7 @@ Another important aspect is to already perform static type checks, and to reject
 
 \subsection{Transformations}
 
-Situations where modification have to take place to reflect all required type information, as well as to introduce runtime type checks based on these reflections, have already been identified in Section~\ref{sec:type-check-situations}. All required data to perform extensive transformations on the AST should have already been prepared by the previous steps of the process. This should enable \emph{ts-runtime} to proceed with substituting and altering abstract syntax tree nodes. The tree should be scanned from the bottom to the top, which should guarantee that transformations of high level tree nodes already include low level mutations. Furthermore, a node that is replaced or changed should be mapped to the original syntax tree node to assure that its initial state can be retrieved at any time.
+Situations where modifications have to take place to reflect all required type information, as well as to introduce runtime type checks based on these reflections, have already been identified in Sec.~\ref{sec:type-check-situations}. All required data to perform extensive transformations on the AST should have already been prepared by the previous steps of the process. This should make it possible for \emph{ts-runtime} to proceed with substituting and altering abstract syntax tree nodes. The tree should be scanned from the bottom to the top, which should guarantee that transformations of high level tree nodes already include low level mutations. Furthermore, a node that is replaced or changed should be mapped to the original syntax tree node to assure that its initial state can be retrieved at any time.
 
 \subsection{Target Code Emit}
 
@@ -229,8 +235,8 @@ After the transformations have been applied to the syntax tree, it should be con
 \section{Summary}
 \label{sec:theoretical-approach-summary}
 
-To achieve automatically generated runtime type reflections and checks, a series of steps have to be carried out. To give a better understanding of the conceptual procedure, Figure~\ref{fig:theoretical-approach} illustrates the idea of the transformation process. In the following chapter the theoretical approach is evaluated, and the project's technology and architecture is defined. Also technical peculiarities and limitations are identified to provide a solid base for the implementation.
-\begin{figure}
+To achieve automatically generated runtime type reflections and checks, a series of steps have to be carried out. To give a better understanding of the conceptual procedure, Fig.~\ref{fig:theoretical-approach} illustrates the idea of the transformation process. In the following chapter the theoretical approach is evaluated, and the project's technology and architecture is defined. Also technical peculiarities and limitations are identified to provide a solid base for the implementation.
+\begin{figure}[b]
 \centering
 \includestandalone{assets/diagrams/theoretical-approach}
 \caption{Conceptual procedure of applying transformations to a TypeScript project.}

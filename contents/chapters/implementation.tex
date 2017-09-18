@@ -1,12 +1,13 @@
+\addtocontents{toc}{\protect\enlargethispage{1\baselineskip}}
 \chapter{Implementation}
 \label{cha:implementation}
 
-After elaborating situations where runtime errors---even with preceding static type checks by the TypeScript compiler---may occur (see Sec.~\ref{sec:undetectable-errors}), a program is be implemented which should catch those situations during the execution of the compiled JavaScript program. All previously defined cases (see Sec.~\ref{sec:type-check-situations}) should be honored and suitable technology should be selected to perform the required steps (see Sec.~\ref{sec:required-steps}) to achieve the desired result (see Sec.~\ref{sec:desired-result}).
+After elaborating situations where runtime errors---even with preceding static type checks by the TypeScript compiler---may occur (see Sec.~\ref{sec:undetectable-errors}), a program is implemented which should catch those situations during the execution of the compiled JavaScript program. All previously defined cases (see Sec.~\ref{sec:type-check-situations}) should be honored and suitable technology should be selected to perform the required steps (see Sec.~\ref{sec:required-steps}) to achieve the desired result (see Sec.~\ref{sec:desired-result}).
 
 \section{Technology}
 \label{sec:technology}
 
-The project itself is implemented in TypeScript, while the compiled program is executed in a JavaScript---usually Node.js---environment. It is published on the \emph{npm} (i.e., node package manager) registry\footnote{\url{https://www.npmjs.com}}, a ``[...] public collection of packages of open-source code for Node.js [...]~\cite{npmjs:about}'', which should make it easy for developers to install an executable version of \emph{ts-runtime} on their system. Also other packages should be able to integrate  with this project as fast as possible. This implies that both, an API (i.e., application programming interface) and a CLI (i.e., command line interface) is provided. Furthermore, to create an application that efficiently achieves its goals, it is important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, which provides functionality needed for the implementation, it is utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
+The project itself is implemented in TypeScript, while the compiled program is executed in a JavaScript---usually Node.js---environment. It is published on the \emph{npm} (i.e., node package manager) registry\footnote{\url{https://www.npmjs.com}}, a ``[...] public collection of packages of open-source code for Node.js [...]~\cite{npmjs:about}'', which should make it easy for developers to install an executable version of \emph{ts-runtime} on their system. Also other packages should be able to integrate  with this project as fast as possible. This implies that both, an API (i.e., application programming interface) and a CLI (i.e., command line interface) is provided. Furthermore, to create an application that efficiently achieves its goals, it is important to choose appropriate tools and libraries. This includes the process of generating runtime type checks itself, as well as reflecting and checking type compatibility in the final JavaScript code. If trusted and established technology is available, which provides functionality that is needed for the implementation, it is utilized to decrease development and maintenance effort and to increase the quality of the resulting project.
 
 \subsection{TypeScript Compiler}
 \label{sec:typescript-compiler}
@@ -27,7 +28,7 @@ These components do not have to be triggered individually when using the compile
 
 \subsubsection{Compiler Options}
 
-When starting a a compilation through the TypeScript compiler API, a multitude of options~\cite{TypeScriptHandbook:CompilerOptions} may be passed. They include, but are not limited to, settings for the type checking behavior, files that should be emitted, and the ECMAScript standard the resulting JavaScript code should comply to.
+When starting a compilation through the TypeScript compiler API, a multitude of options~\cite{TypeScriptHandbook:CompilerOptions} may be passed. They include, but are not limited to, settings for the type checking behavior, files that should be emitted, and the ECMAScript standard the resulting JavaScript code should comply to.
 
 \subsubsection{Program}
 
@@ -35,7 +36,7 @@ A TypeScript project compilation can be triggered by providing the path to one o
 
 \subsubsection{Compiler Host}
 
-The compiler host abstracts, among other things, the reading and writing of input files by the \emph{Program}. By default, files will be accessed on the file system, however, a custom compiler host may be provided to a TypeScript \emph{Program}.
+The compiler host abstracts, among other things, the reading and writing of input files by the \emph{Program}. By default, files will be accessed on the file system, however, a custom compiler host may be provided.
 
 \subsubsection{Node}
 
@@ -60,7 +61,7 @@ A multitude of libraries are available, which aim to provide a runtime type syst
 
 \subsubsection{ObjectModel}
 
-\emph{ObjectModel}\footnote{\url{https://github.com/sylvainpolletvillard/ObjectModel}} is an extensive type system, which ``[...] intends to bring strong dynamic type checking to [JavaScript] web applications~\cite{RuntimeTypeSystem:ObjectModel}''. While being actively maintained and a detailed documentation is available, this library makes use of a technique that requires the replacement of parts of the JavaScript code---e.g., object literals---to perform validations on them~\cite{RuntimeTypeSystem:ObjectModel}, which makes it not entirely suitable for the use with the project of this thesis.
+\emph{ObjectModel}\footnote{\url{https://github.com/sylvainpolletvillard/ObjectModel}} is an extensive type system, which ``[...] intends to bring strong dynamic type checking to [JavaScript] web applications''~\cite{RuntimeTypeSystem:ObjectModel}. While being actively maintained and a detailed documentation is available, this library makes use of a technique that requires the replacement of parts of the JavaScript code---e.g., object literals---to perform validations on them~\cite{RuntimeTypeSystem:ObjectModel}, which makes it not entirely suitable for the use with the project of this thesis.
 
 \subsubsection{tcomb}
 
@@ -68,26 +69,24 @@ The project \emph{tcomb}\footnote{\url{https://github.com/gcanti/tcomb}} argues 
 
 \subsubsection{io-ts}
 
-Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a ``TypeScript compatible runtime type system [...]~\cite{RuntimeTypeSystem:io-ts}''. While it did look promising to be used, some aspects did not meet the expectations. For example being able to define the type reflection of a class alongside the class declaration itself is not provided by the library, as well as being able to retrieve a type reference with type parameters (i.e., generics) is not possible. However, as \emph{io-ts}\footnote{\url{https://github.com/gcanti/io-ts}} may evolve over time, a transition of \emph{ts-runtime} to use it at a later point is possible.
+Created by Giulio Canti, the author of \emph{tcomb}, this project claims to be a ``TypeScript compatible runtime type system [...]''~\cite{RuntimeTypeSystem:io-ts}. While it did look promising to be used, some aspects did not meet the expectations. For example being able to define the type reflection of a class alongside the class declaration itself is not provided by the library, as well as being able to retrieve a type reference with type parameters (i.e., generics) is not possible. However, as \emph{io-ts}\footnote{\url{https://github.com/gcanti/io-ts}} may evolve over time, a transition of \emph{ts-runtime} to use it at a later point is possible.
 
 \subsubsection{runtypes}
 
-The \emph{runtypes}\footnote{\url{https://github.com/pelotom/runtypes}} library is a fairly young project, which intends to provide ``[r]untime validation for static types~\cite{RuntimeTypeSystem:runtypes}''. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see Sec.~\ref{sec:value-types}) is used, which cannot compare the function's signature, including parameters and the return type.
+The \emph{runtypes}\footnote{\url{https://github.com/pelotom/runtypes}} library is a fairly young project, which intends to provide ``runtime validation for static types''~\cite{RuntimeTypeSystem:runtypes}. Anyway, only basic validations can be performed, compared to more comprehensive systems such as \emph{tcomb} or \emph{io-ts}. For example when asserting a value for being a function, the built in JavaScript \texttt{typeof} operator (see Sec.~\ref{sec:value-types}) is used, which cannot compare the function's signature, including parameters and the return type.
 
 \subsubsection{flow-runtime}
 
-The \emph{flow-runtime}\footnote{\url{https://github.com/codemix/flow-runtime}} project states to be ``[a] runtime type system for JavaScript with full Flow compatibility~\cite{RuntimeTypeSystem:flow-runtime:lib}''. As Flow and TypeScript have a lot of similarities in syntax and features, this library seems to be most suitable to reflect the static type system of TypeScript as close as possible. Additionally, \emph{flow-runtime} provides a package which generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, indicating that a multitude of cases for Flow syntax, and therefore also for TypeScript, are implemented in this library.
-
-\pagebreak[4]
+The \emph{flow-runtime}\footnote{\url{https://github.com/codemix/flow-runtime}} project states to be ``a runtime type system for JavaScript with full Flow compatibility''~\cite{RuntimeTypeSystem:flow-runtime:lib}. As Flow and TypeScript have a lot of similarities in syntax and features, this library seems to be most suitable to reflect the static type system of TypeScript as close as possible. Additionally, \emph{flow-runtime} provides a package which generates type checks for Flow projects~\cite{RuntimeTypeSystem:flow-runtime:babel}, indicating that a multitude of cases for Flow syntax, and therefore also for TypeScript, are implemented in this library.
 
 \section{Architecture}
 \label{sec:architecture}
 
-In this section the architecture for the application is designed, which already outlines how the program operates, and also defines some of the components that are required.
+In this section the architecture for the application is designed, which already outlines how the program operates, and also defines some of the components that are required. This should give an overview of the different parts of the program, before describing them more detailed later in this chapter.
 
 \subsection{Central Element}
 
-The transformation process is a sequential process, as defined in Section~\ref{sec:required-steps}, which already suggests that a central element is needed, coordinating all the different steps that need to be executed. It is responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project has to interpret different settings, including options for the TypeScript compiler. Also it has to react to possible errors and has to handle them adequately.
+The transformation process is a sequential process, as defined in Sec.~\ref{sec:required-steps}, which already suggests that a central element is needed, coordinating all the different steps that need to be executed. It is responsible for interpreting and triggering specific application logic in the appropriate situations. Before being able to initiate the actual program flow, this crucial part of the project has to interpret different settings, including options for the TypeScript compiler. Also it has to react to possible errors and has to handle them adequately.
 
 \subsection{Components}
 
@@ -132,6 +131,8 @@ After the main parts of the program have been defined, it is possible to draw co
 \end{figure}
 As already stated, the central element (i.e., core) of the application controls the program flow, therefore having knowledge and access to all components of \emph{ts-runtime}. It evaluates the options, creates a TypeScript compiler program (see Sec.~\ref{sec:typescript-compiler}), and triggers the scanning and transforming of the syntax tree, before emitting a compiled JavaScript project with inserted runtime type checks. 
 
+%TODO:2
+\pagebreak
 \section{Application Structure}
 \label{sec:structure}
 
@@ -161,7 +162,7 @@ The following directory structure is used for \emph{ts-runtime}, which at the sa
 \label{sec:components}
 
 
-In this section the implementation of the core of the project, as well as the application's components, is described, and connections between the different parts of the program are already drawn.
+In this section the implementation of the core of \emph{ts-runtime}, as well as of the application's components, is described, and connections between different parts of the program are already drawn.
 
 \subsection{Transformer}
 
@@ -171,7 +172,7 @@ The transformer---located in \texttt{src/transformer.ts}---is the core of the th
   \item \texttt{\textbf{transform:}} By calling this method a transformation process is initiated. It is required to pass at least a list of entry file names. Optionally, an \emph{Options} object may be passed. The compiled JavaScript files are written to disk, according to the TypeScript compiler options, if no errors occurred.
   \item \texttt{\textbf{transformReflection:}} The \texttt{transform} function loads the list of entry files from disk, which requires a file system to be present. On the contrary, this method accepts a list of file reflections, which must include the entry files, as well as all modules referenced, recursively. This enables the application to act without a file system. Also the target code is not persisted, but a list of file reflections, containing the compilation result, is returned.
 \end{itemize}
-Program~\ref{prog:transform} shows a reduced to its essentials version of the \texttt{transform} function.
+Prog.~\ref{prog:transform} shows a simplified version of the \texttt{transform} function.
 \begin{program}
 \caption{The \texttt{transform} function of the project's core, reduced to its essentials. The \texttt{ts} namespace from line~\ref{prog:transform:ts1} and~\ref{prog:transform:ts2} point to the TypeScript compiler API.}
 \label{prog:transform}
@@ -186,7 +187,7 @@ function transform(entryFiles: string[], options?: Options} {
 }
 \end{JsCode}
 \end{program}
-It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API, which references a function that visits every node of the AST of all source files from the TypeScript program. The function code, again simplified, is shown in Program~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
+It is not fully functional, but should give an idea of the program flow. On line~\ref{prog:transform:transformer}, a variable \texttt{transformer} is passed to a function from the TypeScript compiler API, which references a function that visits every node of the AST of all source files from the TypeScript program. The function code, again reduced to its essentials, is shown in Prog.~\ref{prog:transformer}, while line~\ref{prog:transformer:mutate} indicates the AST node being passed to the mutators of \emph{ts-runtime}, possibly returning a substitution.
 \begin{program}
 \caption{An exemplary version of the transformer, that visits all nodes of a TypeScript program and triggers the transformations.}
 \label{prog:transformer}
@@ -230,25 +231,25 @@ A valid mutator must define a \texttt{kind} property containing a syntax kind---
   \item Is the node flagged to be skipped?
   \item Is the node declared ambient, using the \texttt{declare} keyword?
 \end{enumerate}
-If all of these checks pass the actual \texttt{mutate} method is called. If, however, any of the conditions above cannot not be met, the original node is returned untouched. Based on the defined cases from Section~\ref{sec:type-check-situations}, the following mutators are implemented, located in \texttt{src/mutators}, also showing their file names, while omitting the extension \texttt{.ts}:
+If all of these checks pass the actual \texttt{mutate} method is called. If, however, any of the conditions above cannot be met, the original node is returned untouched. Based on the defined cases from Sec.~\ref{sec:type-check-situations}, the following mutators are implemented, located in \texttt{src/mutators}, also showing their file names, while omitting the extension \texttt{.ts}:
 \begin{itemize}
-  \item ArrowFunctionMutator
-  \item AsExpressionMutator
-  \item BinaryExpressionMutator
-  \item BlockLikeMutator
-  \item ClassDeclarationMutator
-  \item FunctionDeclarationMutator
-  \item FunctionExpressionMutator
-  \item InterfaceDeclarationMutator
-  \item SourceFileMutator
-  \item TypeAliasDeclarationMutator
-  \item VariableDeclarationListMutator
+  \item \texttt{ArrowFunctionMutator},
+  \item \texttt{AsExpressionMutator},
+  \item \texttt{BinaryExpressionMutator},
+  \item \texttt{BlockLikeMutator},
+  \item \texttt{ClassDeclarationMutator},
+  \item \texttt{FunctionDeclarationMutator},
+  \item \texttt{FunctionExpressionMutator},
+  \item \texttt{InterfaceDeclarationMutator},
+  \item \texttt{SourceFileMutator},
+  \item \texttt{TypeAliasDeclarationMutator},
+  \item \texttt{VariableDeclarationListMutator}.
 \end{itemize}
 Some of the implementations are more complex than others and special cases had to be taken into account. While every mutator is outlined, some of them are handled in more detail. All transformation results from this section mostly align with the API of \emph{flow-runtime}, the runtime type system that is used in the compiled JavaScript code.
 
 \subsubsection{Arrow Function Mutator}
   
-The arrow function mutator modifies the body of the passed node, while some peculiarities have to be considered. As for every other function type (i.e., function expression and function declaration) the parameters are asserted, while they can be optional or may have a default value. Also every location where the function may return a value is observed and checked. A major difference to function expressions is that they can omit the function body, previously described in Section~\ref{sec:latest-improvements}. In such a case it has to be created in order to be able to insert runtime type checks.
+The arrow function mutator modifies the body of the passed node, while some peculiarities have to be considered. As for every other function type (i.e., function expression and function declaration) the parameters are asserted, while they can be optional or may have a default value. Also every location where the function may return a value is observed and checked. A major difference to function expressions is that they can omit the function body, previously described in Sec.~\ref{sec:latest-improvements}. In such a case it has to be created in order to be able to insert runtime type checks.
 \begin{program}
 \caption{The arrow function mutator of \emph{ts-runtime}.}
 \label{prog:mutator:arrow-function}
@@ -267,11 +268,16 @@ export class ArrowFunctionMutator extends Mutator {
 }
 \end{JsCode}
 \end{program}
-Alongside changing the arrow function's body, it is also annotated. This means that a reflection of the function, including its parameter types and its return type, will be added to the function object to retrieve it in other places of the running program. To better describe how the result of a transformation may look like, the following arrow function is given:
+Alongside changing the arrow function's body, it is also annotated. This means that a reflection of the function, including its parameter types and its return type, will be added to the function object to retrieve it in other places of the running program.
+
+%TODO:2
+\pagebreak
+\noindent
+To better describe how the result of a transformation may look like, the following arrow function is given:
 \begin{JsCode}[numbers=none]
 (): string => "bar";
 \end{JsCode}
-Also the arrow function mutator itself is shown in Program~\ref{prog:mutator:arrow-function}, as it is relatively small compared to other mutators, while the call to \texttt{mutateFunctionBody} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
+Furthermore, the arrow function mutator itself is shown in Prog.~\ref{prog:mutator:arrow-function}, as it is relatively small compared to other mutators, while the call to \texttt{mutateFunctionBody} on line~\ref{prog:mutator:arrow-function:mutate-body} returns a node, that transforms the function to the following:
 \begin{JsCode}[numbers=none]
 () => {
   const _returnType = t.return(t.string());
@@ -344,9 +350,9 @@ The class declaration mutator is one of the most complex mutators. It has to con
   \item \textbf{Type Parameters:} All type parameters are initialized in the constructor, making them accessible to the entire class.
   \item \textbf{Interfaces:} If the class should align with one or more interfaces, type compatibility is checked when the class is instantiated.
 \end{enumerate}
-Program~\ref{prog:before-transformation:class} shows a class in TypeScript, where several of these cases are met.
+Prog.~\ref{prog:before-transformation:class} shows a class in TypeScript, where several of these cases are met.
 \begin{program}
-\caption{A class in TypeScript, which extends a base class and implements a single interface. Furthermore, a \emph{readonly} property is defined, and the method \texttt{convert} is overloaded. The result, after being processed by \emph{ts-runtime}, is shown in Program~\ref{prog:transformation:class}.}
+\caption{A class in TypeScript, which extends a base class and implements a single interface. Furthermore, a \emph{readonly} property is defined, and the method \texttt{convert} is overloaded. The result, after being processed by \emph{ts-runtime}, is shown in Prog.~\ref{prog:transformation:class}.}
 \label{prog:before-transformation:class}
 \begin{JsCode}
 class NumberConverter extends Singleton implements Converter {
@@ -366,9 +372,9 @@ class NumberConverter extends Singleton implements Converter {
 }
 \end{JsCode}
 \end{program}
-The result after being processed by \emph{ts-runtime} is shown in Program~\ref{prog:transformation:class}.
+The result after being processed by \emph{ts-runtime} is shown in Prog.~\ref{prog:transformation:class}.
 \begin{program}
-\caption{The resulting JavaScript code after the transformation of the class from Program~\ref{prog:before-transformation:class}.}
+\caption{The resulting JavaScript code after the transformation of the class from Prog.~\ref{prog:before-transformation:class}.}
 \label{prog:transformation:class}
 \begin{JsCode}
 @t.annotate(t.class("NumberConverter", t.extends(t.ref(Singleton)),
@@ -416,7 +422,7 @@ function foo<T>(bar: T): T[] {
   return [bar];
 }
 \end{JsCode}
-A parameter of a generic type \texttt{T}, which is not known at compile time, is accepted and the function should return a value, that is an array of this type. For example, if a number is be passed to \texttt{foo}, the returned value should be an array of numbers. To support generics with functions, the factory can detect if a type reference is a type parameter and adjusts the transformation accordingly:
+A parameter of a generic type \texttt{T}, which is not known at compile time, is accepted and the function should return a value, that is an array of this type. For example, if a number is being passed to \texttt{foo}, the returned value should be an array of numbers. To support generics with functions, the factory can detect if a type reference is a type parameter and adjusts the transformation accordingly:
 \begin{JsCode}[numbers=none]
 function foo(bar) {
     const T = t.typeParameter("T");
@@ -453,7 +459,7 @@ The first statement will only be added if the file \texttt{tsr-declarations.js} 
 
 \subsubsection{Type Alias Declaration Mutator}
 
-Type alias substitutions are very similar to interface replacements, but an important aspect of them has not been handled yet. Interfaces, type aliases, and classes can reference itself in TypeScript. When declaring a reflection of a type at runtime, the variable that holds the type description won't be available yet in such cases:
+Type alias substitutions are very similar to interface replacements, but an important aspect of them has not been handled yet. Interfaces, type aliases, and classes can reference themselves in TypeScript. When declaring a reflection of a type at runtime, the variable that holds the type description won't be available yet in such cases:
 \begin{JsCode}[numbers=none]
 type Foo = { circular: Foo; }  
 \end{JsCode}
@@ -543,13 +549,14 @@ All of these queries require a link to the TypeScript API or the scanner compone
 \subsection{Utility}
 \label{sec:utility}
 
-The utility component is globally available to all parts of the project. It can be imported and used without any dependencies. It provides a collection of functions, which are used throughout \emph{ts-runtime}, to not introduce duplicated code. It includes methods for determining whether a node is a type parameter of a given type node (e.g., a class, an interface, or a function declaration), or to extract the extends clause from a class declaration node, although the entire API is not presented at this point.
+The utility component is globally available to all parts of the project. It can be imported and used without any dependencies. It provides a collection of functions, which are used throughout \emph{ts-runtime}, to not introduce duplicated code. It includes methods for determining whether a node is a type parameter of a given type node (e.g., a class, an interface, or a function declaration), or to extract the \emph{extends} clause from a class declaration node, although the entire API is not presented at this point.
 
 \subsection{Event Bus}
 \label{sec:bus}
 
 The event bus (i.e., bus) is a lightweight wrapper around the \emph{EventEmitter}, which is part of Node.js~\cite{Node:API:Events}. It includes certain predefined events which can be obtained from anywhere in the project. It is used to indicate changes of the state of the program (e.g., the start of the transformation), or to notify subscribers about other important events, such as errors and warnings.
 
+\enlargethispage{1\baselineskip}
 \subsection{Scanner}
 \label{sec:scanner}
 
@@ -599,7 +606,7 @@ interface Options {
 \end{JsCode}
 \end{program}
 \begin{itemize}
-  \item \textbf{compilerOptions:} The options for the TypeScript compiler are included in the settings for \emph{ts-runtime}. Especially the \emph{rootDir} and \emph{outDir} are important. The root directory option specifies a base folder, which contains the TypeScript project to be processed. If no such option is given the common directory of the entry files will be determined. The \emph{outDir} setting sets the location of the compiled project, whereas \emph{outFile} would tell the compiler to concatenate the target code and to only emit a single file~\cite{TypeScriptHandbook:CompilerOptions}. The option \emph{preserveConstEnums} will always be enabled, since constant enumerations need to be available for runtime type checks. By default, the TypeScript compiler would replace the enum references with their constant value~\cites{TypeScriptHandbook:CompilerOptions, TypeScriptSpec:ConstEnums}.
+  \item \textbf{compilerOptions:} The options for the TypeScript compiler are included in the settings for \emph{ts-runtime}. Especially the \emph{rootDir} and \emph{outDir} are important. The root directory option specifies a base folder, which contains the TypeScript project to be processed. If no such option is given the common directory of the entry files will be determined. The \emph{outDir} option sets the location of the compiled project, whereas \emph{outFile} would tell the compiler to concatenate the target code and to only emit a single file~\cite{TypeScriptHandbook:CompilerOptions}. The option \emph{preserveConstEnums} will always be enabled, since constant enumerations need to be available for runtime type checks. By default, the TypeScript compiler would replace the enum references with their constant value~\cites{TypeScriptHandbook:CompilerOptions, TypeScriptSpec:ConstEnums}.
   \item \textbf{force:} The processing is aborted if the TypeScript compiler detects errors for both, syntactics and semantics. By setting this flag to \texttt{true}, semantic errors do not cause the transformations to be stopped.
   \item \textbf{log:} By default, errors, warnings, and other messages will be printed to the console. To disable the output, this option can be set to \texttt{false}.
   \item \textbf{noAnnotate:} Functions and classes are annotated with their type reflection, which can be disabled. The type checking library will try to infer the type from the value available at runtime.
@@ -611,8 +618,9 @@ interface Options {
   \item \textbf{libNamespace:} If a prefix for the library identifier is desired it can be set with this option.
   \item \textbf{declarationPrefix:} In some situations new variable declarations are introduced by the mutators. To easily distinguish generated identifiers from others, a prefix can be set.
 \end{itemize}
-While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings (see Prog.~\ref{prog:options-defaults}) that will be used for every option that is not specified.
-\begin{program}
+While it is possible to provide settings to the transformer, it is not required to pass anything but the entry files. The project includes default settings (see Prog.~\ref{prog:options-defaults}) that will be used for every option that is not specified.%
+%TODO:2
+\begin{program}[h]
 \caption{The default options for \emph{ts-runtime}.}
 \label{prog:options-defaults}
 \begin{JsCode}
@@ -641,7 +649,7 @@ A variety of elements work together to achieve the desired result of the thesis 
   \item The root directory for the TypeScript project to be processed needs to be discovered next. Either it is provided through the TypeScript compiler option \emph{rootDir}, or it is computed based on the entry files.
   \item At this point the transformer distinguishes between a compilation of files from the file system, or a reflection which is represented by a list of objects containing the file name and its contents as a string. In order to transform a project without a file system a custom compiler host (see Sec.~\ref{sec:typescript-compiler}) is required, which can provide the TypeScript program with the appropriate data from the reflection list. For a regular compilation the standard compiler host, provided by TypeScript, will be used.
   \item A TypeScript program is instantiated with the compiler host, the compiler options, and the entry files. The TypeScript compiler processes the project and provides access to the type checker, alongside other useful functionality, like compiler diagnostics (i.e., errors).
-  \item If errors are detected by TypeScript the processing is be stopped. In case of the force option being set, the transformation will only be aborted if diagnostics occur that are not related to semantics.
+  \item If errors are detected by TypeScript, the processing is being stopped. In case of the force option being set, the transformation will only be aborted if diagnostics occur that are not related to semantics.
   \item The abstract syntax tree for each source file is scanned, identifiers are stored, and ambient and external declarations are extracted.
   \item The state of the application now allows for the actual transformations to take place. Every node is passed to the mutators, which perform modifications if required.
   \item As the current TypeScript program is no longer synchronized with the AST of the source files, it has to be replaced with a new instance. The TypeScript printer (see Sec.~\ref{sec:typescript-compiler}) is used to create a reflection of the project, which---alongside a compiler host which supports the reflections---is used to create a new program.
@@ -649,7 +657,7 @@ A variety of elements work together to achieve the desired result of the thesis 
   \item All external and ambient declarations are requested from the scanner. The transformer then creates runtime representations through the factory and includes them in the emitted result.
   \item The transformation process is finished and a file reflection list, containing the target files, is returned.
 \end{enumerate}
-A diagram depicting the most significant parts of this process can also be found in Figure~\ref{fig:transformation-process}.
+A diagram depicting the most significant parts of this process can also be found in Fig.~\ref{fig:transformation-process}.
 \begin{figure}
 \centering
 \includestandalone{assets/diagrams/transformation}
@@ -660,7 +668,7 @@ A diagram depicting the most significant parts of this process can also be found
 \section{Usage}
 \label{sec:usage}
 
-In order to make use of the implemented project, Node.js version 6.0 or above needs to be installed on the system. Also npm---which comes with Node.js---or \emph{yarn}\footnote{\url{https://yarnpkg.com}} is required to install \emph{ts-runtime} from the npm registry. The following command can be used with yarn, to add the package as a dependency to a project via the command line:
+In order to make use of the implemented project, Node.js version 6.0 or above needs to be installed on the system. Also npm---which comes with Node.js---or \emph{yarn}\footnote{\url{https://yarnpkg.com}} is required to install \emph{ts-runtime} from the \emph{npm} registry. The following command can be used with yarn, to add the package as a dependency to a project via the command line:
 \begin{GenericCode}[numbers=none]
 yarn add ts-runtime
 \end{GenericCode}
@@ -685,7 +693,7 @@ While the examples above make use of a code style from the EcmaScript 2015 langu
 \begin{JsCode}[numbers=none]
 const tsr = require("ts-runtime");
 \end{JsCode}
-However, when using a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax of the former two examples may be used. After successfully loading the thesis project, its functionality can be used programmatically, which is outlined in Program~\ref{prog:usage-api}.
+However, when using a compiler that supports EcmaScript 2015 modules, which can produce Node.js compatible JavaScript---such as TypeScript~\cite{TypeScriptHandbook:Modules} or Babel~\cite{Babel:Plugins}---the syntax of the former two examples may be used. After successfully loading the thesis project, its functionality can be used programmatically, which is outlined in Prog.~\ref{prog:usage-api}.
 \begin{program}
 \caption{This code makes use of the API of the thesis project and utilizes the bus component to append TypeScript compiler diagnostics to a file.}
 \label{prog:usage-api}
@@ -717,7 +725,7 @@ transform("./entry");
 \subsection{Command Line Interface}
 \label{sec:usage-cli}
 
-The project of this thesis does also include a command line interface (i.e., CLI), which requires the package to be installed globally via the command line:
+The project of this thesis does also include a \emph{command line interface} (i.e., CLI), which requires the package to be installed globally via the command line:
 \begin{JsCode}[numbers=none]
 yarn global add ts-runtime
 \end{JsCode}
@@ -729,7 +737,7 @@ The CLI of the application should now be exposed to the environment variables an
 \begin{JsCode}[numbers=none]
 tsr --help
 \end{JsCode}
-The only argument that is required to be passed to the command line interface is a TypeScript entry file name, while the extension may be omitted. Figure~\ref{fig:cli} depicts the CLI output, where the TypeScript compiler options were be loaded from a file, and the transformation process was not aborted when semantic errors were raised by the compiler.
+The only argument that is required to be passed to the command line interface is a TypeScript entry file name, while the extension may be omitted. Fig.~\ref{fig:cli} depicts the CLI output, where the TypeScript compiler options were be loaded from a file, and the transformation process was not aborted when semantic errors were raised by the compiler.
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth]{cli}
@@ -740,11 +748,10 @@ The only argument that is required to be passed to the command line interface is
 \subsection{Playground}
 \label{sec:usage-playground}
 
-To test and try \emph{ts-runtime} in a web browser, a playground was created. It takes advantage of the reflection transformation feature, which does not require an underlying file system. While the playground source is not included in the published package on the npm registry, it can be obtained from the repository on GitHub\footnote{\url{https://github.com/fabiandev/ts-runtime}}, where the source code of the entire thesis project is available. The playground is also served directly from this repository\footnote{\url{https://fabiandev.github.io/ts-runtime/}}, as shown in Figure~\ref{fig:playground}.
+To test and try \emph{ts-runtime} in a web browser, a playground was created. It takes advantage of the reflection transformation feature, which does not require an underlying file system. While the playground source is not included in the published package on the npm registry, it can be obtained from the repository on GitHub\footnote{\url{https://github.com/fabiandev/ts-runtime}}, where the source code of the entire thesis project is available. The playground is served directly from this repository\footnote{\url{https://fabiandev.github.io/ts-runtime/}}, as shown in Fig.~\ref{fig:playground}, where the transformed and compiled JavaScript code can be executed in the browser, to not only show the result of the target code, but to also inspect its behavior at runtime.
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{playground-shadow}
-\caption{Screenshot of the playground of the thesis project---providing a user interface with support for several options to test transformations and its behavior at runtime---which is available online at \url{https://fabiandev.github.io/ts-runtime/}.}
+\caption{Screenshot of the playground of the thesis project, providing a user interface with support for several options to test transformations and its behavior at runtime.}
 \label{fig:playground}
 \end{figure}
-The transformed and compiled JavaScript code can also be executed in the browser, to not only show the result of the target code, but to also inspect its behavior at runtime.

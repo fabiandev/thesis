@@ -1,71 +1,76 @@
 \chapter{Technical Foundation}
 \label{cha:technical-foundation}
 
-This chapter gives an overview of the technical knowledge required for this thesis. It gives an exposure to the different type systems, the programming language JavaScript and JavaScript supersets. Also terminology used throughout this paper is specified, since standards differ across sources~\cite[p.~1]{TypeSystems:Cardelli:2004}.
+This chapter provides an overview of the technical knowledge required for this thesis. It gives an exposure to the different type systems, the programming language JavaScript and JavaScript supersets. Also terminology used throughout this paper is specified, since standards differ across sources~\cite[p.~97-1]{TypeSystems:Cardelli:2004}.
+
+%TODO:2
+%\setnowidow[3]
+%\setnoclub[3]
 
 \section{Type Systems}
 \label{sec:type-systems}
 
 There are different kinds of programming languages with different characteristics and specifications. An essential part of a language is its type system, which has a great impact on the behavior of a program and may influence the syntax a program is written in.
-In general a programming language can be categorized as typed or untyped, where untyped languages do not have a static type system at all, or have a single type, which can hold any value~\cite[p.~2]{TypeSystems:Cardelli:2004}. More precisely a language is considered typed independently of types being part of the syntax, but simply by the existence of a (static) type system~\cite[p.~2]{TypeSystems:Cardelli:2004}.
-According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research}\footnote{\url{https://www.microsoft.com/research/}} a type system is
-\begin{quote}
-  [a] collection of type rules for a typed programming language~\cite[p.~38]{TypeSystems:Cardelli:2004}
-\end{quote}
-with the purpose to
-\begin{quote}
-  [...] prevent the occurrence of \emph{execution errors} during the running of a program~\cite[p.~1]{TypeSystems:Cardelli:2004}.
-\end{quote}
+In general a programming language can be categorized as typed or untyped, where untyped languages do not have a static type system at all, or have a single type, which can hold any value~\cite[p.~97-2]{TypeSystems:Cardelli:2004}. More precisely a language is considered typed independently of types being part of the syntax, but simply by the existence of a (static) type system~\cite[p.~97-2]{TypeSystems:Cardelli:2004}.
+According to \citeauthor{TypeSystems:Cardelli:2004} from \emph{Microsoft Research}\footnote{\url{https://www.microsoft.com/research/}} a type system is ``a collection of type rules for a typed programming language''~\cite[p.~97-38]{TypeSystems:Cardelli:2004} with the purpose to ``[...] prevent the occurrence of \emph{execution errors} during the running of a program''~\cite[p.~97-1]{TypeSystems:Cardelli:2004}.
 He further equates \emph{type system} with \emph{static type system} and also \citeauthor{TypesAndProgrammingLanguages:Pierce:2002} defines type systems as being static~\cite[p.~2]{TypesAndProgrammingLanguages:Pierce:2002}, which categorizes languages as untyped that may distinguish between types at runtime but do not have knowledge about types during compilation or interpretation, such as JavaScript (see Sec.~\ref{sec:javascript}). This notion is further supported by \citeauthor{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}, stating that
 \begin{quote}
-  [l]anguages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}.
+  languages without static type systems are usually called untyped languages (or dynamically typed languages). Such languages include [...] most scripting languages such as Perl, Python, and Ruby.~\cite[p.~331]{ProgrammingLanguagesPrinciplesAndPractices:LoudenLambert:2011}
 \end{quote}
-A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g., in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g., in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like \emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
+A widely adopted consensus in terminology is to use both, \emph{untyped} (e.g., in~\cite[p.~117]{LogicalTypesForUntypedLanguages:Tobin-Hochstadt:2010}) and \emph{dynamically typed} (e.g., in~\cite[p.~32]{TowardsAProgramLogicForJavaScript:Gardner:2012} and~\cite[p.~203]{TypeSystemsDirectedProgrammingLanguageEvolution:Nino:2012}) for languages without a static type system. Anyway, following the terminology of \citeauthor{TypeSystems:Cardelli:2004}, expressions like
+\emph{statically typed} or \emph{dynamically typed} are avoided in favor for \emph{statically checked} and \emph{dynamically checked}, respectively~\cite[p.~97-1]{TypeSystems:Cardelli:2004}. This should help to avoid confusion over languages having types, but are referred to as untyped.
+% TODO:2 nowidow
+
+%TODO:2
+%\setnowidow[4]
+%\setnoclub[4]
 
 \subsection{Explicitly and Implicitly Typed}
 \label{sec:explicitly-implicitly-typed}
 
-If types are part of the syntax of a language (e.g., in Java) it is explicitly typed, whereas in implicitly typed languages, type annotations are assigned automatically by the type system~\cite[pp.~2--3]{TypeSystems:Cardelli:2004}. Some languages, however, make use of a mixture, allowing developers to omit type annotations in various scenarios where the type can be inferred by the compiler~\cite[p.~10]{TypesAndProgrammingLanguages:Pierce:2002}, as shown in the C\texttt{\#} code below:
+If types are part of the syntax of a language (e.g., in Java) it is explicitly typed, whereas in implicitly typed languages, type annotations are assigned automatically by the type system~\cite[pp.~97-2--97-3]{TypeSystems:Cardelli:2004}. Some languages, however, make use of a mixture, allowing developers to omit type annotations in various scenarios where the type can be inferred by the compiler~\cite[p.~10]{TypesAndProgrammingLanguages:Pierce:2002}, as shown in the C\texttt{\#} code below:
 \begin{CsCode}[numbers=none]
 var implicitNum = 10; // implicitly typed as integer
 int explicitNum = 10; // explicitly typed as integer
 \end{CsCode}
-While a type system---explicit, implicit, or a combination of both---may detect possible execution faults already during compile time, it is not required to guard against specific errors. There are mechanisms for untyped languages to make them safe~\cite[p.~3]{TypeSystems:Cardelli:2004}, as outlined in Section~\ref{sec:type-checking}.
+While a type system---explicit, implicit, or a combination of both---may detect possible execution faults already during compile time, it is not required to guard against specific errors. There are mechanisms for untyped languages to make them safe~\cite[p.~97-3]{TypeSystems:Cardelli:2004}, as outlined in Sec.~\ref{sec:type-checking}.
 
 \subsection{Execution Errors}
 \label{sec:execution-errors}
 
-Errors can occur in various situations and in order to classify a language, it is important to understand the different types of errors. \citeauthor{TypeSystems:Cardelli:2004} distinguished between \emph{trapped errors}, \emph{untrapped errors}, and \emph{forbidden errors}~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+Errors can occur in various situations and in order to classify a language, it is important to understand the different types of errors. \citeauthor{TypeSystems:Cardelli:2004} distinguished between \emph{trapped errors}, \emph{untrapped errors}, and \emph{forbidden errors}~\cite[p.~97-3]{TypeSystems:Cardelli:2004}.
 
 \subsubsection{Trapped Errors}
 
-A trapped error causes a program to stop immediately~\cite[p.~3]{TypeSystems:Cardelli:2004} or to raise an exception, which may be handled in the program~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}. An example for such an error is a division by zero~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+A trapped error causes a program to stop immediately~\cite[p.~97-3]{TypeSystems:Cardelli:2004} or to raise an exception, which may be handled in the program~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}. An example for such an error is a division by zero~\cite[p.~97-3]{TypeSystems:Cardelli:2004}.
 
 \subsubsection{Untrapped Errors}
 
-Errors where a program does not crash or raise an exception immediately are called untrapped errors~\cite[p.~37]{TypeSystems:Cardelli:2004}. They may remain unnoticed---at least for a while---and can lead to unexpected behavior~\cite[p.~3]{TypeSystems:Cardelli:2004}. For example accessing data from an array that is out of bounds is legal in the programming language C~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}, but can lead to errors or arbitrary behavior later in the program~\cite[p.~3]{TypeSystems:Cardelli:2004}.
+Errors where a program does not crash or raise an exception immediately are called untrapped errors~\cite[p.~97-37]{TypeSystems:Cardelli:2004}. They may remain unnoticed---at least for a while---and can lead to unexpected behavior~\cite[p.~97-3]{TypeSystems:Cardelli:2004}. For example accessing data from an array that is out of bounds is legal in the programming language C~\cite[p.~7]{TypesAndProgrammingLanguages:Pierce:2002}, but can lead to errors or arbitrary behavior later in the program~\cite[p.~97-3]{TypeSystems:Cardelli:2004}.
 
 \subsubsection{Forbidden Errors}
 
-Following the definition of \citeauthor{TypeSystems:Cardelli:2004}, forbidden errors should include ``all of the untrapped errors, plus a subset of the trapped errors~\cite[p.~3]{TypeSystems:Cardelli:2004}''. They are not generally defined, but vary between programming languages and may even not include all untrapped errors, which leads to a language being  considered as unsafe~\cite[p.~4]{TypeSystems:Cardelli:2004}.
+Following the definition of \citeauthor{TypeSystems:Cardelli:2004}, forbidden errors should include ``all of the untrapped errors, plus a subset of the trapped errors~\cite[p.~97-3]{TypeSystems:Cardelli:2004}''. They are not generally defined, but vary between programming languages and may even not include all untrapped errors, which leads to a language being  considered as unsafe~\cite[p.~97-4]{TypeSystems:Cardelli:2004}.
 
 \subsection{Safety and Good Behavior}
 \label{sec:safety-good-behavior}
 
-A programming language can be considered as safe if no untrapped errors can appear, and is well behaved (i.e., good behaved) if no forbidden errors can occur~\cite[p.~3]{TypeSystems:Cardelli:2004}, consequently good behavior implies safety. Not all major languages are safe, and therefore not well behaved, such as C or C\texttt{++}~\cite[p.~6]{TypesAndProgrammingLanguages:Pierce:2002}, as guaranteeing safety usually results in increased execution time. An example for a safe language with decreased development and maintenance time compared to an unsafe language is Java~\cite[p.~5]{TypeSystems:Cardelli:2004}.
+A programming language can be considered as safe if no untrapped errors can appear, and is well behaved (i.e., good behaved) if no forbidden errors can occur~\cite[p.~97-3]{TypeSystems:Cardelli:2004}, consequently good behavior implies safety. Not all major languages are safe, and therefore not well behaved, such as C or C\texttt{++}~\cite[p.~6]{TypesAndProgrammingLanguages:Pierce:2002}, as guaranteeing safety usually results in increased execution time. An example for a safe language with decreased development and maintenance time compared to an unsafe language is Java~\cite[p.~97-5]{TypeSystems:Cardelli:2004}.
 
 \subsection{Type Checking}
 \label{sec:type-checking}
 
-To ensure that a program follows the specified rules of its type system and to guarantee safety and good behavior (i.e., ensuring the absence of forbidden errors~\cite[p.~37]{TypeSystems:Cardelli:2004}), as described in Section~\ref{sec:safety-good-behavior}, type checking may be performed. Again, \citeauthor{TypeSystems:Cardelli:2004} treats \emph{type checking} and \emph{static type checking} as equivalent and calls languages that employ such a technique \emph{statically checked}~\cite[p.~3]{TypeSystems:Cardelli:2004}. Dynamically checked programming languages, on the other hand, may also ensure good behavior by applying sufficient checks at runtime. Anyway, statically checked languages may also perform verifications during the execution of a program to guarantee safety, if not all untrapped errors can be discovered statically during compilation~\cite[p.~4]{TypeSystems:Cardelli:2004}.
+To ensure that a program follows the specified rules of its type system and to guarantee safety and good behavior (i.e., ensuring the absence of forbidden errors~\cite[p.~97-37]{TypeSystems:Cardelli:2004}), as described in Sec.~\ref{sec:safety-good-behavior}, type checking may be performed. Again, \citeauthor{TypeSystems:Cardelli:2004} treats \emph{type checking} and \emph{static type checking} as equivalent and calls languages that employ such a technique \emph{statically checked}~\cite[p.~97-3]{TypeSystems:Cardelli:2004}. Dynamically checked programming languages, on the other hand, may also ensure good behavior by applying sufficient checks at runtime. Anyway, statically checked languages may also perform verifications during the execution of a program to guarantee safety, if not all untrapped errors can be discovered statically during compilation~\cite[p.~97-4]{TypeSystems:Cardelli:2004}.
 
 \section{JavaScript}
 \label{sec:javascript}
 
 JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape}\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.} submitted the language to \emph{Ecma International}\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'', and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub}\footnote{\url{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests}\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see Sec.~\ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Requests by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
 
-While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js}\footnote{\url{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}\footnote{\url{https://developers.google.com/v8/}}, also used in the popular \emph{Chrome}\footnote{\url{https://www.google.com/chrome/}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
+While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js}\footnote{\url{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}\footnote{\url{https://developers.google.com/v8/}}, which is also used in the popular \emph{Chrome}\footnote{\url{https://www.google.com/chrome/}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
+% TODO:2 noindent
+\noindent
 The following sections give an overview of the language JavaScript, outlining its most important and interesting concepts. As it would go beyond the scope of this thesis not all cases---especially the numerous exceptions---are described.
 
 \subsection{Loose Typing}
@@ -81,24 +86,27 @@ The term \emph{loose typing} may be misleading to infer that JavaScript has a ty
 \subsection{Value Types}
 \label{sec:value-types}
 
-JavaScript is an untyped and dynamically checked---but safe---scripting language, as defined in Sec.~\ref{sec:type-systems}. Most untyped programming languages are necessarily safe, as it would be exceedingly difficult to maintain the code, if untrapped errors would remain unnoticed~\cite[p.~4]{TypeSystems:Cardelli:2004}. Even though considered as untyped, the ECMAScript language specification defines seven value types~\cite[p.~16]{ES6Spec:Ecma:2015}:
+JavaScript is an untyped and dynamically checked---but safe---scripting language, as defined in Sec.~\ref{sec:type-systems}. Most untyped programming languages are necessarily safe, as it would be exceedingly difficult to maintain the code, if untrapped errors would remain unnoticed~\cite[p.~97-4]{TypeSystems:Cardelli:2004}. Even though considered as untyped, the ECMAScript language specification defines seven value types~\cite[p.~16]{ES6Spec:Ecma:2015}:
 \begin{itemize}
-  \item Undefined
-  \item Null
-  \item Boolean
-  \item String
-  \item Symbol
-  \item Number
-  \item Object
+  \item Undefined,
+  \item Null,
+  \item Boolean,
+  \item String,
+  \item Symbol,
+  \item Number,
+  \item Object.
 \end{itemize}
 A major difference to a (statically) typed language is, that in JavaScript only values are typed, variables are not. When requesting the type of a variable with the \texttt{typeof} operator during runtime, the assigned value's type is determined and returned as a string~\cite[p.~30]{YDKJS:UpAndGoing:Simpson:2015}:
 \begin{JsCode}[numbers=none]
 let num = 10;
 typeof num; // "number"
 \end{JsCode}
-The string that is returned by the \texttt{typeof} operator does not reflect the previously mentioned value types completely. As shown in Table~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature, \texttt{"function"} is returned, and \texttt{"object"} otherwise. For a value of type \emph{Null}, the result is also \texttt{"object"}. A proposal to change the specification and to correct this issue---erroneously indicating that \texttt{null} is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
 
-\begin{table}
+\noindent
+The string that is returned by the \texttt{typeof} operator does not reflect the previously mentioned value types completely. As shown in Tab.~\ref{tab:typeof}, objects are differentiated by wether they are callable or not. For objects with a call signature, \texttt{"function"}\footnote{Code sequences that are set in quotation marks denote a string, whereas, e.g., identifiers, keywords, and operators---such as \texttt{typeof}---are not quoted. If it is explicitly pointed out that a given code is a string, the quotation marks may be omitted.} is returned, and \texttt{"object"} otherwise. For a value of type \emph{Null} the result is \texttt{"object"} as well. A proposal to change the specification and to correct this issue---erroneously indicating that \texttt{null} is an object---was rejected, as existing code may break~\cite{TypeofNull:Smith:2013, typeof:MDN:2017}.
+
+%TODO:2
+\begin{table}[h]
 \caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
 \label{tab:typeof}
 \centering
@@ -129,8 +137,10 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 \subsection{Type Conversion}
 \label{sec:type-conversion}
 
-In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Table~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
-\begin{table}
+In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
+
+%TODO:2
+\begin{table}[h]
 \caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}
 \centering
   \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
@@ -146,6 +156,8 @@ In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]
     \hline
   \end{tabular}
 \end{table}
+
+\noindent
 There are various situations where a conversion is desired, which happens implicitly in JavaScript. For example if a string should be added to a number, and vice versa, the number is converted to a string, and the result is a concatenation of both values:
 \begin{JsCode}[numbers=none]
 "2" + 3 // "23"
@@ -159,10 +171,11 @@ Again, even a slight change to the code means an entirely different outcome:
 \begin{JsCode}[numbers=none]
 "2" + 3 + "Hello" // "23Hello"
 \end{JsCode}
-A more comprehensive overview of possible type conversions---summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with \emph{Symbol} type conversions as of the ECMAScript 2015 specification---can be found in Table~\ref{tab:conversions}, which also highlights situations where type conversions are not possible or lead to an error.
+A more comprehensive overview of possible type conversions---summarized by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011} and extended with \emph{Symbol} type conversions as of the ECMAScript 2015 specification---can be found in Tab.~\ref{tab:conversions}, which also highlights situations where type conversions are not possible or lead to an error.
 
-\begin{table}
-\caption{Type conversions in JavaScript~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}.}\label{tab:conversions}
+%TODO:2
+\begin{table}[t]
+\caption{Type conversions in JavaScript.~\cites[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011}[pp.~36--44]{ES6Spec:Ecma:2015}}\label{tab:conversions}
 \centering
   \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
   \setlength{\tabcolsep}{1ex}
@@ -305,7 +318,9 @@ A more comprehensive overview of possible type conversions---summarized by \cite
 \subsection{Value Comparison}
 \label{sec:value-comparison}
 
-In Section~\ref{sec:type-conversion} the flexibility of JavaScript has already been outlined. Types are converted (i.e., casted) to another type if required and possible.  The same is true when comparing values. JavaScript tries to implicitly convert a value to another value if it cannot perform a comparison at first. Comparing a string that holds a numerical value to an actual number gives the same result as comparing two values of type \emph{Number}, since the interpreter implicitly casts the string to a number:
+In Sec.~\ref{sec:type-conversion} the flexibility of JavaScript has already been outlined. Types are converted (i.e., casted) to another type if required and possible.  The same is true when comparing values. JavaScript tries to implicitly convert a value to another value if it cannot perform a comparison at first. Comparing a string that holds a numerical value to an actual number gives the same result as comparing two values of type \emph{Number}, since the interpreter implicitly casts the string to a number:
+%\nowidow[2]
+% TODO: nowidow
 \begin{JsCode}[numbers=none]
 "5" > 2 // true
 "2" == 2 // true
@@ -334,13 +349,16 @@ Using the equality operator the object is converted using the default \emph{toSt
 \label{sec:objects-prototypal-inheritance}
 
 Every value, which is not a primitive value (i.e., \emph{Undefined}, \emph{Null}, \emph{Boolean}, \emph{Number}, \emph{Symbol}, or \emph{String}~\cite[p.~5]{ES6Spec:Ecma:2015})---including functions and arrays---is an object, hence making JavaScript a highly flexible language. A key concept of the language is the prototypal inheritance of objects. Every object has a prototype, which is a reference to another object. Anyway, the prototype is not accessible for all types of objects, but for functions, or more precisely, constructors~\cite[p.~3]{ES6Spec:Ecma:2015} (see Fig.~\ref{fig:prototypal-inheritance}).
-A constructor function is an ordinary JavaScript function, which---by convention---begins with a capital letter~\cite[p.~8]{JavaScriptObjectProgramming:Rinehart:2015}. Initial values can be defined, which may be different for every instance, created from the constructor.
+A constructor function is an ordinary JavaScript function, which---by convention---begins with a capital letter~\cite[p.~8]{JavaScriptObjectProgramming:Rinehart:2015}.
+Initial values can be defined, which may be different for every instance, created from the constructor:
 \begin{JsCode}[numbers=none]
 function Person(name) {
   this.name = name;
 }
 \end{JsCode}
-On the other hand, if properties are defined on the function's prototype, they are shared across all instances of \emph{Person}.
+% TODO: pagebreak
+%\pagebreak
+On the other hand, if properties are defined on the function's prototype, they are shared across all instances of \emph{Person}:
 \begin{JsCode}[numbers=none]
 Person.prototype.speak = function speak() {
   return "Hi, my name is " + this.name;
@@ -369,16 +387,17 @@ JavaScript is improving rapidly with a number of major and minor changes and imp
 
 Up to the fifth edition of ECMAScript (i.e., ES5), the only declaration keyword available was \texttt{var}~\cite[p.~87]{ES5Spec:Ecma:2015}. As of the 6th edition of ECMAScript (i.e., ES6), the keywords \texttt{let}---as seen in previous code snippets---and \texttt{const} are also available~\cite[p.~194]{ES6Spec:Ecma:2015}. In order to understand the impact of using one keyword over another, a fundamental understanding of scopes in JavaScript is indispensable. \citeauthor{YDKJS:ScopesAndClosures:Simpson:2014} defines a scope as 
 \begin{quote}
-  [...] the set of rules that govern how the engine can look up a variable by its identifier name and find it, either in the current scope, or in any of the nested scopes it’s contained within~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}.
+  [...] the set of rules that govern how the engine can look up a variable by its identifier name and find it, either in the current scope, or in any of the nested scopes it’s contained within.~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}
 \end{quote}
 JavaScript makes use of a \emph{lexical scope} model, which is based on where variables and scope blocks (e.g., functions) are written in the code~\cite[p.~13]{YDKJS:ScopesAndClosures:Simpson:2014}. This means that 
 \begin{quote}
-  [n]o matter \emph{where} a function is invoked from, or even \emph{how} it is invoked, its lexical scope is \emph{only} defined by where the function was declared~\cite[p.~16]{YDKJS:ScopesAndClosures:Simpson:2014}.
+  no matter \emph{where} a function is invoked from, or even \emph{how} it is invoked, its lexical scope is \emph{only} defined by where the function was declared.~\cite[p.~16]{YDKJS:ScopesAndClosures:Simpson:2014}
 \end{quote}
-Program~\ref{prog:scopes} gives an example of how scopes behave in JavaScript and also shows the importance to be aware of it. While there are ways to get around lexical scoping in JavaScript, those mechanisms are considered bad practice~\cite[p.~14]{YDKJS:ScopesAndClosures:Simpson:2014} and come with performance issues~\cite[p.~21]{YDKJS:ScopesAndClosures:Simpson:2014}, hence won't be covered here.
+Prog.~\ref{prog:scopes} gives an example of how scopes behave in JavaScript and also shows the importance to be aware of it. While there are ways to get around lexical scoping in JavaScript, those mechanisms are considered bad practice~\cite[p.~14]{YDKJS:ScopesAndClosures:Simpson:2014} and come with performance issues~\cite[p.~21]{YDKJS:ScopesAndClosures:Simpson:2014}, hence won't be covered here.
 
-\begin{program}
-\caption{Variable \texttt{i} was declared on line~\ref{prog:scopes:declaration} as counter for a for loop. When function \texttt{bar} is called from within the loop, the identifier \texttt{i} exists in the scope of \texttt{bar}, or rather in its enclosing scope \texttt{foo}, and \texttt{i} is assigned the value \texttt{2}. This results in an infinite loop, as it will never reach its condition to stop of \texttt{i} being equal to or greater than \texttt{10}.~\cite[p.~26]{YDKJS:ScopesAndClosures:Simpson:2014}}
+% TODO:2
+\begin{program}[h]
+\caption{Variable \texttt{i} is declared on line~\ref{prog:scopes:declaration} as counter for a for loop. When function \texttt{bar} is called from within the loop, the identifier \texttt{i} exists in the scope of \texttt{bar}, or rather in its enclosing scope \texttt{foo}, and \texttt{i} is assigned the value \texttt{2}. This results in an infinite loop, as it will never reach its condition to stop of \texttt{i} being equal to or greater than \texttt{10}~\cite[p.~26]{YDKJS:ScopesAndClosures:Simpson:2014}.}
 \label{prog:scopes}
 \begin{JsCode}
 function foo() {
@@ -397,7 +416,9 @@ foo();
 \end{JsCode}
 \end{program}
 
-Before \texttt{let} and \texttt{const} were introduced, the easiest way to create a scope was a function~\cite[p.~7]{YDKJS:ES6AndBeyond:Simpson:2015}. Other programming languages, like Java, support block scope~\cite[p.~7]{YDKJS:ScopesAndClosures:Simpson:2014}, which means that variables are scoped by any block that is created, including loops. JavaScript, however, makes use of a function scope, as shown previously in Program~\ref{prog:scopes}. As of ES6 the declaration keyword \texttt{let} can be used to block-scope variables, whereas \texttt{var} leads to the variable being scoped to its parent function or the global scope if no enclosing function exists. The code below demonstrates that creating a simple block in combination with a \texttt{var} declaration does not scope the identifier to that block~\cite[p.~8]{YDKJS:ES6AndBeyond:Simpson:2015}:
+% TODO:2
+\noindent
+Before \texttt{let} and \texttt{const} were introduced, the easiest way to create a scope was a function~\cite[p.~7]{YDKJS:ES6AndBeyond:Simpson:2015}. Other programming languages, like Java, support block scope~\cite[p.~7]{YDKJS:ScopesAndClosures:Simpson:2014}, which means that variables are scoped by any block that is created, including loops. JavaScript, however, makes use of a function scope, as shown previously in Prog.~\ref{prog:scopes}. As of ES6 the declaration keyword \texttt{let} can be used to block-scope variables, whereas \texttt{var} leads to the variable being scoped to its parent function or the global scope if no enclosing function exists. The code below demonstrates that creating a simple block in combination with a \texttt{var} declaration does not scope the identifier to that block~\cite[p.~8]{YDKJS:ES6AndBeyond:Simpson:2015}:
 \begin{JsCode}
 var a = 1;
 
@@ -407,6 +428,12 @@ var a = 1;
 
 console.log(a); // 2
 \end{JsCode}
+
+% TODO:2
+\enlargethispage{2\baselineskip}
+
+% TODO:2
+\noindent
 On the other hand, when declaring \texttt{a} on line~\ref{line:let-over-var2} with the \texttt{let} keyword, the variable is scoped to its enclosing block:
 \begin{JsCode}
 var a = 1; /+\label{line:let-over-var1}+/
@@ -417,10 +444,10 @@ var a = 1; /+\label{line:let-over-var1}+/
 
 console.log(a); // 1
 \end{JsCode}
-While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. However, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Program~\ref{prog:scopes} to Program~\ref{prog:scopes-let}.
-
-\begin{program}
-\caption{In Program~\ref{prog:scopes} the usage of the declaration keyword \texttt{var} on line~\ref{prog:scopes:declaration} results in an infinite loop, due to the variable being scoped to its enclosing function. In the example below, the only difference to Program~\ref{prog:scopes} is that \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}. This causes the variable \texttt{i} being block scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment in \texttt{bar} on line~\ref{prog:scopes-let:declaration2} won't change the value of \texttt{i} from line~\ref{prog:scopes-let:declaration}, and the loop is called exactly ten times.}
+While behavior may vary when using different declaration keywords, exchanging \texttt{var} with \texttt{let} on line~\ref{line:let-over-var1} of the previous code example would not have any impact, as the variable lives in the global scope either way~\cites{variable-scope:Microsoft:2017, var:MDN:2017}. However, it may be a good practice to use the block scope behavior for variables with \texttt{let} or \texttt{const} over \texttt{var} at any time, if not explicitly needed otherwise. This may prevent errors and unexpected behavior, which is outlined when comparing Prog.~\ref{prog:scopes} to Prog.~\ref{prog:scopes-let}.
+% TODO:2
+\begin{program}[h]
+\caption{In this program \texttt{var} has been replaced in favor for \texttt{let} on line~\ref{prog:scopes-let:declaration}, compared to Prog.~\ref{prog:scopes}. This causes variable \texttt{i} being scoped to the for loop, and \emph{not} to its enclosing function \texttt{foo}. Therefore the assignment on line~\ref{prog:scopes-let:declaration2} does not change the value of \texttt{i}, and the loop is called exactly ten times.}
 \label{prog:scopes-let}
 \begin{JsCode}
 function foo() {
@@ -439,7 +466,8 @@ foo();
 \end{JsCode}
 \end{program}
 
-The \texttt{const} keyword behaves exactly the same as \texttt{let}, with the only difference that it is a constant, meaning that its value is fixed and cannot be changed. An attempt to reassign a constant identifier results in an error~\cite[p.~39]{YDKJS:ScopesAndClosures:Simpson:2014}.
+\noindent
+The \texttt{const} keyword behaves exactly the same as \texttt{let}, with the only difference that it is a constant, meaning that its value is fixed and cannot be changed. An attempt to reassign a constant identifier results in an error~\cite[p.~39]{YDKJS:ScopesAndClosures:Simpson:2014}:
 \begin{JsCode}[numbers=none]
 const a = 1;
 a = 2; // TypeError
@@ -454,9 +482,9 @@ b.name = "Bar";
 
 For the concept of arrow functions, introduced in ECMAScript 2015, a basic knowledge of the \texttt{this} keyword is required. In contrast to the function scope, \texttt{this} is bound during runtime and is not associated to where a function is placed in the code~\cite[p.~9]{YDKJS:ThisAndObjectPrototypes:Simpson:2015}. \citeauthor{YDKJS:ThisAndObjectPrototypes:Simpson:2015} puts it to the point that
 \begin{quote}
-  [w]hen a function is invoked, [...] an execution context is created. This [context] contains information about where the function was called from (the call-stack), \emph{how} the function was invoked, what parameters were passed, etc. One of the properties of this [context] is the \texttt{this} reference, which is used for the duration of that function’s execution~\cite[p.~1]{YDKJS:ThisAndObjectPrototypes:Simpson:2015}.
+  when a function is invoked, [...] an execution context is created. This [context] contains information about where the function was called from (the call-stack), \emph{how} the function was invoked, what parameters were passed, etc. One of the properties of this [context] is the \texttt{this} reference, which is used for the duration of that function’s execution.~\cite[p.~1]{YDKJS:ThisAndObjectPrototypes:Simpson:2015}
 \end{quote}
-In other words, the value bound to \texttt{this} differs and is influenced by \emph{how} and from \emph{where} a function is called. Arrow functions, on the other hand, use lexical instead of dynamic binding for \texttt{this}~\cite[p.~58]{YDKJS:ES6AndBeyond:Simpson:2015}. Additionally, they inherit the \texttt{arguments} array from its parent, and also \texttt{super} and \texttt{new.target} are lexically bound~\cite[p.~59]{YDKJS:ES6AndBeyond:Simpson:2015}. Program~\ref{prog:this-function} shows the behavior when using a regular function alongside \texttt{this}.
+In other words, the value bound to \texttt{this} differs and is influenced by \emph{how} and from \emph{where} a function is called. Arrow functions, on the other hand, use lexical instead of dynamic binding for \texttt{this}~\cite[p.~58]{YDKJS:ES6AndBeyond:Simpson:2015}. Additionally, they inherit the \texttt{arguments} array from its parent, and also \texttt{super} and \texttt{new.target} are lexically bound~\cite[p.~59]{YDKJS:ES6AndBeyond:Simpson:2015}. Prog.~\ref{prog:this-function} shows the behavior when using a regular function alongside \texttt{this}.
 \begin{program}
 \caption{Line~\ref{prog:this-function:window} of the program logs the global \texttt{window} object in browsers, whereas on line~\ref{prog:this-function:object} the object \texttt{bar} is logged to the console~\cite[p.~18]{TypeScriptBook:Syed:2017}.}
 \label{prog:this-function}
@@ -489,9 +517,10 @@ It is possible to write the function even shorter. If only one parameter is give
 \begin{JsCode}[numbers=none]
 const foo = a => a;
 \end{JsCode}
-The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Program~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.
-\begin{program}
-\caption{Unlike in Program~\ref{prog:this-function}, where line~\ref{prog:this-function:window} and~\ref{prog:this-function:object} logged different objects to the console, in this example, both log the global \texttt{window} object, due to the lexical binding of the arrow function, defined on line~\ref{prog:this-arrow-function:declaration}.}
+The main purpose of arrow functions, however, is not to reduce the number of characters needed for a function, but the lexical binding of \texttt{this}, as shown in Prog.~\ref{prog:this-arrow-function}. Using an arrow function over a function, or vice versa, without being aware of the differences may result in unexpected behavior.%
+%TODO:2
+\begin{program}[h]
+\caption{Unlike in Prog.~\ref{prog:this-function}, where line~\ref{prog:this-function:window} and~\ref{prog:this-function:object} logged different objects to the console, in this example, both log the global \texttt{window} object, due to the lexical binding of the arrow function, defined on line~\ref{prog:this-arrow-function:declaration}.}
 \label{prog:this-arrow-function}
 \begin{JsCode}
 const foo = () => { /+\label{prog:this-arrow-function:declaration}+/
@@ -508,7 +537,7 @@ bar.foo();
 
 \subsubsection{Classes}
 
-The introduction of classes was a major step for JavaScript's standard, although the concept is not new to the programming language and has been used before. Program~\ref{prog:class-es6} shows a class in ES6, whereas Program~\ref{prog:class-es5} demonstrates how the same result was achieved in JavaScript prior to the sixth edition of ECMAScript.
+The introduction of classes was a major step for JavaScript's standard, although the concept is not new to the programming language and has been used before. Prog.~\ref{prog:class-es6} shows a class in ES6, whereas Prog.~\ref{prog:class-es5} demonstrates how the same result was achieved in JavaScript prior to the sixth edition of ECMAScript.
 \begin{program}
 \caption{A class in JavaScript as of ECMAScript 2015.}
 \label{prog:class-es6}
@@ -541,12 +570,14 @@ Foo.prototype.bar = function() {
 }
 \end{JsCode}
 \end{program}
+% TODO: baselineskip
+%\enlargethispage{1\baselineskip}
 Both variants are valid in ES6 and can be used in the same way, as follows:
 \begin{JsCode}[numbers=none]
 const foo = new Foo(1, 2);
 foo.bar(); // 3
 \end{JsCode}
-When looking at Program~\ref{prog:class-es5}, which shows how to accomplish a class-like behavior in ES5 and below, it is made clear that classes in JavaScript don't work like traditional classes in other languages and actually rely on the concept of prototypes~\cite[p.~135]{YDKJS:ES6AndBeyond:Simpson:2015}.
+When looking at Prog.~\ref{prog:class-es5}, which shows how to accomplish a class-like behavior in ES5 and below, it is made clear that classes in JavaScript don't work like traditional classes in other languages and actually rely on the concept of prototypes~\cite[p.~135]{YDKJS:ES6AndBeyond:Simpson:2015}.
 
 \subsubsection{String Concatenation}
 
@@ -559,7 +590,7 @@ To put the values of these variables together the addition operator can be used:
 \begin{JsCode}[numbers=none]
 firstname + " " + lastname; // "Foo Bar"
 \end{JsCode}
-In order to insert a space between \texttt{firstname} and \texttt{lastname}, it has to be added as a string between the two variables. The same result can be achieved by creating an array from these identifiers and to join the values by a space:
+In order to insert a space between \texttt{firstname} and \texttt{lastname}, it needs to be added as a string between the two variables. The same result can be achieved by creating an array from these identifiers and to join the values by a space:
 \begin{JsCode}[numbers=none]
 [firstname, lastname].join(" "); // "Foo Bar"
 \end{JsCode}
@@ -581,7 +612,7 @@ This section outlined the most important concepts of JavaScript with a focus on 
 \section{Abstract Syntax Tree}
 \label{sec:ast}
 
-An abstract syntax tree (i.e., AST) is the representation of a source program, created for analyzation purposes~\cite[p.~19]{CompilersAndInterpreters:Kenneth:2004}, containing only the indispensable portions of the code~\cite[p.~12]{FormaleSprachenAbstrakteAutomatenUndCompiler:Wagenknecht:2014} for the most parts. A syntax tree---or abstract syntax tree---is normally created by a compiler at an early stage. More specifically it is usually the second out of five compilation phases~\cite[pp.~2--3]{CompilersAndInterpreters:Kenneth:2004}: 
+An abstract syntax tree (i.e., AST) is the representation of a source program, created for analyzation purposes~\cite[p.~99-19]{CompilersAndInterpreters:Kenneth:2004}, containing only the indispensable portions of the code~\cite[p.~12]{FormaleSprachenAbstrakteAutomatenUndCompiler:Wagenknecht:2014} for the most parts. A syntax tree---or abstract syntax tree---is normally created by a compiler at an early stage. More specifically it is usually the second out of five compilation phases~\cite[pp.~99-2--99-3]{CompilersAndInterpreters:Kenneth:2004}: 
 \begin{enumerate}
   \item The \emph{scanner}, or \emph{lexical analyzer}, reads and tokenizes the source code, where a token is typically a keyword, an identifier, or a literal.
   \item In the next step the \emph{parser}, also called \emph{syntactic analyzer}, combines multiple tokens to, e.g., an expression, a statement, or a declaration. The result of the parser is the abstract syntax tree.
@@ -589,7 +620,7 @@ An abstract syntax tree (i.e., AST) is the representation of a source program, c
   \item In the fourth step of a typical compiler the \emph{optimizer} creates intermediate code and applies code improvement algorithms.
   \item The \emph{code generator} is the last step where the final target code of a program is generated.
 \end{enumerate}
-To demonstrate how an abstract syntax tree may look like for TypeScript, a variable declaration was inserted in the online editor \emph{AST explorer}\footnote{\url{https://astexplorer.net}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, as well as CSS (i.e., Cascading Style Sheets) and HTML (i.e., Hypertext Markup Language)~\cite{ASTExplorer}. The resulting syntax tree is illustrated in Figure~\ref{fig:ast}.
+To demonstrate how an abstract syntax tree may look like for TypeScript, a variable declaration was inserted in the online editor \emph{AST explorer}\footnote{\url{https://astexplorer.net}}, which can visualize the syntax tree generated by numerous parsers, including JavaScript, various JavaScript supersets such as TypeScript and Flow, as well as CSS (i.e., Cascading Style Sheets) and HTML (i.e., Hypertext Markup Language)~\cite{ASTExplorer}. The resulting syntax tree is illustrated in Fig.~\ref{fig:ast}.
 
 \begin{figure}
 \centering
