@@ -17,6 +17,7 @@
 *.toc
 *.tps
 *.xmpi
+*-*-*-*_*-*-*-*
 .texpadtmp
 .DS_Store
 assets/diagrams/*.sty
