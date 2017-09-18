@@ -65,7 +65,7 @@ To ensure that a program follows the specified rules of its type system and to g
 \section{JavaScript}
 \label{sec:javascript}
 
-JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape}\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.} submitted the language to \emph{Ecma International}\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems~\cite{EcmaInternational:Ecma}'', and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub}\footnote{\url{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests}\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see Sec.~\ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Requests by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
+JavaScript dates back to 1996, where its creator Brendan Eich from the company \emph{Netscape}\footnote{\emph{Netscape Communications}---founded as \emph{Mosaic} in 1994---released its \emph{Netscape Communicator} browser in 1995 which became the leading internet browser at that time~\cite{HistoryOfNetscape:Cooper:2014}.} submitted the language to \emph{Ecma International}\footnote{\url{https://www.ecma-international.org}}~\cite[p.~28]{ProJavaScriptDevelopment:Odell:2014}, an ``industry association founded in 1961, dedicated to the standardization of information and communication systems''~\cite{EcmaInternational:Ecma}, and since became one of the most popular programming languages in the world~\cite[p.~2]{JavaScriptTheGoodParts:Crockford:2008}. According to \emph{GitHub}\footnote{\url{https://github.com}} it was the most popular language on its platform by opened \emph{Pull Requests}\footnote{Pull requests on GitHub are used to let other people know about changes made to a repository. From there on these modification can be reviewed and discussed with collaborators and can be rejected or merged into the repository~\cite{GitHubPullRequest:GitHub:2014}.} with a growth of 97\% in 2016, followed by Java, which saw an increase of 63\% compared to 2015. Also \emph{TypeScript} (see Sec.~\ref{sec:typescript}) is following up, which takes the 15th place with an increase of Pull Requests by 250\%~\cite{GitHubOctoverse2016:GitHub:2016}.
 
 While JavaScript is known for programming inside browsers and for adding visual effects to websites~\cite[p.~4]{JavaScriptObjectProgramming:Rinehart:2015}, its first use in a product was on the server-side in 1994~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}. Since then, no application platform for JavaScript was available for 17 years until Ryan Dahl created and released \emph{Node.js}\footnote{\url{https://nodejs.org}} in 2011, which allowed developers to build cross-platform applications in JavaScript. It is built upon Google`s \emph{V8 JavaScript engine}\footnote{\url{https://developers.google.com/v8/}}, which is also used in the popular \emph{Chrome}\footnote{\url{https://www.google.com/chrome/}} web browser~\cite[p.~369]{ProJavaScriptDevelopment:Odell:2014}.
 
@@ -107,7 +107,7 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 
 %TODO:2
 \begin{table}[h]
-\caption{Result of the \texttt{typeof} operator by a value's type~\cite[p.~164]{ES6Spec:Ecma:2015}.}
+\caption{Result of the \texttt{typeof} operator by a value's type.~\cite[p.~164]{ES6Spec:Ecma:2015}}
 \label{tab:typeof}
 \centering
   \setlength{\tabcolsep}{5mm}
@@ -137,11 +137,12 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 \subsection{Type Conversion}
 \label{sec:type-conversion}
 
-In JavaScript ``any [...] value can be converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}''. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
+In JavaScript ``any [...] value can be converted to a boolean value''~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
 
 %TODO:2
 \begin{table}[h]
-\caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}.}\label{tab:truthy-falsy}
+\caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value.~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}}
+\label{tab:truthy-falsy}
 \centering
   \def\rr{\rightskip=0pt plus1em \spaceskip=.3333em \xspaceskip=.5em\relax}
   \setlength{\tabcolsep}{1ex}
@@ -330,7 +331,7 @@ When comparing with the equality operator (i.e., \texttt{==}) there are a few ru
   \item The values \texttt{null} and \texttt{undefined} are considered equal.
   \item If a number and a string are compared, the string is converted to a number.
   \item The values \texttt{true} and \texttt{false} are converted to \texttt{1} and \texttt{0}, respectively.
-  \item Objects are compared by reference\footnote{In JavaScript an object's reference ``[...] points to [its] location in memory~\cite{ByValueByReference:Aggarwal:2017}''.}, whereas if the value to compare an object to is a number or a string, JavaScript tries to convert the object to a primitive value, either by using the object's \emph{toString} or \emph{valueOf} method.
+  \item Objects are compared by reference\footnote{In JavaScript an object's reference ``[...] points to [its] location in memory''~\cite{ByValueByReference:Aggarwal:2017}.}, whereas if the value to compare an object to is a number or a string, JavaScript tries to convert the object to a primitive value, either by using the object's \emph{toString} or \emph{valueOf} method.
   \item All other comparisons are not equal.
 \end{itemize}
 If a more detailed comparison is required and an automatic conversion of values is not desired, the \emph{strict} equality operator (i.e., \texttt{===}) can be used. Only if type \emph{and} value match, the expression evaluates to true:
@@ -486,7 +487,7 @@ For the concept of arrow functions, introduced in ECMAScript 2015, a basic knowl
 \end{quote}
 In other words, the value bound to \texttt{this} differs and is influenced by \emph{how} and from \emph{where} a function is called. Arrow functions, on the other hand, use lexical instead of dynamic binding for \texttt{this}~\cite[p.~58]{YDKJS:ES6AndBeyond:Simpson:2015}. Additionally, they inherit the \texttt{arguments} array from its parent, and also \texttt{super} and \texttt{new.target} are lexically bound~\cite[p.~59]{YDKJS:ES6AndBeyond:Simpson:2015}. Prog.~\ref{prog:this-function} shows the behavior when using a regular function alongside \texttt{this}.
 \begin{program}
-\caption{Line~\ref{prog:this-function:window} of the program logs the global \texttt{window} object in browsers, whereas on line~\ref{prog:this-function:object} the object \texttt{bar} is logged to the console~\cite[p.~18]{TypeScriptBook:Syed:2017}.}
+\caption{Line~\ref{prog:this-function:window} of the program logs the global \texttt{window} object in browsers, whereas on line~\ref{prog:this-function:object} the object \texttt{bar} is logged to the console.~\cite[p.~18]{TypeScriptBook:Syed:2017}}
 \label{prog:this-function}
 \begin{JsCode}
 const foo = function() {
@@ -607,7 +608,7 @@ The development of JavaScript is dependent on its specification, defined by ECMA
 \subsection{Further Reading}
 \label{sec:further reading}
 
-This section outlined the most important concepts of JavaScript with a focus on the characteristics that encourage the value of runtime type checks in JavaScript, discussed later in Chapter~\ref{cha:theoretical-approach}. Various exceptions or details were not handled, as they would go beyond the scope of this thesis. If a more sophisticated knowledge of the programming language is desired, the \emph{You Don't Know JS} series by \citeauthor{YDKJS:UpAndGoing:Simpson:2015}, \emph{\emph{\citetitle{JavaScriptTheGoodParts:Crockford:2008}}} by \citeauthor{JavaScriptTheGoodParts:Crockford:2008} and \emph{\emph{\citetitle{JavaScriptTheDefinitiveGuide:Flanagan:2011}}} by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011}, among others, are recommended.
+This section outlined the most important concepts of JavaScript with a focus on the characteristics that encourage the value of runtime type checks in JavaScript, discussed later in Ch.~\ref{cha:theoretical-approach}. Various exceptions or details were not handled, as they would go beyond the scope of this thesis. If a more sophisticated knowledge of the programming language is desired, the \emph{You Don't Know JS} series by \citeauthor{YDKJS:UpAndGoing:Simpson:2015}, \emph{\emph{\citetitle{JavaScriptTheGoodParts:Crockford:2008}}} by \citeauthor{JavaScriptTheGoodParts:Crockford:2008} and \emph{\emph{\citetitle{JavaScriptTheDefinitiveGuide:Flanagan:2011}}} by \citeauthor{JavaScriptTheDefinitiveGuide:Flanagan:2011}, among others, are recommended.
 
 \section{Abstract Syntax Tree}
 \label{sec:ast}
