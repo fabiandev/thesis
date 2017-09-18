@@ -16,6 +16,7 @@
 *.synctex*
 *.toc
 *.tps
+*.xmpi
 .texpadtmp
 .DS_Store
 assets/diagrams/*.sty
