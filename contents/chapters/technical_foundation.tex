@@ -126,7 +126,7 @@ The string that is returned by the \texttt{typeof} operator does not reflect the
 \subsection{Type Conversion}
 \label{sec:type-conversion}
 
-In JavaScript ``any [...] value can be converted to a boolean value''~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}. If the interpreter expects a boolean value it performs a conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value.
+In JavaScript ``any [...] value can be converted to a boolean value''~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}. If the interpreter expects a boolean value it performs an implicit conversion~\cite[p.~46]{JavaScriptTheDefinitiveGuide:Flanagan:2011} (see Sec.~\ref{sec:value-comparison}). Tab.~\ref{tab:truthy-falsy} gives an overview of which values are evaluated as \emph{true} or \emph{false} when being converted to a boolean value, either explicitly or implicitly.
 
 \begin{table}[h]
 \caption{Values evaluated as \emph{false} or \emph{true} when converted to a boolean value.~\cite[p.~40]{JavaScriptTheDefinitiveGuide:Flanagan:2011}}
@@ -147,7 +147,7 @@ In JavaScript ``any [...] value can be converted to a boolean value''~\cite[p.~4
 \end{table}
 
 \noindent
-There are various situations where a conversion is desired, which happens implicitly in JavaScript. For example if a string should be added to a number, and vice versa, the number is converted to a string, and the result is a concatenation of both values:
+There are various situations where a conversion is desired, which can happen implicitly in JavaScript. For example if a string should be added to a number, and vice versa, the number is converted to a string, and the result is a concatenation of both values:
 \begin{JsCode}[numbers=none]
 "2" + 3 // "23"
 "Hello" + 2 + 3 // "Hello23"
@@ -306,7 +306,7 @@ A more comprehensive overview of possible type conversions---summarized by \cite
 \subsection{Value Comparison}
 \label{sec:value-comparison}
 
-In Sec.~\ref{sec:type-conversion} the flexibility of JavaScript has already been outlined. Types are converted (i.e., casted) to another type if required and possible.  The same is true when comparing values. JavaScript tries to implicitly convert a value to another value if it cannot perform a comparison at first. Comparing a string that holds a numerical value to an actual number gives the same result as comparing two values of type \emph{Number}, since the interpreter implicitly casts the string to a number:
+In Sec.~\ref{sec:type-conversion} the flexibility of JavaScript has already been outlined. Types are converted to another type if required and possible. The same is true when comparing values. JavaScript tries to implicitly convert a value to another value if it cannot perform a comparison at first. Comparing a string that holds a numerical value to an actual number gives the same result as comparing two values of type \emph{Number}, since the interpreter implicitly converts the string to a number:
 \begin{JsCode}[numbers=none]
 "5" > 2 // true
 "2" == 2 // true
